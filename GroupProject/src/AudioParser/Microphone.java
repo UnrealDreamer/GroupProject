@@ -73,7 +73,7 @@ public class Microphone {
     public static void main(String[] args) {
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
-        String audioFilePath = s+"/res/RecordAudio.wav";
+        String audioFilePath = s+"/res/geography.wav";
         Microphone player = new Microphone();
         player.play(audioFilePath);
     }
