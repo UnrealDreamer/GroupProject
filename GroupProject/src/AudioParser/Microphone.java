@@ -69,13 +69,18 @@ public class Microphone {
             ex.printStackTrace();
         }      
     }
-     
-    public static void main(String[] args) {
-		Path currentRelativePath = Paths.get("");
+    
+    public void fileReceive(String name){
+    	Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
-        String audioFilePath = s+"/res/geography.wav";
+        String audioFilePath = s+"/res/" + name +".wav";
         Microphone player = new Microphone();
         player.play(audioFilePath);
+    }
+     
+    public static void main(String[] args) {
+		Microphone tse = new Microphone();
+    	tse.fileReceive("geography");
     }
  
 }
