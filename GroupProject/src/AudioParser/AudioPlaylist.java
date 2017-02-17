@@ -1,5 +1,7 @@
 package AudioParser;
 
-public class AudioPlaylist {
+import java.util.HashMap;
 
+public class AudioPlaylist {
+	HashMap<Sting, Audio> map
 }

@@ -5,15 +5,15 @@ import javax.sound.sampled.*;
 
 public class Word {
 	private AudioInputStream audio;
-	private ArrayList<Character> spelling;
+	private String spelling;
 	private int level;
 	
-	public Word(AudioInputStream a, ArrayList<Character> s, int l){
+	public Word(AudioInputStream a, String s, int l){
 		audio = a;
 		spelling = s;
 		level = l;
 	}
-	public ArrayList<Character> getSpelling(){
+	public String getSpelling(){
 		return spelling;
 	}
 	public AudioInputStream getAudio(){
@@ -22,7 +22,7 @@ public class Word {
 	public int getLevel(){
 		return level;
 	}
-	public void setSpelling(ArrayList<Character> sp){
+	public void setSpelling(String sp){
 		spelling = sp;
 	}
 	public void setAudio(AudioInputStream aud){
