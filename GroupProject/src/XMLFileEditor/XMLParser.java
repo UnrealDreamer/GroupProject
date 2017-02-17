@@ -15,7 +15,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XMLParser {
-	private final static String[] elementID = {}; 
+	public static String[] wordList;
+	private final static String[] elementID = {"Name", "Age"}; 
 	private String[] contents;
 	public void load(String path, String elements[])	{
 		File xml = new File(path);
