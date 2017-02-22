@@ -3,6 +3,7 @@ package XMLFileEditor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,9 +18,7 @@ import org.xml.sax.SAXException;
 import BackEnd.Word;
 
 public class XMLParser {
-	public static String[] wordList;
-//	private final static String[] elementID = {"spellin", "Age"}; 
-	private String[] contents;
+	public static ArrayList<Word> wordList = new ArrayList<Word>();
 	public void load(String path, String elements[])	{
 		File xml = new File(path);
 
@@ -33,17 +32,18 @@ public class XMLParser {
 
 				Node nNode = (Node) nList.item(temp);
 
-				System.out.println("Current Element : " + nNode.getNodeName());
-
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 					Element eElement =  (Element) nNode;
-
-					System.out.println("Word id : " + eElement.getAttribute("id"));
-					for(String e : elements)
-					{
-						System.out.println(e + " : " + eElement.getElementsByTagName(e).item(0).getTextContent());
-					}
+					
+					String spelling;
+					int lvl;
+					int id = Integer.parseInt(eElement.getAttribute("id"));
+					
+					spelling = eElement.getElementsByTagName(elements[0]).item(0).getTextContent();
+					lvl = Integer.parseInt(eElement.getElementsByTagName(elements[1]).item(0).getTextContent());
+					
+					wordList.add(new Word(id, spelling, lvl));
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
