@@ -5,7 +5,7 @@ public class XmlTester {
 	public static void main(String[] args)
 	{
 		XMLParser xml = new XMLParser();
-		String aee[] = {"firstname", "lastname", "nickname", "salary"};
+		String aee[] = {"spelling", "level", "clip"};
         xml.load("res\\thing.xml", aee);
 	}
 }
