@@ -90,6 +90,12 @@ public class AudioPlaylist {
 	
 	public void recordEntry(String name) {
 		fileName = name;
+		
+		/*
+		 * This is timer
+		 * it is optional
+		 * player should decide how long audio file is
+		
 		Thread stopper = new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -100,7 +106,8 @@ public class AudioPlaylist {
 				recordFinish();
 			}
 		});
-		stopper.start();
+		stopper.start();*/
+		
 		recordStart();
 	}
 
@@ -108,7 +115,8 @@ public class AudioPlaylist {
 	 * Entry to run the program
 	 */
 	public static void main(String[] args) {
-		AudioPlaylist recorder = new AudioPlaylist();
+		final AudioPlaylist recorder = new AudioPlaylist();
 		recorder.recordEntry("geography");
+		
 	}
 }
