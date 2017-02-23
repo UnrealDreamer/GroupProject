@@ -7,18 +7,37 @@ import XMLFileEditor.XMLParser;
 public class BackEnd {
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
 	
-	BackEnd(){
-		
+	public BackEnd(){
+		System.out.println("a");
 		setLevels();
-		
+		System.out.println("b");
+	}
+	public void printWords() {
+		for(int i = 0; i < levels.size();i++) {
+			System.out.println("LEVEL " + (i+1) + "\n---------");
+			for(int c = 0; c < levels.get(i).size();c++) {
+				System.out.println(levels.get(i).get(c));
+			}
+		}
 	}
 	//
 	private void saveLevels() {
-		
+		ArrayList<Word> words = new ArrayList<Word>();
+		for(int i = 0; i < levels.size();i++) {
+			for(int c = 0; c < levels.get(i).size();c++) {
+				words.add(levels.get(i).get(c));
+			}
+		}
+		Word[] wordsArray = new Word[words.size()];
+		for(int i = 0; i < wordsArray.length;i++) {
+			wordsArray[i] = words.get(i);
+		}
+		String[] es = {"spelling", "level"};
+		XMLParser.save(es, wordsArray, "res\\WordList.xml");
 	}
 	//sets the levels and words
 	private void setLevels() {
-		
+		XMLParser.load("res\\WordList.xml");
 		int maxLevel = 0;
 		ArrayList<Word> wordList = XMLParser.wordList;
 		//find maximum level
@@ -32,12 +51,12 @@ public class BackEnd {
 		}
 		//add all words
 		for(int i = 0; i < wordList.size();i++) {
-			addWord(wordList.get(i),wordList.get(i).getLevel());
+			addWord(wordList.get(i));
 		}
 	}
 	//adds desired word
-	public void addWord(Word w, int level) {
-		levels.get(level-1).add(w);
+	public void addWord(Word w) {
+		levels.get(w.getLevel()-1).add(w);
 	}
 	//removes desired word
 	public void removeWord(Word w,int level){

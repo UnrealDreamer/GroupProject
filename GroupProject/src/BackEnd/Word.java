@@ -10,6 +10,9 @@ public class Word {
 		level = l;
 		this.id = id;
 	}
+	public String toString() {
+		return spelling;
+	}
 	public String getSpelling(){
 		return spelling;
 	}
