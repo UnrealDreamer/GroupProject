@@ -12,11 +12,28 @@ public class BackEnd {
 		setLevels();
 		
 	}
-	
-	
+	//
+	private void saveLevels() {
+		
+	}
 	//sets the levels and words
 	private void setLevels() {
-		XMLParser.load("res\\");
+		
+		int maxLevel = 0;
+		ArrayList<Word> wordList = XMLParser.wordList;
+		//find maximum level
+		for(int i = 0; i < wordList.size();i++) {
+			if(wordList.get(i).getLevel()>maxLevel)
+				maxLevel = wordList.get(i).getLevel();
+		}
+		//create all levels
+		for(int i = 0; i < maxLevel; i++) {
+			levels.add(new ArrayList<Word>());
+		}
+		//add all words
+		for(int i = 0; i < wordList.size();i++) {
+			addWord(wordList.get(i),wordList.get(i).getLevel());
+		}
 	}
 	//adds desired word
 	public void addWord(Word w, int level) {
