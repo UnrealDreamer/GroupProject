@@ -1,14 +1,22 @@
 package BackEnd;
 import java.util.ArrayList;
 
+import XMLFileEditor.XMLParser;
+
 
 public class BackEnd {
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
 	
 	BackEnd(){
-
 		
+		setLevels();
 		
+	}
+	
+	
+	//sets the levels and words
+	private void setLevels() {
+		XMLParser.load("res\\");
 	}
 	//adds desired word
 	public void addWord(Word w, int level) {
@@ -45,18 +53,22 @@ public class BackEnd {
 			if(levels.get(c).get(i).getSpelling().equals(word.getSpelling())) {
 				
 				if(i+1==levels.get(c).size()) {
+					//if at highest word of highest level ends game
 					if(c == levels.size()-1) 
 						return null;
+					//if at highest word returns first word of next level
 					c++;
 					index = 0;
 					return levels.get(c).get(index);
 				} else {
+					//next word in list
 					index = i+1;
 					return levels.get(c).get(index);
 				}
 				
 			}	
 		}
+		//if desired word is not in the lists
 		return null;
 	}
 	
