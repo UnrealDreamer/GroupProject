@@ -21,7 +21,7 @@ public class BackEnd {
 		}
 	}
 	//
-	private void saveLevels() {
+	public void saveLevels() {
 		ArrayList<Word> words = new ArrayList<Word>();
 		for(int i = 0; i < levels.size();i++) {
 			for(int c = 0; c < levels.get(i).size();c++) {
