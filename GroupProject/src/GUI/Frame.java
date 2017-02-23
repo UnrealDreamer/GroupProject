@@ -1,6 +1,7 @@
 package GUI;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -82,6 +83,10 @@ public class Frame implements FocusListener
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(pane);
 		frame.pack();
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setSize(screenSize.width, screenSize.height - 40);
+		
 		frame.setVisible(true);
 	}
 	
