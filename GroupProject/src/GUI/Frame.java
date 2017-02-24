@@ -16,6 +16,7 @@ public class Frame implements FocusListener
 	JLabel title;
 	JTextField name,age;
 	JButton start;
+	int first = 1;
 	
 	public Frame() 
 	{
@@ -98,19 +99,24 @@ public class Frame implements FocusListener
 
 	@Override
 	public void focusGained(FocusEvent f) 
-	{
-		if(f.getComponent() == age){
-			age.setText(" ");
-		}else if(age.getText() == "Enter your name"){
-			name.setText(" ");
+	{	
+		if (first > 1){
+			if(f.getSource() == age && age.getText().equals("Enter your age")){
+				age.setText(" ");
+			}else if(f.getSource() == name && name.getText().equals("Enter your name")){
+				name.setText(" ");
+			}
+		} else {
+			first++;
 		}
+		
 	}
 	@Override
 	public void focusLost(FocusEvent arg0) 
 	{
-		if(age.getText() == " "){
+		if(age.getText().equals(" ")){
 			age.setText("Enter your age");
-		}else if(name.getText() == " "){
+		}else if(name.getText().equals(" ")){
 			name.setText("Enter your name");
 		}
 	}
