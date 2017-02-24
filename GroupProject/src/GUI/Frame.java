@@ -104,9 +104,9 @@ public class Frame implements FocusListener
 	{	
 		if (first > 1){
 			if(f.getSource() == age && age.getText().equals("Enter your age")){
-				age.setText(" ");
+				age.setText("");
 			}else if(f.getSource() == name && name.getText().equals("Enter your name")){
-				name.setText(" ");
+				name.setText("");
 			}
 		} else {
 			first++;
@@ -116,9 +116,9 @@ public class Frame implements FocusListener
 	@Override
 	public void focusLost(FocusEvent arg0) 
 	{
-		if(age.getText().equals(" ")){
+		if(age.getText().equals("")){
 			age.setText("Enter your age");
-		}else if(name.getText().equals(" ")){
+		}else if(name.getText().equals("")){
 			name.setText("Enter your name");
 		}
 	}
