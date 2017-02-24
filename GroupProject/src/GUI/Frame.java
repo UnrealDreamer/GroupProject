@@ -33,11 +33,11 @@ public class Frame implements FocusListener
 			title = new JLabel("Welcome to Spelling Game");
 			title.setFont(rockSalt.deriveFont(75f));
 			
-			name = new JTextField("Enter your name",20);
+			name = new JTextField("Enter your name...",20);
 			name.setFont(rockSalt.deriveFont(40f));
 			name.addFocusListener(this);
 			
-			age = new JTextField("Enter your age",20);
+			age = new JTextField("Enter your age...",20);
 			age.setFont(rockSalt.deriveFont(40f));
 			age.addFocusListener(this);
 		
@@ -103,9 +103,9 @@ public class Frame implements FocusListener
 	public void focusGained(FocusEvent f) 
 	{	
 		if (first > 1){
-			if(f.getSource() == age && age.getText().equals("Enter your age")){
+			if(f.getSource() == age && age.getText().equals("Enter your age...")){
 				age.setText("");
-			}else if(f.getSource() == name && name.getText().equals("Enter your name")){
+			}else if(f.getSource() == name && name.getText().equals("Enter your name...")){
 				name.setText("");
 			}
 		} else {
@@ -117,9 +117,9 @@ public class Frame implements FocusListener
 	public void focusLost(FocusEvent arg0) 
 	{
 		if(age.getText().equals("")){
-			age.setText("Enter your age");
+			age.setText("Enter your age...");
 		}else if(name.getText().equals("")){
-			name.setText("Enter your name");
+			name.setText("Enter your name...");
 		}
 	}
 	
