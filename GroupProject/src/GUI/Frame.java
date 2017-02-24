@@ -89,6 +89,8 @@ public class Frame implements FocusListener
 		frame.setSize(screenSize.width, screenSize.height - 40);
 		
 		frame.setVisible(true);
+		frame.setFocusable(false);
+		frame.setFocusable(true);
 	}
 	
 	public static void main(String args[])
