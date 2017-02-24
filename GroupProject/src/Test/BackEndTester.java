@@ -8,7 +8,8 @@ public class BackEndTester {
 	public static void main(String[] args) {
 		BackEnd test = new BackEnd();
 		test.printWords();
-		//test.addWord(new Word(1003,"user",1));
+		//test.addLevel();
+		test.addWord(new Word(1001,"user",1));
 		System.out.println("______________");
 		test.printWords();
 		

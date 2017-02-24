@@ -8,10 +8,9 @@ public class BackEnd {
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
 	
 	public BackEnd(){
-		System.out.println("a");
 		setLevels();
-		System.out.println("b");
 	}
+	//prints out all words
 	public void printWords() {
 		for(int i = 0; i < levels.size();i++) {
 			System.out.println("LEVEL " + (i+1) + "\n---------");
@@ -20,18 +19,21 @@ public class BackEnd {
 			}
 		}
 	}
-	//
+	//writes new words back into xml file
 	public void saveLevels() {
+		//make word list
 		ArrayList<Word> words = new ArrayList<Word>();
 		for(int i = 0; i < levels.size();i++) {
 			for(int c = 0; c < levels.get(i).size();c++) {
 				words.add(levels.get(i).get(c));
 			}
 		}
+		//paste word list into array
 		Word[] wordsArray = new Word[words.size()];
 		for(int i = 0; i < wordsArray.length;i++) {
 			wordsArray[i] = words.get(i);
 		}
+		//save
 		String[] es = {"spelling", "level"};
 		XMLParser.save(es, wordsArray, "res\\WordList.xml");
 	}
