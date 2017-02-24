@@ -45,7 +45,7 @@ public class AudioPlaylist {
 	/**
 	 * Captures the sound and record into a WAV file
 	 */
-	void recordStart() {
+	public boolean recordStart() {
 		try {
 			Path currentRelativePath = Paths.get("");
 			String s = currentRelativePath.toAbsolutePath().toString();
@@ -56,36 +56,28 @@ public class AudioPlaylist {
 
 			// checks if system supports the data line
 			if (!AudioSystem.isLineSupported(info)) {
-				System.out.println("Line not supported");
-				System.exit(0);
+				return false;
 			}
 			line = (TargetDataLine) AudioSystem.getLine(info);
 			line.open(format);
-			line.start();	// start capturing
-
-			System.out.println("Start capturing...");
-
+			line.start();
 			ais = new AudioInputStream(line);
-
-			System.out.println("Start recording...");
-
-			// start recording
 			AudioSystem.write(ais, fileType, wavFile);
-
-		} catch (LineUnavailableException ex) {
-			ex.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
+			
+			return true;
+		} catch (LineUnavailableException ex) {} 
+		catch (IOException ioe) {}
+		
+		return false;
 	}
 
 	/**
 	 * Closes the target data line to finish capturing and recording
 	 */
-	public void recordFinish() {
+	public boolean recordFinish() {
 		line.stop();
 		line.close();
-		System.out.println("Finished");
+		return true;
 	}
 	
 	public void recordEntry(String name) {
@@ -109,14 +101,5 @@ public class AudioPlaylist {
 		stopper.start();*/
 		
 		recordStart();
-	}
-
-	/**
-	 * Entry to run the program
-	 */
-	public static void main(String[] args) {
-		final AudioPlaylist recorder = new AudioPlaylist();
-		recorder.recordEntry("geography");
-		
 	}
 }
