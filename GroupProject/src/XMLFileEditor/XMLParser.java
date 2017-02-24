@@ -65,7 +65,7 @@ public class XMLParser {
 			construct.write("\n<Wordbank>");
 			while(ind < words.length)
 			{
-				construct.write("\n\t<Word id=" + words[ind].getID() + '>');
+				construct.write("\n\t<Word id=\"" + words[ind].getID() + "\">");
 				construct.write("\n\t\t<" + elements[0] + '>' + words[ind].getSpelling() + "</" + elements[0] + '>');
 				construct.write("\n\t\t<" + elements[1] + '>' + words[ind].getLevel() + "</" + elements[1] + '>');
 				construct.write("\n\t</Word>");
