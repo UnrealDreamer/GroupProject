@@ -1,8 +1,11 @@
 package XMLFileEditor;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,53 +17,65 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import BackEnd.Word;
+
 public class XMLParser {
-	public static String[] wordList;
-	private final static String[] elementID = {"Name", "Age"}; 
-	private String[] contents;
-	public void load(String path, String elements[])	{
+	public static ArrayList<Word> wordList = new ArrayList<Word>();
+	public static void load(String path)	{
 		File xml = new File(path);
 
 		DocumentBuilderFactory dbFact = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder dBuild = dbFact.newDocumentBuilder();
 			Document doc = (Document) dBuild.parse(xml);
-			 NodeList nList = ((Document) doc).getElementsByTagName("staff");
+			NodeList nList = ((Document) doc).getElementsByTagName("Word");
 
-			    for (int temp = 0; temp < nList.getLength(); temp++) {
+			for (int temp = 0; temp < nList.getLength(); temp++) {
 
-			        Node nNode = (Node) nList.item(temp);
+				Node nNode = (Node) nList.item(temp);
 
-			        System.out.println("Current Element :" + nNode.getNodeName());
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-			        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement =  (Element) nNode;
 
-			        	Element eElement =  (Element) nNode;
+					String spelling;
+					int lvl;
+					int id = Integer.parseInt(eElement.getAttribute("id"));
 
-			            System.out.println("Staff id : " + eElement.getAttribute("id"));
-			        	for(String e : elements)
-			        	{
-			        		 System.out.println(e + " : " + eElement.getElementsByTagName(e).item(0).getTextContent());
-			        	}
-			        }
-			    }
+					spelling = eElement.getElementsByTagName("spelling").item(0).getTextContent();
+					lvl = Integer.parseInt(eElement.getElementsByTagName("level").item(0).getTextContent());
+
+					wordList.add(new Word(id, spelling, lvl));
+				}
+			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		} 
 	}
-	public void save(String[] lines)
+	//TODO instead of always sending the words make the function refer to wordList.
+	public static void save(String[] elements, Word[] words, String path)
 	{
 		int ind = 0;
-		File xml = new File("res\\idk.xml");
-		try {
-			FileWriter writer = new FileWriter("");
-		} catch (IOException e) 
-		{	e.printStackTrace();	}
-		xml.setWritable(true);
-		do{
-			
-		}while(ind < lines.length);
-
-		
+		File xml = new File(path);
+		BufferedWriter construct = null;
+		try{
+			construct = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xml.getAbsolutePath()), "utf-8"));
+			construct.write("<?xml version=\"1.0\"?>");
+			construct.write("\n<Wordbank>");
+			while(ind < words.length)
+			{
+				construct.write("\n\t<Word id=\"" + words[ind].getID() + "\">");
+				construct.write("\n\t\t<" + elements[0] + '>' + words[ind].getSpelling() + "</" + elements[0] + '>');
+				construct.write("\n\t\t<" + elements[1] + '>' + words[ind].getLevel() + "</" + elements[1] + '>');
+				construct.write("\n\t</Word>");
+				ind ++;
+			}
+			construct.write("\n</Wordbank>");
+		} catch (IOException ex) {
+			System.err.println(ex.getStackTrace());
+		} finally {
+			try {construct.close();} catch (Exception ex) {}
+		}
 	}
 }

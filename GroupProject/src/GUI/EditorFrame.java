@@ -1,28 +1,29 @@
 package GUI;
 
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class Frame implements FocusListener
-{
-	
-	JFrame frame;
-	JPanel pane;
-	JLabel title;
-	JTextField name,age;
-	JButton start;
-	int first = 1;
-	
-	public Frame() 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class EditorFrame {
+	private static final JFrame frame = new JFrame("Editor");
+	private static ArrayList<JButton> JButtonList = new ArrayList<JButton>();
+	public EditorFrame(int fontsize)
 	{
-		
-		frame = new JFrame("");
-		pane = new JPanel();
+		JPanel pane = new JPanel();
 		
 		try {
 
@@ -33,16 +34,16 @@ public class Frame implements FocusListener
 			title = new JLabel("Welcome to Spelling Game");
 			title.setFont(rockSalt.deriveFont(75f));
 			
-			name = new JTextField("Enter your name...",20);
+			name = new JTextField("Enter your name",20);
 			name.setFont(rockSalt.deriveFont(40f));
 			name.addFocusListener(this);
 			
-			age = new JTextField("Enter your age...",20);
+			age = new JTextField("Enter your age",20);
 			age.setFont(rockSalt.deriveFont(40f));
 			age.addFocusListener(this);
 		
-			start = new JButton("START");
-			start.setFont(rockSalt.deriveFont(60f));
+			JButtonList.add(new JButton("START"));
+			JButtonList.get(2).setFont(rockSalt.deriveFont(60f));
 			start.setBackground(new Color(106,168,79));
 		} catch (FontFormatException|IOException e) {
 			
@@ -92,35 +93,4 @@ public class Frame implements FocusListener
 		frame.setFocusable(false);
 		frame.setFocusable(true);
 	}
-	
-	public static void main(String args[])
-	{
-		
-		Frame screen = new Frame();
-	}
-
-	@Override
-	public void focusGained(FocusEvent f) 
-	{	
-		if (first > 1){
-			if(f.getSource() == age && age.getText().equals("Enter your age...")){
-				age.setText("");
-			}else if(f.getSource() == name && name.getText().equals("Enter your name...")){
-				name.setText("");
-			}
-		} else {
-			first++;
-		}
-		
-	}
-	@Override
-	public void focusLost(FocusEvent arg0) 
-	{
-		if(age.getText().equals("")){
-			age.setText("Enter your age...");
-		}else if(name.getText().equals("")){
-			name.setText("Enter your name...");
-		}
-	}
-	
 }
