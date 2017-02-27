@@ -10,10 +10,9 @@ public class User {
 	private String name;
 	private int age;
 	private int lastLevel;
-	private XMLParser history;
 	private int numOfWords;
 	
-	public ArrayList<ArrayList<String>> test = new ArrayList<ArrayList<String>>();
+	public ArrayList<Word> wronglySpelt = new ArrayList<Word>();
 	
 	
 	//public User(String name, int age){
@@ -52,13 +51,13 @@ public class User {
 		numOfWords = now;
 	}
 	
-	public XMLParser getWordHistory(){
+/*	public XMLParser getWordHistory(){
 		return history;
 	}
 	
 	public void setWordHistory(XMLParser wh){
 		history = wh;
-	}
+	}*/
 	
 	public static void main(String[] args){
 		User test1 = new User();
@@ -99,7 +98,7 @@ public class User {
 		a5.add("Y");
 		
 		
-		test1.test.add(a1);
+	/*	test1.test.add(a1);
 		test1.test.add(a2);
 		test1.test.add(a3);
 		test1.test.add(a4);
@@ -108,7 +107,7 @@ public class User {
 		System.out.println(test1.test.get(0).get(4));
 		System.out.println(test1.test.get(1).get(2));
 		System.out.println(test1.test.get(4).get(0));
-		
+*/		
 	}
 
 
