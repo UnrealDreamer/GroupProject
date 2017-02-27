@@ -22,9 +22,10 @@ public class Frame implements FocusListener
 	{
 		
 		frame = new JFrame("");
-		pane = new JPanel();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		try {
+		try 
+		{
 
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
@@ -44,33 +45,35 @@ public class Frame implements FocusListener
 			start = new JButton("START");
 			start.setFont(rockSalt.deriveFont(60f));
 			start.setBackground(new Color(106,168,79));
-		} catch (FontFormatException|IOException e) {
+		} catch (FontFormatException|IOException e) 
+		{
 			
 				// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		pane = new JPanel();
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints con = new GridBagConstraints();
-		
+		//places title
 		con.anchor = GridBagConstraints.PAGE_START;
 		con.gridx = 0;
 		con.gridy = 0;
 		con.weighty = 0.1;
 		pane.add(title,con);
-		
+		//places name
 		con.gridx =0;
 		con.gridy = 1;
 		con.weighty =0.05; 
 		con.ipady = 45;  
 		pane.add(name,con);
-		
+		//places age
 		con.gridx =0;
 		con.gridy =2;
 		con.weighty = 0.1;
 		con.ipady = 45;  
 		pane.add(age,con);
-		
+		//places start
 		con.gridx =0;
 		con.gridy =3;
 		start.setPreferredSize(new Dimension(350,50));
@@ -80,47 +83,49 @@ public class Frame implements FocusListener
 		pane.setPreferredSize(new Dimension(700,700));
 		
 		frame.addFocusListener(this);
-		frame.addFocusListener(this);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(pane);
-		frame.pack();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width, screenSize.height - 40);
-		
-		frame.setVisible(true);
-		frame.setFocusable(false);
+		frame.setResizable(false);
 		frame.setFocusable(true);
-	}
-	
-	public static void main(String args[])
-	{
-		
-		Frame screen = new Frame();
+		frame.setVisible(true);
 	}
 
 	@Override
 	public void focusGained(FocusEvent f) 
 	{	
 		if (first > 1){
-			if(f.getSource() == age && age.getText().equals("Enter your age...")){
+			if(f.getSource() == age && age.getText().equals("Enter your age..."))
+			{
 				age.setText("");
-			}else if(f.getSource() == name && name.getText().equals("Enter your name...")){
+			}else if(f.getSource() == name && name.getText().equals("Enter your name..."))
+			{
 				name.setText("");
 			}
-		} else {
+		} else 
+		{
 			first++;
 		}
 		
 	}
+	
 	@Override
 	public void focusLost(FocusEvent arg0) 
 	{
-		if(age.getText().equals("")){
+		if(age.getText().equals(""))
+		{
 			age.setText("Enter your age...");
-		}else if(name.getText().equals("")){
+		}else if(name.getText().equals(""))
+		{
 			name.setText("Enter your name...");
 		}
+	}
+	
+	public static void main(String args[])
+	{
+		
+		Frame screen = new Frame();
 	}
 	
 }
