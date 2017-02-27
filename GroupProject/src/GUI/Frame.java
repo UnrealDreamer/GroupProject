@@ -3,6 +3,8 @@ package GUI;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
@@ -18,11 +20,34 @@ public class Frame implements FocusListener
 	JButton start;
 	int first = 1;
 	
+	private class listener implements ActionListener 
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			
+			if(arg0.getActionCommand().equals("start"))
+			{
+				String userName = name.getText();
+				int userAge = Integer.parseInt(age.getText());
+				//CREATE NEW USER AND ADVANCE TO GAMEPLAY
+				
+			}
+			
+		}
+		
+	}
+	
 	public Frame() 
 	{
 		
 		frame = new JFrame("");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		pane = new JPanel();
+		pane.setLayout(new GridBagLayout());
+		GridBagConstraints con = new GridBagConstraints();
 		
 		try 
 		{
@@ -45,6 +70,9 @@ public class Frame implements FocusListener
 			start = new JButton("START");
 			start.setFont(rockSalt.deriveFont(60f));
 			start.setBackground(new Color(106,168,79));
+			start.setActionCommand("start");
+			start.addActionListener(new listener());
+			
 		} catch (FontFormatException|IOException e) 
 		{
 			
@@ -52,9 +80,7 @@ public class Frame implements FocusListener
 			e.printStackTrace();
 		}
 		
-		pane = new JPanel();
-		pane.setLayout(new GridBagLayout());
-		GridBagConstraints con = new GridBagConstraints();
+		
 		//places title
 		con.anchor = GridBagConstraints.PAGE_START;
 		con.gridx = 0;
