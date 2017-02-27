@@ -43,52 +43,10 @@ public class AudioPlaylist {
 	}
 
 	/**
-	 * Captures the sound and record into a WAV file
+	 * This is the mehod that should be accessed from outside
 	 */
-	void recordStart() {
-		try {
-			Path currentRelativePath = Paths.get("");
-			String s = currentRelativePath.toAbsolutePath().toString();
-	        String audioFilePath = s+"/res/" + fileName + ".wav";
-			wavFile = new File(audioFilePath);
-			AudioFormat format = getAudioFormat();
-			info = new DataLine.Info(TargetDataLine.class, format);
-
-			// checks if system supports the data line
-			if (!AudioSystem.isLineSupported(info)) {
-				System.out.println("Line not supported");
-				System.exit(0);
-			}
-			line = (TargetDataLine) AudioSystem.getLine(info);
-			line.open(format);
-			line.start();	// start capturing
-
-			System.out.println("Start capturing...");
-
-			ais = new AudioInputStream(line);
-
-			System.out.println("Start recording...");
-
-			// start recording
-			AudioSystem.write(ais, fileType, wavFile);
-
-		} catch (LineUnavailableException ex) {
-			ex.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-	}
-
-	/**
-	 * Closes the target data line to finish capturing and recording
-	 */
-	public void recordFinish() {
-		line.stop();
-		line.close();
-		System.out.println("Finished");
-	}
 	
-	public void recordEntry(String name) {
+	public boolean recordEntry(String name) {
 		fileName = name;
 		
 		/*
@@ -108,15 +66,46 @@ public class AudioPlaylist {
 		});
 		stopper.start();*/
 		
-		recordStart();
+		boolean st = recordStart();
+		return st;
+	}
+	
+	
+	/**
+	 * Captures the sound and record into a WAV file
+	 */
+	public boolean recordStart() {
+		try {
+			Path currentRelativePath = Paths.get("");
+			String s = currentRelativePath.toAbsolutePath().toString();
+	        String audioFilePath = s+"/res/" + fileName + ".wav";
+			wavFile = new File(audioFilePath);
+			AudioFormat format = getAudioFormat();
+			info = new DataLine.Info(TargetDataLine.class, format);
+
+			// checks if system supports the data line
+			if (!AudioSystem.isLineSupported(info)) {
+				return false;
+			}
+			line = (TargetDataLine) AudioSystem.getLine(info);
+			line.open(format);
+			line.start();
+			ais = new AudioInputStream(line);
+			AudioSystem.write(ais, fileType, wavFile);
+			
+			return true;
+		} catch (LineUnavailableException ex) {} 
+		catch (IOException ioe) {}
+		
+		return false;
 	}
 
 	/**
-	 * Entry to run the program
+	 * Closes the target data line to finish capturing and recording
 	 */
-	public static void main(String[] args) {
-		final AudioPlaylist recorder = new AudioPlaylist();
-		recorder.recordEntry("geography");
-		
+	public boolean recordFinish() {
+		line.stop();
+		line.close();
+		return true;
 	}
 }
