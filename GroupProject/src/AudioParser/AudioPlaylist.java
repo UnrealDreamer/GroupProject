@@ -46,35 +46,14 @@ public class AudioPlaylist {
 	 * This is the mehod that should be accessed from outside
 	 */
 	
-	public boolean recordEntry(String name) {
-		fileName = name;
-		
-		/*
-		 * This is timer
-		 * it is optional
-		 * player should decide how long audio file is
-		
-		Thread stopper = new Thread(new Runnable() {
-			public void run() {
-				try {
-					Thread.sleep(RECORD_TIME);
-				} catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
-				recordFinish();
-			}
-		});
-		stopper.start();*/
-		
-		boolean st = recordStart();
-		return st;
-	}
+
 	
 	
 	/**
 	 * Captures the sound and record into a WAV file
 	 */
-	public boolean recordStart() {
+	public boolean recordStart(String name) {
+		fileName = name;
 		try {
 			Path currentRelativePath = Paths.get("");
 			String s = currentRelativePath.toAbsolutePath().toString();

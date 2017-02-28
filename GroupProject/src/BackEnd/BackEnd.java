@@ -6,8 +6,14 @@ import XMLFileEditor.XMLParser;
 
 public class BackEnd {
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
-	
+	private User currentU;
+	public BackEnd(User u){
+		currentU = u;
+		setLevels();
+	}
+	///For editor mode-no user///
 	public BackEnd(){
+		currentU = null;
 		setLevels();
 	}
 	//prints out all words
@@ -81,7 +87,10 @@ public class BackEnd {
 		levels.remove(level-1);
 	}
 	//returns next word
-	public Word nextWord(Word word) {
+	public Word nextWord(Word word, boolean spelledRight) {
+		if(spelledRight){
+			currentU.addWord(word);
+		}
 		
 		int c = word.getLevel()-1;
 		int index = 0;
