@@ -12,7 +12,7 @@ public class User {
 	private int lastLevel;
 	private int numOfWords;
 	
-	public ArrayList<Word> wronglySpelt = new ArrayList<Word>();
+	public ArrayList<Word> correctlySpelt = new ArrayList<Word>();
 	
 	
 	//public User(String name, int age){
@@ -49,6 +49,9 @@ public class User {
 	
 	public void setNumOfWords(int now){
 		numOfWords = now;
+	}
+	public void addWord(Word w){
+		correctlySpelt.add(w);
 	}
 	
 /*	public XMLParser getWordHistory(){
