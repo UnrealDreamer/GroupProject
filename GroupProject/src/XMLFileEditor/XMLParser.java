@@ -17,10 +17,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import BackEnd.User;
 import BackEnd.Word;
 
 public class XMLParser {
 	public static ArrayList<Word> wordList = new ArrayList<Word>();
+	public static ArrayList<U>
 	public static void load(String path)	{
 		File xml = new File(path);
 
@@ -72,6 +74,66 @@ public class XMLParser {
 				ind ++;
 			}
 			construct.write("\n</Wordbank>");
+		} catch (IOException ex) {
+			System.err.println(ex.getStackTrace());
+		} finally {
+			try {construct.close();} catch (Exception ex) {}
+		}
+	}
+	public static void loadUsers(String path)	{
+		File xml = new File(path);
+
+		DocumentBuilderFactory dbFact = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder dBuild = dbFact.newDocumentBuilder();
+			Document doc = (Document) dBuild.parse(xml);
+			NodeList nList = ((Document) doc).getElementsByTagName("User");
+
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+
+				Node nNode = (Node) nList.item(temp);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+					Element eElement =  (Element) nNode;
+
+					String username;
+					int age;
+					int id = Integer.parseInt(eElement.getAttribute("id"));
+
+					username = eElement.getElementsByTagName("Username").item(0).getTextContent();
+					age = Integer.parseInt(eElement.getElementsByTagName("age").item(0).getTextContent());
+
+					wordList.add(new Word(id, spelling, lvl));
+				}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	public static void saveUsers(String[] elements, User[] user, String path)
+	{
+		int ind = 0;
+		File xml = new File(path);
+		BufferedWriter construct = null;
+		try{
+			construct = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(xml.getAbsolutePath()), "utf-8"));
+			construct.write("<?xml version=\"1.0\"?>");
+			construct.write("\n<UserInfo>");
+			while(ind < user.length)
+			{
+				construct.write("\n\t\t<" + elements[0] + '>' + user[ind].getName() + "</" + elements[0] + '>');
+				construct.write("\n\t\t<" + elements[1] + '>' + user[ind].getAge() + "</" + elements[1] + '>');
+				construct.write("\n\t</User>\n\t\t<" + elements[2] + '>');
+				for(Word w : user[ind].wronglySpelt)
+				{
+					construct.write(w.getSpelling());
+				}
+				construct.write( "</" + elements[2] + '>');
+				ind ++;
+			}
+			construct.write("\n</UserInfo>");
 		} catch (IOException ex) {
 			System.err.println(ex.getStackTrace());
 		} finally {

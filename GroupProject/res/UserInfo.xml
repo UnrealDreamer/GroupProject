@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <UserInfo>
-	<Users id="1000">
+	<User id="1000">
 		<Username>Joe</Username>
-	</Users>
+		<age>21</age>
+		<words>flamingo, character, porcupine</words>
+	</User>
 </Userinfo>
