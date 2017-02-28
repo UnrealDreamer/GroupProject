@@ -11,6 +11,11 @@ public class BackEnd {
 		currentU = u;
 		setLevels();
 	}
+	///For editor mode-no user///
+	public BackEnd(){
+		currentU = null;
+		setLevels();
+	}
 	//prints out all words
 	public void printWords() {
 		for(int i = 0; i < levels.size();i++) {
