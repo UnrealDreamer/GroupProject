@@ -60,43 +60,6 @@ public class User {
 	}*/
 	
 	public static void main(String[] args){
-		User test1 = new User();
-		ArrayList<String> a1 = new ArrayList<String>();
-		ArrayList<String> a2 = new ArrayList<String>();
-		ArrayList<String> a3 = new ArrayList<String>();
-		ArrayList<String> a4 = new ArrayList<String>();
-		ArrayList<String> a5 = new ArrayList<String>();
-		
-		a1.add("A");
-		a1.add("B");
-		a1.add("C");
-		a1.add("D");
-		a1.add("E");
-		
-		a2.add("F");
-		a2.add("G");
-		a2.add("H");
-		a2.add("I");
-		a2.add("J");
-		
-		a3.add("K");
-		a3.add("L");
-		a3.add("M");
-		a3.add("N");
-		a3.add("O");
-		
-		a4.add("P");
-		a4.add("Q");
-		a4.add("R");
-		a4.add("S");
-		a4.add("T");
-		
-		a5.add("U");
-		a5.add("V");
-		a5.add("W");
-		a5.add("X");
-		a5.add("Y");
-		
 		
 	/*	test1.test.add(a1);
 		test1.test.add(a2);

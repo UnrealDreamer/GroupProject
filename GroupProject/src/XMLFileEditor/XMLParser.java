@@ -22,6 +22,7 @@ import BackEnd.Word;
 
 public class XMLParser {
 	public static ArrayList<Word> wordList = new ArrayList<Word>();
+	public static ArrayList<U>
 	public static void load(String path)	{
 		File xml = new File(path);
 
