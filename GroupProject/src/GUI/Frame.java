@@ -30,8 +30,20 @@ public class Frame implements FocusListener
 			if(arg0.getActionCommand().equals("start"))
 			{
 				String userName = name.getText();
-				int userAge = Integer.parseInt(age.getText());
+				int userAge = 0;
+				try
+				{
+					userAge = Integer.parseInt(age.getText());
+				} catch (Exception e)
+				{
+					//e.printStackTrace();
+				}
+				
+				if(userName.equals("Enter your name...)")
+				
 				//CREATE NEW USER AND ADVANCE TO GAMEPLAY
+				
+				System.out.println(userName + " " + userAge);
 				
 			}
 			
