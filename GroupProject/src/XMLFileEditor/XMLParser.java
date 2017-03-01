@@ -21,8 +21,9 @@ import BackEnd.User;
 import BackEnd.Word;
 
 public class XMLParser {
+	
 	public static ArrayList<Word> wordList = new ArrayList<Word>();
-	public static ArrayList<U>
+	public static ArrayList<User> users = new ArrayList<User>();
 	public static void load(String path)	{
 		File xml = new File(path);
 
@@ -101,10 +102,18 @@ public class XMLParser {
 					int age;
 					int id = Integer.parseInt(eElement.getAttribute("id"));
 
+					User u = new User();
 					username = eElement.getElementsByTagName("Username").item(0).getTextContent();
 					age = Integer.parseInt(eElement.getElementsByTagName("age").item(0).getTextContent());
-
-					wordList.add(new Word(id, spelling, lvl));
+					String word = (eElement.getElementsByTagName("words").item(0).getTextContent());
+					String[] wordList = word.split("\\s");
+					for(String s : wordList)
+					{
+						u.wronglySpelt.add(new Word());
+					}
+					u.setName(username);
+					u.setAge(age);
+					users.add();
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {

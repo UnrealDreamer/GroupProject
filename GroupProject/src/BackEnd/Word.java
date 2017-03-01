@@ -4,7 +4,11 @@ public class Word {
 	private String spelling;
 	private int level;
 	private int id;
-	
+	public static Word search(String w)
+	{
+		
+		return 
+	}
 	public Word(int id, String s, int l){
 		spelling = s;
 		level = l;
