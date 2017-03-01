@@ -80,7 +80,15 @@ public class BackEnd {
 	}
 	//adds desired level
 	public void addLevel(int level) {
-		levels.add(level-1,new ArrayList<Word>());
+		levels.add(level-1, new ArrayList<Word>());
+		for(int i = level;i<levels.size();i++) {
+			for(int c = 0; c < levels.get(i).size();c++) {
+				Word w = levels.get(i).get(c);
+				w.setLevel(w.getLevel()+1);
+				w.setID(w.getID()+1000);
+			}
+		}
+		
 	}
 	//removes desired level
 	public void removeLevel(int level) {
