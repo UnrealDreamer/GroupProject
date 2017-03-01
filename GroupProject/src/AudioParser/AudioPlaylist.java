@@ -15,7 +15,7 @@ public class AudioPlaylist {
 	//HashMap<String, Audio> mapimport javax.sound.sampled.*;
 
 
-	static final long RECORD_TIME = 4000;
+	static final long RECORD_TIME = 6000;
 	String fileName;
 
 	File wavFile;
@@ -54,6 +54,18 @@ public class AudioPlaylist {
 	 */
 	public boolean recordStart(String name) {
 		fileName = name;
+		Thread stopper = new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(RECORD_TIME);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+				recordFinish();
+			}
+		});
+
+		stopper.start();
 		try {
 			Path currentRelativePath = Paths.get("");
 			String s = currentRelativePath.toAbsolutePath().toString();
@@ -86,5 +98,12 @@ public class AudioPlaylist {
 		line.stop();
 		line.close();
 		return true;
+	}
+	/**
+	 * Entry to run the program
+	 */
+	public static void main(String[] args) {
+		AudioPlaylist recorder = new AudioPlaylist();
+		recorder.recordStart("geography");
 	}
 }
