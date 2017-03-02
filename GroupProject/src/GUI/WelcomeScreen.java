@@ -73,19 +73,22 @@ public class WelcomeScreen implements FocusListener
 			title = new JLabel("Welcome to Spelling Game");
 			title.setFont(rockSalt.deriveFont(75f));
 			
-			name = new JTextField("Enter your name...",20);
+			name = new RoundJTextField("Enter your name...",20);
 			name.setFont(rockSalt.deriveFont(40f));
 			name.addFocusListener(this);
 			
-			age = new JTextField("Enter your age...",20);
+			age = new RoundJTextField("Enter your age...",20);
 			age.setFont(rockSalt.deriveFont(40f));
 			age.addFocusListener(this);
 		
 			start = new JButton("START");
-			start.setFont(rockSalt.deriveFont(60f));
-			start.setBackground(new Color(106,168,79));
+			start.setFont(rockSalt.deriveFont(50f));
+			
 			start.setActionCommand("start");
+			start.setBorder(new RoundedBorder(70));
+			start.setBackground(new Color(106,168,79));
 			start.addActionListener(new listener());
+			
 			
 		} catch (FontFormatException|IOException e) {
 				// TODO Auto-generated catch block
