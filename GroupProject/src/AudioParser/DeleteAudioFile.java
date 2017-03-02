@@ -18,4 +18,9 @@ public class DeleteAudioFile
     	}catch(Exception e){}
 		return false;
 	}
+	
+	public static void main(String[] args) {
+		DeleteAudioFile st= new DeleteAudioFile();
+		st.delete("geography");
+	}
 }
