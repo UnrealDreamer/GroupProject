@@ -75,10 +75,12 @@ public class WelcomeScreen implements FocusListener
 			
 			name = new RoundJTextField("Enter your name...",20);
 			name.setFont(rockSalt.deriveFont(40f));
+			name.setBackground(new Color(234,152,154));
 			name.addFocusListener(this);
 			
 			age = new RoundJTextField("Enter your age...",20);
 			age.setFont(rockSalt.deriveFont(40f));
+			age.setBackground(new Color(234,152,154));
 			age.addFocusListener(this);
 		
 			start = new JButton("START");
