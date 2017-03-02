@@ -12,6 +12,10 @@ public class RoundJTextField extends JTextField {
         super(label, size);
         setOpaque(false); 
     }
+    public RoundJTextField(String label) {
+        super(label);
+        setOpaque(false); 
+    }
     protected void paintComponent(Graphics g) {
          g.setColor(getBackground());
          g.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 30, 30);

@@ -37,7 +37,7 @@ public class spellingWindow implements FocusListener
 		Image img = volume.getImage().getScaledInstance(audioButton.getWidth(),audioButton.getWidth(), java.awt.Image.SCALE_SMOOTH);;
 		audioButton.setIcon(new ImageIcon(img));
 		
-		wordEnter=new JTextField("Type the word... ");
+		wordEnter=new RoundJTextField("Type the word... ");
 		wordEnter.addFocusListener(this);
 		
 		giveUp=new JButton("Give Up");
