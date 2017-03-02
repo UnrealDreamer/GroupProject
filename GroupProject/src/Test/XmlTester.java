@@ -1,4 +1,5 @@
 package Test;
+import BackEnd.User;
 import BackEnd.Word;
 import XMLFileEditor.XMLParser;
 
@@ -14,8 +15,16 @@ public class XmlTester {
 			
 		}*/
 
-		String[] s ={"spelling", "level"};
-		Word[] es ={new Word(1, "race", 1), new Word(2, "racial", 3)};
-		XMLParser.save(s, es, "res\\thing2.xml");
+/*		String[] s ={"spelling", "level"};
+		Word[] es ={new Word(1001, "race", 1), new Word(2001, "racial", 3), new Word(3001, "flamingo", 3), new Word(3002, "character", 3), new Word(3003, "porcupine", 3)};
+		XMLParser.save(s, es, "res\\WordList.xml");*/
+		XMLParser.load("res\\WordList.xml");
+		XMLParser.loadUsers("res\\UserInfo.xml");
+		for(User u : XMLParser.users)
+		{	
+			for(Word w : u.getCorrectlySpelt())
+				System.out.println("Word: " + w.getSpelling());
+			System.out.println();
+		}
 	}
 }

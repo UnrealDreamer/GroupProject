@@ -23,7 +23,6 @@ import BackEnd.Word;
 
 public class XMLParser {
 	
-	public static ArrayList<Word> wordList = new ArrayList<Word>();
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static TreeMap<String, Word> list = new TreeMap<String, Word>();//change to wordList
 	
@@ -46,13 +45,11 @@ public class XMLParser {
 
 					String spelling;
 					int lvl;
-					int id = Integer.parseInt(eElement.getAttribute("id"));
 
 					spelling = eElement.getElementsByTagName("spelling").item(0).getTextContent();
 					lvl = Integer.parseInt(eElement.getElementsByTagName("level").item(0).getTextContent());
 
-					wordList.add(new Word(id, spelling, lvl));
-					list.put(spelling, new Word(id, spelling, lvl));
+					list.put(spelling, new Word(spelling, lvl));
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
@@ -72,7 +69,7 @@ public class XMLParser {
 			construct.write("\n<Wordbank>");
 			while(ind < words.length)
 			{
-				construct.write("\n\t<Word id=\"" + words[ind].getID() + "\">");
+				construct.write("\n\t<Word>");
 				construct.write("\n\t\t<" + elements[0] + '>' + words[ind].getSpelling() + "</" + elements[0] + '>');
 				construct.write("\n\t\t<" + elements[1] + '>' + words[ind].getLevel() + "</" + elements[1] + '>');
 				construct.write("\n\t</Word>");
@@ -112,7 +109,7 @@ public class XMLParser {
 					String[] wordList = word.split("\\s");
 					for(String s : wordList)
 					{
-						u.wronglySpelt.add(list.get(s));
+						u.getCorrectlySpelt().add(list.get(s));
 					}
 					u.setName(username);
 					u.setAge(age);
@@ -138,7 +135,7 @@ public class XMLParser {
 				construct.write("\n\t\t<" + elements[0] + '>' + user[ind].getName() + "</" + elements[0] + '>');
 				construct.write("\n\t\t<" + elements[1] + '>' + user[ind].getAge() + "</" + elements[1] + '>');
 				construct.write("\n\t</User>\n\t\t<" + elements[2] + '>');
-				for(Word w : user[ind].wronglySpelt)
+				for(Word w : user[ind].getCorrectlySpelt())
 				{
 					construct.write(w.getSpelling());
 				}

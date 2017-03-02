@@ -1,19 +1,23 @@
 <?xml version="1.0"?>
 <Wordbank>
-	<Word id="1000">
-		<spelling>bank</spelling>
+	<Word id="1001">
+		<spelling>race</spelling>
 		<level>1</level>
 	</Word>
-	<Word id="1001">
-		<spelling>user</spelling>
-		<level>1</level>
+	<Word id="2001">
+		<spelling>racial</spelling>
+		<level>3</level>
 	</Word>
-	<Word id="1001">
-		<spelling>user</spelling>
-		<level>1</level>
+	<Word id="3001">
+		<spelling>flamingo</spelling>
+		<level>3</level>
 	</Word>
-	<Word id="1001">
-		<spelling>user</spelling>
-		<level>1</level>
+	<Word id="3002">
+		<spelling>character</spelling>
+		<level>3</level>
+	</Word>
+	<Word id="3003">
+		<spelling>porcupine</spelling>
+		<level>3</level>
 	</Word>
 </Wordbank>
