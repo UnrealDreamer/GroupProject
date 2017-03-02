@@ -104,6 +104,6 @@ public class AudioPlaylist {
 	 */
 	public static void main(String[] args) {
 		AudioPlaylist recorder = new AudioPlaylist();
-		recorder.recordStart("geography");
+		recorder.recordStart("sit");
 	}
 }

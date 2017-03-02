@@ -13,50 +13,39 @@ import java.io.IOException;
 public class WelcomeScreen implements FocusListener
 {
 	
-	JFrame frame;
-	JPanel pane;
-	JLabel title;
-	JTextField name,age;
-	JButton start;
-	int first = 1;
+	private JFrame frame;
+	private JPanel pane;
+	private JLabel title;
+	private JTextField name,age;
+	private JButton start;
+	private int first = 1;
 	
-	private class listener implements ActionListener 
-	{
+////////////////////////START BUTTON LISTENER////////////////////////
+	
+	private class listener implements ActionListener {
 		
 		@Override
-		public void actionPerformed(ActionEvent arg0) 
-		{
+		public void actionPerformed(ActionEvent arg0) {
 			
-			if(arg0.getActionCommand().equals("start"))
-			{
+			if(arg0.getActionCommand().equals("start")) {
 				String userName = name.getText();
 				int userAge = 0;
-				try
-				{
+				try {
 					userAge = Integer.parseInt(age.getText());
 					
-					if(userName.equals("Enter a Name...")) 
-					{
+					if(userName.equals("Enter your name...")) {
+						System.out.println("FAIL NAME");
 						//if username is not entered
-					} else 
-					{
+					} else {
 						System.out.println(userName + " " + userAge);
 						//CREATE NEW USER AND ADVANCE TO GAMEPLAY
 					}
 					
-					
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 					//if age is not entered correctly
-					System.out.println("FAIL");
+					System.out.println("FAIL AGE");
 					//e.printStackTrace();
 				}
-				
-				
-				
-				
-				
-				
 				
 			}
 			
@@ -64,8 +53,9 @@ public class WelcomeScreen implements FocusListener
 		
 	}
 	
-	public WelcomeScreen() 
-	{
+////////////////////////WELCOMESCREEN CLASS////////////////////////
+	
+	public WelcomeScreen() {
 		
 		frame = new JFrame("");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,8 +64,7 @@ public class WelcomeScreen implements FocusListener
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints con = new GridBagConstraints();
 		
-		try 
-		{
+		try {
 
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
@@ -98,9 +87,7 @@ public class WelcomeScreen implements FocusListener
 			start.setActionCommand("start");
 			start.addActionListener(new listener());
 			
-		} catch (FontFormatException|IOException e) 
-		{
-			
+		} catch (FontFormatException|IOException e) {
 				// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -142,39 +129,33 @@ public class WelcomeScreen implements FocusListener
 		frame.setFocusable(true);
 		frame.setVisible(true);
 	}
-
+	
+	//when fields is selected displays input or blank
 	@Override
-	public void focusGained(FocusEvent f) 
-	{	
+	public void focusGained(FocusEvent f) {	
 		if (first > 1){
-			if(f.getSource() == age && age.getText().equals("Enter your age..."))
-			{
+			if(f.getSource() == age && age.getText().equals("Enter your age...")) {
 				age.setText("");
-			}else if(f.getSource() == name && name.getText().equals("Enter your name..."))
-			{
+			}else if(f.getSource() == name && name.getText().equals("Enter your name...")) {
 				name.setText("");
 			}
-		} else 
-		{
+		} else {
 			first++;
 		}
 		
 	}
 	
+	//when fields arent selected or typed into displays a prompt
 	@Override
-	public void focusLost(FocusEvent arg0) 
-	{
-		if(age.getText().equals(""))
-		{
+	public void focusLost(FocusEvent arg0) {
+		if(age.getText().equals("")) {
 			age.setText("Enter your age...");
-		}else if(name.getText().equals(""))
-		{
+		}else if(name.getText().equals("")) {
 			name.setText("Enter your name...");
 		}
 	}
 	
-	public static void main(String args[])
-	{
+	public static void main(String args[]) {
 		WelcomeScreen screen = new WelcomeScreen();
 	}
 	

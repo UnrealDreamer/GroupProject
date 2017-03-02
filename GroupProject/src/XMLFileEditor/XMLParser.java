@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,6 +25,8 @@ public class XMLParser {
 	
 	public static ArrayList<Word> wordList = new ArrayList<Word>();
 	public static ArrayList<User> users = new ArrayList<User>();
+	public static TreeMap<String, Word> list = new TreeMap<String, Word>();//change to wordList
+	
 	public static void load(String path)	{
 		File xml = new File(path);
 
@@ -49,6 +52,7 @@ public class XMLParser {
 					lvl = Integer.parseInt(eElement.getElementsByTagName("level").item(0).getTextContent());
 
 					wordList.add(new Word(id, spelling, lvl));
+					list.put(spelling, new Word(id, spelling, lvl));
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
@@ -100,7 +104,6 @@ public class XMLParser {
 
 					String username;
 					int age;
-					int id = Integer.parseInt(eElement.getAttribute("id"));
 
 					User u = new User();
 					username = eElement.getElementsByTagName("Username").item(0).getTextContent();
@@ -109,11 +112,11 @@ public class XMLParser {
 					String[] wordList = word.split("\\s");
 					for(String s : wordList)
 					{
-						u.wronglySpelt.add(new Word());
+						u.wronglySpelt.add(list.get(s));
 					}
 					u.setName(username);
 					u.setAge(age);
-					users.add();
+					users.add(u);
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
