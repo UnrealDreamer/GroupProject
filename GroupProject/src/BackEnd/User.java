@@ -12,7 +12,7 @@ public class User {
 	private int lastLevel;
 	private int numOfWords;
 	
-	public ArrayList<Word> correctlySpelt = new ArrayList<Word>();
+	private ArrayList<Word> correctlySpelt = new ArrayList<Word>();
 	
 	
 	//public User(String name, int age){
@@ -21,6 +21,9 @@ public class User {
 	
 	public String getName(){
 		return name;
+	}
+	public ArrayList<Word> getCorrectlySpelt(){
+		return correctlySpelt;
 	}
 	
 	public void setName(String na){
