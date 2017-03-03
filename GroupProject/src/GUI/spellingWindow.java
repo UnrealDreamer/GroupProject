@@ -1,13 +1,19 @@
 package GUI;
 
+import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.*;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 public class spellingWindow implements FocusListener
 {
 	JFrame frame; 
@@ -21,7 +27,43 @@ public class spellingWindow implements FocusListener
 	JTextField wordEnter;
 	ImageIcon volume;
 	ImageIcon red;
-	
+	////////////////////////START BUTTON LISTENER////////////////////////
+
+	private class listener implements ActionListener //underlining method
+	{
+		public void actionPerformed(ActionEvent arg0)
+		{
+			String output=wordEnter.getText();
+		//	ArrayList a=checkWord(output); //checkWord(output) should return an arrayList : when letter is right true is returned, and when it's wrong false is returned .
+		//	underline(a);
+			
+		}
+		public void underline(ArrayList a)
+		{
+			a.trimToSize();
+			try 
+			{
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
+				Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
+				for(int i=0;i<a.size();i++)
+				{
+					if((boolean)a.get(i)==false)
+					{
+						String output2=wordEnter.getText();
+						String wrongString=output2.substring(i,i+1);
+						wrongString.setFont(rockSalt.deriveFont(35f));	
+					}
+				}
+			}
+			catch (FontFormatException | IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}			
+	}
+
+
 	public spellingWindow()
 	{
 		frame=new JFrame("");
@@ -112,6 +154,7 @@ public class spellingWindow implements FocusListener
 	public static void main(String[] args)
 	{
 		spellingWindow x=new spellingWindow();
+		
 	}
 	public void focusGained(FocusEvent e) {
 		wordEnter.setText("");
