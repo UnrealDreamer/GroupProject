@@ -9,7 +9,7 @@ public class BackEndTester {
 	public static void main(String[] args) {
 		BackEnd test = new BackEnd();
 		test.printAllWords();
-		XMLParser.list.remove("porcupine");
+		//XMLParser.list.remove("porcupine");
 	}
 
 }

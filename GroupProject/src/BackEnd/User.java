@@ -32,6 +32,15 @@ public class User {
 	public void addWord(Word w){
 		correctlySpelt.add(w);
 	}
+	public void removeWord(Word w) {
+		for(int i = 0; i < correctlySpelt.size();i++) {
+			Word w2 = correctlySpelt.get(i);
+			if(w.getSpelling().equals(w2.getSpelling())) {
+				correctlySpelt.remove(i);
+				i = correctlySpelt.size();
+			}
+		}
+	}
 	public int getAge(){
 		return age;
 	}

@@ -11,6 +11,7 @@ public class BackEnd
 /////////////////VARIABLES/////////////////
 	
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
+	private ArrayList<User> users = new ArrayList<User>();
 	private User currentU;
 	
 ///////////////CONSTRUCTORS///////////////	
@@ -18,7 +19,7 @@ public class BackEnd
 	//for the game
 	public BackEnd(User u)
 	{
-		currentU = u;
+		currentU = setUser(u);
 		setWords();
 	}
 	
@@ -29,11 +30,64 @@ public class BackEnd
 		setWords();
 	}
 	
+	public void exit() {
+		saveWords();
+		saveUsers();
+	}
+	
 ///////////////////USERS///////////////////
 	
+	private void saveUsers() {
+		
+		User[] user = new User[users.size()];
+		for(int i = 0; i < user.length;i++) {
+			user[i] = users.get(i);
+		}
+		
+		String[] es = new String[] {"Username","age","words"};
+		XMLParser.saveUsers(es, user, "res\\UserInfo.xml");
+	}
 	
+	private User setUser(User u) {
+		XMLParser.loadUsers("res\\UserInfo.xml");
+		users = XMLParser.users;
+		for(int i = 0; i < users.size();i++) {
+			if(u.getAge()==users.get(i).getAge() && u.getName().equals(users.get(i).getName())) {
+				return users.get(i);
+			}
+		}
+		users.add(u);
+		return u;
+	}
 	
 ///////////////////WORDS///////////////////
+	
+	//checks the user input against the correct spelling of the word
+	public boolean[] checkSpelling(Word correct, Word input) {
+		int min = Math.min(correct.getSpelling().length(), input.getSpelling().length());
+		ArrayList<Boolean> red = new ArrayList<Boolean>();
+		//sets red for incorrect parts of word
+		for(int i = 0; i < min;i++) {
+			if(correct.getSpelling().charAt(i)==input.getSpelling().charAt(i))
+				red.add(false);
+			else
+				red.add(true);
+		}
+		//if there are remaining parts of the word (input is bigger than word)
+		//sets remaining parts to red
+		if(red.size()<input.getSpelling().length()) {
+			for(int i = red.size(); i < input.getSpelling().length();i++) {
+				red.add(false);
+			}
+		}
+		//move red to array
+		boolean[] redArray = new boolean[red.size()];
+		for(int i = 0; i < red.size();i++) {
+			redArray[i] = red.get(i);
+		}
+		
+		return redArray;
+	}
 	
 	//prints out all words
 	public void printAllWords() 
@@ -45,11 +99,12 @@ public class BackEnd
 			{
 				System.out.println(levels.get(i).get(c));
 			}
+			System.out.println();
 		}
 	}
 	
 	//writes new words back into xml file
-	public void saveWords() 
+	private void saveWords() 
 	{
 		//make word list
 		ArrayList<Word> words = new ArrayList<Word>();
@@ -77,7 +132,7 @@ public class BackEnd
 		XMLParser.load("res\\WordList.xml");
 		int maxLevel = 0;
 		//TreeMap<String, Word> wordList = XMLParser.list;
-		ArrayList<Word> wordList = (ArrayList<Word>) XMLParser.list.values();
+		ArrayList<Word> wordList = new ArrayList<Word>(XMLParser.list.values());
 		//find maximum level
 		for(int i = 0; i < wordList.size();i++) 
 		{
