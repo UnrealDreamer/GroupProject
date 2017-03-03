@@ -76,10 +76,12 @@ public class BackEnd
 	{
 		XMLParser.load("res\\WordList.xml");
 		int maxLevel = 0;
-		TreeMap<String, Word> wordList = XMLParser.list;
+		//TreeMap<String, Word> wordList = XMLParser.list;
+		ArrayList<Word> wordList = (ArrayList<Word>) XMLParser.list.values();
 		//find maximum level
 		for(int i = 0; i < wordList.size();i++) 
 		{
+			//ArrayList<Word> words = (ArrayList<Word>) wordList.values();
 			if(wordList.get(i).getLevel()>maxLevel)
 				maxLevel = wordList.get(i).getLevel();
 		}
