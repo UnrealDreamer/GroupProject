@@ -10,6 +10,7 @@ import javax.swing.border.Border;
 
 public class RoundedBorder implements Border {
     int radius;
+    
     RoundedBorder(int radius) {
         this.radius = radius;
     }
