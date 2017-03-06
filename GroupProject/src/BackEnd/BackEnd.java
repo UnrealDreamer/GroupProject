@@ -73,7 +73,7 @@ public class BackEnd
 ///////////////////WORDS///////////////////
 	
 	//checks the user input against the correct spelling of the word
-	public boolean[] checkSpelling(Word correct, Word input) {
+	public ArrayList<Boolean> checkSpelling(Word correct, Word input) {
 		int min = Math.min(correct.getSpelling().length(), input.getSpelling().length());
 		ArrayList<Boolean> red = new ArrayList<Boolean>();
 		//sets red for incorrect parts of word
@@ -91,12 +91,8 @@ public class BackEnd
 			}
 		}
 		//move red to array
-		boolean[] redArray = new boolean[red.size()];
-		for(int i = 0; i < red.size();i++) {
-			redArray[i] = red.get(i);
-		}
 		
-		return redArray;
+		return red;
 	}
 	
 	//prints out all words

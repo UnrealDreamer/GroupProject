@@ -23,4 +23,5 @@ public class Word {
 	public void setLevel(int lvl){
 		level = lvl;
 	}
+
 }
