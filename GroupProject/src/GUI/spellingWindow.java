@@ -33,13 +33,12 @@ public class spellingWindow implements FocusListener
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			String output=wordEnter.getText();
-		//	ArrayList a=checkWord(output); //checkWord(output) should return an arrayList : when letter is right true is returned, and when it's wrong false is returned .
-		//	underline(a);
+			underline(wordEnter.getText());
 			
 		}
-		public void underline(ArrayList a)
+		public void underline(String output)
 		{
+			ArrayList a=backEnd(output); //add method that returns boolean array
 			a.trimToSize();
 			try 
 			{
@@ -52,7 +51,8 @@ public class spellingWindow implements FocusListener
 					{
 						String output2=wordEnter.getText();
 						String wrongString=output2.substring(i,i+1);
-						wrongString.setFont(rockSalt.deriveFont(35f));	
+						wrongString.toUpperCase();
+						wordEnter.setText(wrongString);	
 					}
 				}
 			}
