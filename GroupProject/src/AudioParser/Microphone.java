@@ -80,7 +80,7 @@ public class Microphone {
      
     public static void main(String[] args) {
 		Microphone tse = new Microphone();
-    	tse.fileReceive("melody");
+    	tse.fileReceive("embezzle");
     }
  
 }
