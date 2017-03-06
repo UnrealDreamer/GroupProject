@@ -52,7 +52,7 @@ public class BackEnd
 		XMLParser.loadUsers("res\\UserInfo.xml");
 		users = XMLParser.users;
 		for(int i = 0; i < users.size();i++) {
-			if(u.getAge()==users.get(i).getAge() && u.getName().equals(users.get(i).getName())) {
+			if(u.getAge()==users.get(i).getAge() && u.getName().equalsIgnoreCase(users.get(i).getName())) {
 				return users.get(i);
 			}
 		}
@@ -173,7 +173,7 @@ public class BackEnd
 	{
 		for(int i = 0;i<levels.get(level-1).size();i++)
 		{
-			if(w.getSpelling().equals(levels.get(level-1).get(i).getSpelling())){
+			if(w.getSpelling().equalsIgnoreCase(levels.get(level-1).get(i).getSpelling())){
 				levels.get(level-1).remove(i);
 			}
 		}
@@ -218,7 +218,7 @@ public class BackEnd
 	{
 		for(int i = 0; i < currentU.getCorrectlySpelt().size();i++) 
 		{
-			if(word.getSpelling().equals(currentU.getCorrectlySpelt().get(i).getSpelling()))
+			if(word.getSpelling().equalsIgnoreCase(currentU.getCorrectlySpelt().get(i).getSpelling()))
 				return true;
 		}
 		return false;
@@ -237,7 +237,7 @@ public class BackEnd
 		
 		for(int i = 0; i < levels.get(c).size();i++) 
 		{
-			if(levels.get(c).get(i).getSpelling().equals(word.getSpelling())) 
+			if(levels.get(c).get(i).getSpelling().equalsIgnoreCase(word.getSpelling())) 
 			{
 				if(i+1>=levels.get(c).size()) 
 				{

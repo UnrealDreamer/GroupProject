@@ -132,14 +132,18 @@ public class XMLParser {
 			construct.write("\n<UserInfo>");
 			while(ind < user.length)
 			{
+				construct.write("\n\t<User>");
 				construct.write("\n\t\t<" + elements[0] + '>' + user[ind].getName() + "</" + elements[0] + '>');
 				construct.write("\n\t\t<" + elements[1] + '>' + user[ind].getAge() + "</" + elements[1] + '>');
-				construct.write("\n\t</User>\n\t\t<" + elements[2] + '>');
-				for(Word w : user[ind].getCorrectlySpelt())
+				construct.write("\n\t\t<" + elements[2] + '>');
+				for(int i = 0; i < user[ind].getCorrectlySpelt().size(); i++)
 				{
-					construct.write(w.getSpelling());
+					construct.write(user[ind].getCorrectlySpelt().get(i).getSpelling());
+					if(i < user[ind].getCorrectlySpelt().size() - 1)
+						construct.write(" ");
 				}
 				construct.write( "</" + elements[2] + '>');
+				construct.write("\n\t</User>");
 				ind ++;
 			}
 			construct.write("\n</UserInfo>");
