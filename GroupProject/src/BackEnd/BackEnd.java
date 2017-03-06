@@ -12,22 +12,22 @@ public class BackEnd
 	
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
 	private ArrayList<User> users = new ArrayList<User>();
-	private User currentU;
+	private User currentU = null;
 	
 ///////////////CONSTRUCTORS///////////////	
 	
 	//for the game
 	public BackEnd(User u)
 	{
-		currentU = setUser(u);
 		setWords();
+		currentU = setUser(u);
 	}
 	
 	//for the editor
 	public BackEnd()
 	{
-		currentU = null;
 		setWords();
+		currentU = null;
 	}
 	
 	public void exit() {
@@ -58,6 +58,16 @@ public class BackEnd
 		}
 		users.add(u);
 		return u;
+	}
+	
+	public void printUserWords() {
+		if(currentU!=null) {
+			ArrayList<Word> temp = currentU.getCorrectlySpelt();
+			for(int i = 0; i < temp.size();i++) {
+				System.out.println(temp.get(i).getLevel() + " " + temp.get(i).getSpelling());
+			}
+		}
+		
 	}
 	
 ///////////////////WORDS///////////////////

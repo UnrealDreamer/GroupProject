@@ -1,14 +1,15 @@
 package Test;
 
-import XMLFileEditor.XMLParser;
 import BackEnd.BackEnd;
-import BackEnd.Word;
+import BackEnd.User;
 
 public class BackEndTester {
 
 	public static void main(String[] args) {
-		BackEnd test = new BackEnd();
-		test.printAllWords();
+		User joe = new User("Joe",21);
+		BackEnd test = new BackEnd(joe);
+		//test.printAllWords();
+		test.printUserWords();
 		//XMLParser.list.remove("porcupine");
 	}
 

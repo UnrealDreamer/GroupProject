@@ -109,7 +109,7 @@ public class XMLParser {
 					String[] wordList = word.split("\\s");
 					for(String s : wordList)
 					{
-						u.getCorrectlySpelt().add(list.get(s));
+						u.addWord(list.get(s));
 					}
 					u.setName(username);
 					u.setAge(age);
