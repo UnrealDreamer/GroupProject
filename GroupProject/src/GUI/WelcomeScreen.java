@@ -34,7 +34,10 @@ public class WelcomeScreen implements FocusListener
 					userAge = Integer.parseInt(age.getText());
 					
 					if(userName.equals("Enter your name...")) {
-						System.out.println("FAIL NAME");
+						JOptionPane.showMessageDialog(frame,
+							    "There is no input for a name.",
+							    "Improper Input",
+							    JOptionPane.WARNING_MESSAGE);
 						//if username is not entered
 					} else {
 						System.out.println(userName + " " + userAge);
@@ -43,7 +46,18 @@ public class WelcomeScreen implements FocusListener
 					
 				} catch (Exception e) {
 					//if age is not entered correctly
-					System.out.println("FAIL AGE");
+					JOptionPane.showMessageDialog(frame,
+						    "Age is not an whole number.",
+						    "Improper Input",
+						    JOptionPane.WARNING_MESSAGE);
+					if(userName.equals("Enter your name...")) {
+						System.out.println("FAIL NAME");
+						JOptionPane.showMessageDialog(frame,
+							    "There is no input for a name.",
+							    "Improper Input",
+							    JOptionPane.WARNING_MESSAGE);
+						//if username is not entered
+					}
 					//e.printStackTrace();
 				}
 				
