@@ -43,8 +43,6 @@ public class Microphone {
  
             audioLine.start();
              
-            System.out.println("Playback started.");
-             
             byte[] bytesBuffer = new byte[BUFFER_SIZE];
             int bytesRead = -1;
  
@@ -55,8 +53,6 @@ public class Microphone {
             audioLine.drain();
             audioLine.close();
             audioStream.close();
-             
-            System.out.println("Playback completed.");
              
         } catch (UnsupportedAudioFileException ex) {
             System.out.println("The specified audio file is not supported.");
@@ -80,7 +76,7 @@ public class Microphone {
      
     public static void main(String[] args) {
 		Microphone tse = new Microphone();
-    	tse.fileReceive("alternative");
+    	tse.fileReceive("finished");
     }
  
 }
