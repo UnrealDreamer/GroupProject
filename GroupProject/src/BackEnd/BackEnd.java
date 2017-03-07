@@ -4,7 +4,6 @@ import java.util.TreeMap;
 
 import XMLFileEditor.XMLParser;
 
-
 public class BackEnd 
 {
 	
@@ -14,7 +13,7 @@ public class BackEnd
 	private ArrayList<User> users = new ArrayList<User>();
 	private User currentU = null;
 	
-///////////////CONSTRUCTORS///////////////	
+//////////CONSTRUCTORS/IMPORTANT//////////
 	
 	//for the game
 	public BackEnd(User u)
@@ -30,6 +29,7 @@ public class BackEnd
 		currentU = null;
 	}
 	
+	//when the game is ended
 	public void exit() {
 		saveWords();
 		saveUsers();
@@ -37,10 +37,13 @@ public class BackEnd
 	
 ///////////////////USERS///////////////////
 	
-	private void saveUsers() {
+	//writes out new user info into UserInfo.xml
+	private void saveUsers() 
+	{
 		
 		User[] user = new User[users.size()];
-		for(int i = 0; i < user.length;i++) {
+		for(int i = 0; i < user.length;i++) 
+		{
 			user[i] = users.get(i);
 		}
 		
@@ -48,11 +51,15 @@ public class BackEnd
 		XMLParser.saveUsers(es, user, "res\\UserInfo.xml");
 	}
 	
-	private User setUser(User u) {
+	//sets current User and adds new users XMLParser
+	private User setUser(User u) 
+	{
 		XMLParser.loadUsers("res\\UserInfo.xml");
 		users = XMLParser.users;
-		for(int i = 0; i < users.size();i++) {
-			if(u.getAge()==users.get(i).getAge() && u.getName().equalsIgnoreCase(users.get(i).getName())) {
+		for(int i = 0; i < users.size();i++) 
+		{
+			if(u.getAge()==users.get(i).getAge() && u.getName().equalsIgnoreCase(users.get(i).getName())) 
+			{
 				return users.get(i);
 			}
 		}
@@ -60,10 +67,14 @@ public class BackEnd
 		return u;
 	}
 	
-	public void printUserWords() {
-		if(currentU!=null) {
+	//prints user's correctly spelt words
+	public void printUserWords() 
+	{
+		if(currentU!=null) 
+		{
 			ArrayList<Word> temp = currentU.getCorrectlySpelt();
-			for(int i = 0; i < temp.size();i++) {
+			for(int i = 0; i < temp.size();i++) 
+			{
 				System.out.println(temp.get(i).getLevel() + " " + temp.get(i).getSpelling());
 			}
 		}
@@ -73,11 +84,13 @@ public class BackEnd
 ///////////////////WORDS///////////////////
 	
 	//checks the user input against the correct spelling of the word
-	public ArrayList<Boolean> checkSpelling(Word correct, Word input) {
+	public ArrayList<Boolean> checkSpelling(Word correct, Word input) 
+	{
 		int min = Math.min(correct.getSpelling().length(), input.getSpelling().length());
 		ArrayList<Boolean> red = new ArrayList<Boolean>();
 		//sets red for incorrect parts of word
-		for(int i = 0; i < min;i++) {
+		for(int i = 0; i < min;i++) 
+		{
 			if(correct.getSpelling().charAt(i)==input.getSpelling().charAt(i))
 				red.add(false);
 			else
@@ -85,8 +98,10 @@ public class BackEnd
 		}
 		//if there are remaining parts of the word (input is bigger than word)
 		//sets remaining parts to red
-		if(red.size()<input.getSpelling().length()) {
-			for(int i = red.size(); i < input.getSpelling().length();i++) {
+		if(red.size()<input.getSpelling().length()) 
+		{
+			for(int i = red.size(); i < input.getSpelling().length();i++) 
+			{
 				red.add(false);
 			}
 		}
