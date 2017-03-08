@@ -16,7 +16,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	private static final JFrame frame = new JFrame("Editor");
 	private static ArrayList<JButton> JButtonList = new ArrayList<JButton>();
 	JPanel panel, wordPane;
-	JTextField word;
+	JTextField wordAdd;
 	ImageIcon microphone;
 	JScrollPane scrollPane;
 	JList list;
@@ -27,11 +27,14 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	public WordLevelEditorFrame() {
 		
 		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(800,900));
 		wordPane = new JPanel();
 		wordPane.setPreferredSize(new Dimension(800,900));
 		title = new JLabel("Word & Level Editor");
 		select = new JLabel("Select a Level");
-		word = new JTextField("Enter a new word to add");
+		wordAdd = new JTextField("Enter a new word to add");
+		wordAdd.setPreferredSize(new Dimension(600,80));
+		wordAdd.addFocusListener(this);
 		record = new JLabel("Record");
 		
 		JButtonList.add(new JButton()); //Button 1 is X button at top right
@@ -65,85 +68,83 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		
 		scrollPane = new JScrollPane(list);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setPreferredSize(new Dimension(500,500));
+		scrollPane.setPreferredSize(new Dimension(600,700));
 	
 		ArrayList<Integer> levelNum = new ArrayList<Integer>();
 		levelMenu = new JComboBox<String>(new String[]{"Select a Level "});
-		levelMenu.setPreferredSize(new Dimension(500,25));//TODO change later.
+		levelMenu.setPreferredSize(new Dimension(600,25));//TODO change later.
 		
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
 			Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
 			
-			title.setFont(rockSalt.deriveFont(35f));
+			title.setFont(rockSalt.deriveFont(50f));
 			select.setFont(new Font("Arial", Font.PLAIN,20));
-			word.setFont(rockSalt.deriveFont(25f));
-			record.setFont(rockSalt.deriveFont(40f));
+			wordAdd.setFont(rockSalt.deriveFont(25f));
+			record.setFont(rockSalt.deriveFont(35f));
 			JButtonList.get(2).setFont(rockSalt.deriveFont(20f));
 			JButtonList.get(3).setFont(rockSalt.deriveFont(25f));
 			JButtonList.get(4).setFont(rockSalt.deriveFont(25f));
-			JButtonList.get(5).setFont(rockSalt.deriveFont(25f));
-			JButtonList.get(6).setFont(rockSalt.deriveFont(25f));
-			
+			JButtonList.get(5).setFont(rockSalt.deriveFont(20f));
+			JButtonList.get(6).setFont(rockSalt.deriveFont(20f));		
 		} catch (FontFormatException|IOException e) {}
-		
 		
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weighty =0.01;
 		panel.add(title,c);
-	
+		
 		c.gridx = 0;
 		c.gridy = 1;
-		panel.add(word,c);
+		panel.add(wordAdd,c);
 		
-		c.gridx = 0;
-		c.gridy = 2;
-		panel.add(record,c);
+		GridBagConstraints c2 = new GridBagConstraints();
+		c2.gridx = 0;
+		c2.gridy = 2;
+		panel.add(record,c2);
 		
-		c.gridx = 1;
-		c.gridy = 2;
-		panel.add(JButtonList.get(1),c);
+		c2.gridx = 1;
+		c2.gridy = 2;
+		panel.add(JButtonList.get(1),c2);
 		
-		c.gridx =1;
-		c.gridy =3;
-		panel.add(JButtonList.get(2),c);
+		c2.gridx =1;
+		c2.gridy =3;
+		panel.add(JButtonList.get(2),c2);
 		
-		c.gridx = 0;
-		c.gridy = 4;
-		panel.add(JButtonList.get(3),c);
+		c2.gridx = 0;
+		c2.gridy = 4;
+		c2.weighty = 0.01;
+		panel.add(JButtonList.get(3),c2);
 		
-		c.gridx = 1;
-		c.gridy = 4;
-		panel.add(JButtonList.get(4),c);
+		c2.gridx = 1;
+		c2.gridy = 4;
+		panel.add(JButtonList.get(4),c2);
 		
-		c.gridx = 0;
-		c.gridy = 5;
-		panel.add(JButtonList.get(5),c);
+		c2.gridx = 0;
+		c2.gridy = 5;
+		panel.add(JButtonList.get(5),c2);
 		
-		c.gridx = 2;
-		c.gridy = 5;
-		panel.add(JButtonList.get(6),c);
+		c2.gridx = 1;
+		c2.gridy = 5;
+		panel.add(JButtonList.get(6),c2);
 		
 		wordPane.setLayout(new GridBagLayout());
-		GridBagConstraints c2 = new GridBagConstraints();
+		GridBagConstraints wordcon = new GridBagConstraints();
 		
-//		c2.gridy = 0;
-//		wordPane.add(select,c2);
+		wordcon.gridy = 1;
+		wordPane.add(levelMenu,wordcon);
 		
-		c2.gridy = 1;
-		wordPane.add(levelMenu,c2);
-		
-		c2.gridy = 2;
-		wordPane.add(scrollPane,c2);
+		wordcon.gridy = 2;
+		wordPane.add(scrollPane,wordcon);
 	
 		frame.add(panel,BorderLayout.WEST);
 		frame.add(wordPane, BorderLayout.EAST);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		System.out.println(screenSize.width +" "+screenSize.height);
 		frame.setSize(screenSize.width, screenSize.height - 40);
 		wordPane.setBackground(new Color(224,102,102));
 		panel.setBackground(new Color(224,102,102));
@@ -160,9 +161,15 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {}
 
 	@Override
-	public void focusGained(FocusEvent arg0) {}
+	public void focusGained(FocusEvent f) {
+		if(f.getSource() == wordAdd && wordAdd.getText().equals("Enter a new word to add")) 
+			wordAdd.setText("");
+	}
 
 	@Override
-	public void focusLost(FocusEvent arg0) {}
+	public void focusLost(FocusEvent arg0) {
+		if(wordAdd.getText().equals("")) 
+			wordAdd.setText("Enter a new word to add");
+	}
 
 }
