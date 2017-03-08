@@ -2,6 +2,9 @@ package GUI;
 
 import javax.swing.*;
 
+import BackEnd.BackEnd;
+import BackEnd.User;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +35,9 @@ public class WelcomeScreen implements FocusListener
 				int userAge = 0;
 				try {
 					userAge = Integer.parseInt(age.getText());
-					
+					if(userAge<1){
+						throw new Exception();
+					}
 					if(userName.equals("Enter your name...")) {
 						JOptionPane.showMessageDialog(frame,
 							    "There is no input for a name.",
@@ -42,12 +47,14 @@ public class WelcomeScreen implements FocusListener
 					} else {
 						System.out.println(userName + " " + userAge);
 						//CREATE NEW USER AND ADVANCE TO GAMEPLAY
+						User newUser = new User(userName, userAge);
+						
 					}
 					
 				} catch (Exception e) {
 					//if age is not entered correctly
 					JOptionPane.showMessageDialog(frame,
-						    "Age is not an whole number.",
+						    "Age is not an positive whole number.",
 						    "Improper Input",
 						    JOptionPane.WARNING_MESSAGE);
 					if(userName.equals("Enter your name...")) {
