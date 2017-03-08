@@ -43,7 +43,7 @@ public class spellingWindow implements FocusListener
 			a.add(true);//add method that returns boolean array
 			a.add(false);
 			a.add(true);
-		//	a.trimToSize();
+			a.trimToSize();
 			try 
 			{
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
