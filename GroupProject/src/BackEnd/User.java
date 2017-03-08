@@ -33,6 +33,13 @@ public class User {
 	public void setName(String na){
 		name = na;
 	}
+	public void changeSpelling(Word w, String newSpelling) {
+		for(int i = 0; i < correctlySpelt.size();i++) {
+			if(correctlySpelt.get(i).getSpelling().equalsIgnoreCase(w.getSpelling())) {
+				correctlySpelt.get(i).setSpelling(newSpelling);
+			}
+		}
+	}
 	public void addWord(Word w){
 		correctlySpelt.add(w);
 	}

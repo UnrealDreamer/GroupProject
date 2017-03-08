@@ -54,18 +54,6 @@ public class AudioPlaylist {
 	 */
 	public boolean recordStart(String name) {
 		fileName = name;
-		Thread stopper = new Thread(new Runnable() {
-			public void run() {
-				try {
-					Thread.sleep(RECORD_TIME);
-				} catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
-				recordFinish();
-			}
-		});
-
-		stopper.start();
 		try {
 			Path currentRelativePath = Paths.get("");
 			String s = currentRelativePath.toAbsolutePath().toString();
@@ -104,6 +92,6 @@ public class AudioPlaylist {
 	 */
 	public static void main(String[] args) {
 		AudioPlaylist recorder = new AudioPlaylist();
-		recorder.recordStart("xenophonic");
+		recorder.recordStart("");
 	}
 }

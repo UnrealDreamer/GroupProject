@@ -105,7 +105,6 @@ public class BackEnd
 				red.add(false);
 			}
 		}
-		//move red to array
 		
 		return red;
 	}
@@ -173,6 +172,37 @@ public class BackEnd
 		}
 	}
 	
+	//changes a word's spelling
+	public void changeWordSpelling(Word w, String newSpelling)
+	{
+		int level = w.getLevel();
+		for(int i = 0;i<levels.get(level-1).size();i++)
+		{
+			if(w.getSpelling().equalsIgnoreCase(levels.get(level-1).get(i).getSpelling()))
+			{
+				levels.get(level-1).get(i).setSpelling(newSpelling);
+			}
+		}
+		//changes the word's spelling for all users
+		for(int i = 0; i < users.size();i++) 
+		{
+			users.get(i).changeSpelling(w, newSpelling);
+		}
+	}
+	
+	//changes a word's level
+	public void changeWordLevel(Word w,int newLevel) 
+	{
+		int level = w.getLevel();
+		for(int i = 0;i<levels.get(level-1).size();i++)
+		{
+			if(w.getSpelling().equalsIgnoreCase(levels.get(level-1).get(i).getSpelling()))
+			{
+				levels.get(level-1).get(i).setLevel(newLevel);
+			}
+		}
+	}
+	
 	//adds desired word
 	public void addWord(Word w) 
 	{
@@ -180,13 +210,19 @@ public class BackEnd
 	}
 	
 	//removes desired word
-	public void removeWord(Word w,int level)
+	public void removeWord(Word w)
 	{
-		for(int i = 0;i<levels.get(level-1).size();i++)
+		for(int i = 0;i<levels.get(w.getLevel()-1).size();i++)
 		{
-			if(w.getSpelling().equalsIgnoreCase(levels.get(level-1).get(i).getSpelling())){
-				levels.get(level-1).remove(i);
+			if(w.getSpelling().equalsIgnoreCase(levels.get(w.getLevel()-1).get(i).getSpelling())){
+				levels.get(w.getLevel()-1).remove(i);
+				
 			}
+		}
+		//removes the word for all users
+		for(int i = 0; i < users.size();i++) 
+		{
+			users.get(i).removeWord(w);
 		}
 	}
 	
