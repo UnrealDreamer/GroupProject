@@ -33,13 +33,17 @@ public class spellingWindow implements FocusListener
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
+			System.out.println("Hello");
 			underline(wordEnter.getText());
 			
 		}
 		public void underline(String output)
 		{
-			ArrayList a=backEnd(output); //add method that returns boolean array
-			a.trimToSize();
+			ArrayList<Boolean> a=new ArrayList();
+			a.add(true);//add method that returns boolean array
+			a.add(false);
+			a.add(true);
+		//	a.trimToSize();
 			try 
 			{
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -51,8 +55,9 @@ public class spellingWindow implements FocusListener
 					{
 						String output2=wordEnter.getText();
 						String wrongString=output2.substring(i,i+1);
-						wrongString.toUpperCase();
-						wordEnter.setText(wrongString);	
+			//			wrongString.setFont()
+						wordEnter.setText(output2.substring(0,i)+wrongString+output2.substring(i+1));	
+						wordEnter.setForeground(Color.RED);
 					}
 				}
 			}
@@ -81,6 +86,7 @@ public class spellingWindow implements FocusListener
 		
 		wordEnter=new RoundJTextField("Type the word... ");
 		wordEnter.addFocusListener(this);
+		wordEnter.addActionListener(new listener());
 		
 		giveUp=new JButton("Give Up");
 		giveUp.setBackground(new Color(255,235,215));
