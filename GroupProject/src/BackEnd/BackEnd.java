@@ -199,6 +199,8 @@ public class BackEnd
 			if(w.getSpelling().equalsIgnoreCase(levels.get(level-1).get(i).getSpelling()))
 			{
 				levels.get(level-1).get(i).setLevel(newLevel);
+				levels.get(newLevel-1).add(new Word(w.getSpelling(),newLevel));
+				levels.get(level-1).remove(i);
 			}
 		}
 	}
