@@ -18,15 +18,21 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import AudioParser.DeleteAudioFile;
+
 public class addWordPopUp implements ActionListener {
 
-	JFrame frame;
-	JPanel panel;
-	JLabel question;
-	JButton confirm;
-	JButton reject;
-	public addWordPopUp(String word)
+	private JFrame frame;
+	private JPanel panel;
+	private JLabel question;
+	private JButton confirm;
+	private JButton reject;
+	private String word;
+	private DeleteAudioFile kepOut = new DeleteAudioFile();
+	
+	public addWordPopUp(String tes)
 	{
+		word = tes;
 		frame=new JFrame("Add Word");
 		panel=new JPanel();
 		question=new JLabel("   Are you sure you want to add: "+word+"?");
@@ -73,14 +79,17 @@ public class addWordPopUp implements ActionListener {
 	}
 	public static void main(String[] args)
 	{
-		addWordPopUp x=new addWordPopUp("apple");
+		addWordPopUp x=new addWordPopUp("access");
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
-		if(eventName.equals("Yes, I am sure."))
+		if(eventName.equals("Yes, I am sure.")){
 			System.out.println("Yes");
-		else
+		}else{
 			System.out.println("No");
+			kepOut.delete(word);
+		}
+		frame.dispose();
 	}
 }

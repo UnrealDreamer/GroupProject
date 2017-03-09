@@ -22,13 +22,13 @@ import AudioParser.DeleteAudioFile;
 
 public class deleteWordPopUp implements ActionListener {
 
-	JFrame frame;
-	JPanel panel;
-	JLabel question;
-	JButton confirm;
-	JButton reject;
-	String word;
-	DeleteAudioFile kepOut = new DeleteAudioFile();
+	private JFrame frame;
+	private JPanel panel;
+	private JLabel question;
+	private JButton confirm;
+	private JButton reject;
+	private String word;
+	private DeleteAudioFile kepOut = new DeleteAudioFile();
 	
 	public deleteWordPopUp(String save)
 	{
@@ -88,7 +88,9 @@ public class deleteWordPopUp implements ActionListener {
 			System.out.println("Yes");
 			kepOut.delete(word);
 		}
-		else
+		else{
 			System.out.println("No");
+		}
+		frame.dispose();
 	}
 }
