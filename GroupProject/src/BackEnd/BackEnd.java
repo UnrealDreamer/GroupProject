@@ -317,3 +317,10 @@ public class BackEnd
 	}
 	
 }
+/*
+frame.addWindowListener(new java.awt.event.WindowAdapter() {
+	public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		
+	}
+});
+*/
