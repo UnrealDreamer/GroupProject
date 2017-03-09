@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 
 import BackEnd.BackEnd;
+import BackEnd.Game;
 import BackEnd.User;
 
 import java.awt.*;
@@ -22,6 +23,7 @@ public class WelcomeScreen implements FocusListener
 	private JTextField name,age;
 	private JButton start;
 	private int first = 1;
+	private Game game;
 	
 ////////////////////////START BUTTON LISTENER////////////////////////
 	
@@ -48,7 +50,8 @@ public class WelcomeScreen implements FocusListener
 						System.out.println(userName + " " + userAge);
 						//CREATE NEW USER AND ADVANCE TO GAMEPLAY
 						User newUser = new User(userName, userAge);
-						
+						frame.setVisible(false);
+						game.moveToSpelling(newUser);
 					}
 					
 				} catch (Exception e) {
@@ -76,8 +79,8 @@ public class WelcomeScreen implements FocusListener
 	
 ////////////////////////WELCOMESCREEN CLASS////////////////////////
 	
-	public WelcomeScreen() {
-		
+	public WelcomeScreen(Game g) {
+		game = g;
 		frame = new JFrame("");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -181,8 +184,5 @@ public class WelcomeScreen implements FocusListener
 		}
 	}
 	
-	public static void main(String args[]) {
-		WelcomeScreen screen = new WelcomeScreen();
-	}
 	
 }
