@@ -35,7 +35,6 @@ public class spellingWindow implements FocusListener
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			System.out.println("Hello");
 			underline(wordEnter.getText());
 			
 		}

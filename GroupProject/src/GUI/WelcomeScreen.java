@@ -24,16 +24,17 @@ public class WelcomeScreen implements FocusListener
 	private JButton start;
 	private int first = 1;
 	private Game game;
+	private String userName;
 	
 ////////////////////////START BUTTON LISTENER////////////////////////
 	
-	private class listener implements ActionListener {
+	class listener implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			
 			if(arg0.getActionCommand().equals("start")) {
-				String userName = name.getText();
+				userName = name.getText();
 				int userAge = 0;
 				try {
 					userAge = Integer.parseInt(age.getText());
@@ -73,6 +74,14 @@ public class WelcomeScreen implements FocusListener
 				
 			}
 			
+		}
+		public void setName(String name)
+		{
+			userName=name;
+		}
+		public String getName()
+		{
+			return userName;
 		}
 		
 	}
