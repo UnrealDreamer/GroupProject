@@ -56,7 +56,7 @@ public class spellingWindow implements FocusListener
 						String output2=wordEnter.getText();
 						String wrongString=output2.substring(i,i+1);
 						wrongString=wrongString.toUpperCase();
-						System.out.println(wrongString);
+						System.out.println(wrongString); 
 						wordEnter.setText(output2.substring(0,i)+wrongString+output2.substring(i+1));	
 					}
 				}
