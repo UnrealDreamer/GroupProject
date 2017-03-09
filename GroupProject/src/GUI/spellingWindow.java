@@ -10,10 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 public class spellingWindow implements FocusListener
 {
 	JFrame frame; 
@@ -43,7 +45,7 @@ public class spellingWindow implements FocusListener
 			a.add(true);//add method that returns boolean array
 			a.add(false);
 			a.add(true);
-		//	a.trimToSize();
+			a.trimToSize();
 			try 
 			{
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -53,11 +55,29 @@ public class spellingWindow implements FocusListener
 				{
 					if((boolean)a.get(i)==false)
 					{
-						String output2=wordEnter.getText();
+						wordEnter.setSelectionColor(Color.YELLOW);
+						wordEnter.setSelectedTextColor(Color.BLACK);
+						wordEnter.setSelectionStart(i);
+						wordEnter.setSelectionEnd(i+1);
+						
+						
+						
+						/*Map attributes1 = rockSalt.getAttributes();
+						Map attributes2 = rockSalt.getAttributes();
+						attributes1.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+						attributes1.put(TextAttribute.SIZE, 35f);
+						attributes2.put(TextAttribute.SIZE, 35f);
+						Font f1 = rockSalt.deriveFont(attributes1);
+						Font f2 = rockSalt.deriveFont(attributes2);
+						wordEnter.set
+						*/
+						
+						
+						/*String output2=wordEnter.getText();
 						String wrongString=output2.substring(i,i+1);
-			//			wrongString.setFont()
-						wordEnter.setText(output2.substring(0,i)+wrongString+output2.substring(i+1));	
-						wordEnter.setForeground(Color.RED);
+						wrongString=wrongString.toUpperCase();
+						System.out.println(wrongString); 
+						wordEnter.setText(output2.substring(0,i)+wrongString+output2.substring(i+1));	*/
 					}
 				}
 			}

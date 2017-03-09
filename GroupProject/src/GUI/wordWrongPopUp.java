@@ -18,28 +18,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import AudioParser.DeleteAudioFile;
+public class wordWrongPopUp implements ActionListener {
 
-public class addWordPopUp implements ActionListener {
-
-	private JFrame frame;
-	private JPanel panel;
-	private JLabel question;
-	private JButton confirm;
-	private JButton reject;
-	private String word;
-	private DeleteAudioFile kepOut = new DeleteAudioFile();
+	JFrame frame;
+	JPanel panel;
+	JLabel question;
+	JButton confirm;
 	
-	public addWordPopUp(String tes)
+	public wordWrongPopUp()
 	{
-		word = tes;
-		frame=new JFrame("Add Word");
+		frame=new JFrame("Try Again!");
 		panel=new JPanel();
-		question=new JLabel("   Are you sure you want to add: "+word+"?");
-		confirm=new JButton("Yes, I am sure.");
-		reject=new JButton("No, I don't like the word: "+word);
+		question=new JLabel("  Oops! Seems like you got that one wrong. Would you like to try again? ");
+		confirm=new JButton("Okay");
 		confirm.addActionListener(this);
-		reject.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		try 
@@ -49,7 +41,6 @@ public class addWordPopUp implements ActionListener {
 			Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
 			question.setFont(rockSalt.deriveFont(25f));
 			confirm.setFont(rockSalt.deriveFont(15f));
-			reject.setFont(rockSalt.deriveFont(15f));
 		}
 		catch (FontFormatException | IOException e) 
 		{
@@ -57,10 +48,8 @@ public class addWordPopUp implements ActionListener {
 		}
 		question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
-		reject.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		panel.setBackground(new Color(224,102,102));
 		confirm.setBackground(new Color(255,235,215));
-		reject.setBackground(new Color(255,235,215));
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		panel.setLayout(new GridBagLayout());	
@@ -69,8 +58,6 @@ public class addWordPopUp implements ActionListener {
 		c.gridy=1;
 		c.gridx=0;
 		panel.add(confirm,c);
-		c.gridy=2;
-		panel.add(reject,c);
 		frame.pack();
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
@@ -79,17 +66,12 @@ public class addWordPopUp implements ActionListener {
 	}
 	public static void main(String[] args)
 	{
-		addWordPopUp x=new addWordPopUp("access");
+		wordWrongPopUp x=new wordWrongPopUp();
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
-		if(eventName.equals("Yes, I am sure.")){
+		if(eventName.equals("Okay"))
 			System.out.println("Yes");
-		}else{
-			System.out.println("No");
-			kepOut.delete(word);
-		}
-		frame.dispose();
 	}
 }
