@@ -56,11 +56,6 @@ public class WelcomeScreen implements FocusListener
 					}
 					
 				} catch (Exception e) {
-					//if age is not entered correctly
-					JOptionPane.showMessageDialog(frame,
-						    "Age is not an positive whole number.",
-						    "Improper Input",
-						    JOptionPane.WARNING_MESSAGE);
 					if(userName.equals("Enter your name...")) {
 						System.out.println("FAIL NAME");
 						JOptionPane.showMessageDialog(frame,
@@ -69,6 +64,12 @@ public class WelcomeScreen implements FocusListener
 							    JOptionPane.WARNING_MESSAGE);
 						//if username is not entered
 					}
+					//if age is not entered correctly
+					JOptionPane.showMessageDialog(frame,
+						    "Age is not an positive whole number.",
+						    "Improper Input",
+						    JOptionPane.WARNING_MESSAGE);
+					
 					//e.printStackTrace();
 				}
 				
