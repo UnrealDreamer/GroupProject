@@ -15,7 +15,9 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	private static final JFrame frame = new JFrame("Editor");
 	private static ArrayList<JButton> JButtonList = new ArrayList<JButton>();
+	private int num;
 	JPanel panel, wordPane;
+	JLabel levelLabel;
 	JTextField wordAdd;
 	ImageIcon microphone;
 	JScrollPane scrollPane;
@@ -42,22 +44,42 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		JButtonList.add(new JButton());
 		microphone = new ImageIcon("res/microphone.png");
 		JButtonList.get(1).setSize(new Dimension(80,80));
-		Image img = microphone.getImage().getScaledInstance(JButtonList.get(1).getWidth(),JButtonList.get(1).getWidth(), java.awt.Image.SCALE_SMOOTH);;
+		Image img = microphone.getImage().getScaledInstance(JButtonList.get(1).getWidth(),JButtonList.get(1).getWidth(), java.awt.Image.SCALE_SMOOTH);
 		JButtonList.get(1).setIcon(new ImageIcon(img));
 		
 		JButtonList.add(new JButton("Replay"));				//Button 3 is replay button
 		
 		JButtonList.add(new JButton("Save Word"));			//Button 4 is save the new word button
 		JButtonList.get(3).setBackground(new Color(106, 185, 216));
+		JButtonList.get(3).addActionListener(this);
 		
 		JButtonList.add(new JButton("Delete Word"));		//Button 5 is delete a word button
 		JButtonList.get(4).setBackground(Color.red);
+		JButtonList.get(4).addActionListener(this);
 		
 		JButtonList.add(new JButton("<html>Create<br />Level</html>"));	//Button 6 is create a new level button
+		JButtonList.get(5).addActionListener(this);
 		JButtonList.get(5).setBackground(new Color(106, 185, 216));
 		
 		JButtonList.add(new JButton("<html>Delete<br />Level</html>")); //Button 7 is delete the current level button
 		JButtonList.get(6).setBackground(Color.red);
+		
+		levelLabel = new JLabel();
+		levelLabel.setPreferredSize(new Dimension(100, 100));
+		
+		JButtonList.add(new JButton());		
+		ImageIcon triangle = new ImageIcon("res/upTriangle.png");
+		JButtonList.get(7).setSize(new Dimension(20, 20));
+		Image img2 = triangle.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
+		JButtonList.get(7).setIcon(new ImageIcon(img2));
+		
+		((Graphics2D) img2.getGraphics()).rotate(Math.PI);
+		JButtonList.add(new JButton());
+		JButtonList.get(8).setIcon(new ImageIcon(img2));
+		
+	
+		levelLabel.add(JButtonList.get(7));
+		levelLabel.add(JButtonList.get(8));
 		
 		listModel = new DefaultListModel();
 	
@@ -133,6 +155,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		c2.gridy = 5;
 		panel.add(JButtonList.get(6),c2);
 		
+		panel.add(levelLabel);
+		
 		wordPane.setLayout(new GridBagLayout());
 		GridBagConstraints wordcon = new GridBagConstraints();
 		
@@ -158,7 +182,19 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {}
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getActionCommand().equals(JButtonList.get(3).getText()))
+			listModel.addElement(wordAdd.getText());
+		
+		if(e.getActionCommand().equals(JButtonList.get(4).getText()))
+			listModel.removeElementAt(list.getSelectedIndex());
+		
+		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
+			levelMenu.addItem("level 1");
+		
+		if(levelMenu.getActionCommand().equals(""));
+	}
 
 	@Override
 	public void focusGained(FocusEvent f) {
@@ -171,5 +207,4 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		if(wordAdd.getText().equals("")) 
 			wordAdd.setText("Enter a new word to add");
 	}
-
 }
