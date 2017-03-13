@@ -48,7 +48,7 @@ public class WelcomeScreen implements FocusListener
 							    JOptionPane.WARNING_MESSAGE);
 						//if username is not entered
 					} else {
-						System.out.println(userName + " " + userAge);
+						//System.out.println(userName + " " + userAge);
 						//CREATE NEW USER AND ADVANCE TO GAMEPLAY
 						User newUser = new User(userName, userAge);
 						frame.setVisible(false);
@@ -57,7 +57,7 @@ public class WelcomeScreen implements FocusListener
 					
 				} catch (Exception e) {
 					if(userName.equals("Enter your name...")) {
-						System.out.println("FAIL NAME");
+						//System.out.println("FAIL NAME");
 						JOptionPane.showMessageDialog(frame,
 							    "There is no input for a name.",
 							    "Improper Input",
