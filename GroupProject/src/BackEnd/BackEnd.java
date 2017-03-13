@@ -102,7 +102,7 @@ public class BackEnd
 		{
 			for(int i = red.size(); i < input.getSpelling().length();i++) 
 			{
-				red.add(false);
+				red.add(true);
 			}
 		}
 		
