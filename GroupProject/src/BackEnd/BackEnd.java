@@ -304,6 +304,7 @@ public class BackEnd
 					//if at highest word returns first word of next level
 					c++;
 					index = 0;
+					currentU.setLastLevel(getUserLevel()+1);
 					if(!alreadySpelt(levels.get(c).get(index)))
 						return levels.get(c).get(index);
 					else
