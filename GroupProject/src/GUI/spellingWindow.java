@@ -1,49 +1,58 @@
 package GUI;
 
-import javax.jws.soap.SOAPBinding.Style;
-import javax.swing.*;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-
-import AudioParser.Microphone;
-import BackEnd.Word;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import AudioParser.Microphone;
+import BackEnd.BackEnd;
+import BackEnd.Word;
 public class spellingWindow implements FocusListener
 {
-	JFrame frame; 
-	JPanel panel; 
-	JLabel title;
-	JLabel levelNum;
-	JLabel name;
-	JButton audioButton; 
-	JButton giveUp; 
-	JButton exit; 
-	JTextField wordEnter;
-	ImageIcon volume;
-	ImageIcon red;
-	Word currentWord;
-	int audioDelay  = 0;
+	private JFrame frame; 
+	private JPanel panel; 
+	private JLabel title;
+	private JLabel levelNum;
+	private JLabel name;
+	private JButton audioButton; 
+	private JButton giveUp; 
+	private JButton exit; 
+	private JTextField wordEnter;
+	private ImageIcon volume;
+	private ImageIcon red;
+	private Word currentWord;
+	private int audioDelay  = 0;
+	private BackEnd back;
+	private listener listener;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
 	private class listener implements ActionListener //underlining method
 	{
 		public void actionPerformed(ActionEvent arg0)
 		{
-			underline(wordEnter.getText());
-			
+			if(arg0.getActionCommand().equals("underline")) {
+				underline(wordEnter.getText());
+			}
 		}
 		public void underline(String output)
 		{
@@ -95,8 +104,10 @@ public class spellingWindow implements FocusListener
 	}
 
 
-	public spellingWindow()
+	public spellingWindow(BackEnd back)
 	{
+		this.back = back;
+		
 		frame=new JFrame("");
 		panel=new JPanel();
 
@@ -131,9 +142,11 @@ public class spellingWindow implements FocusListener
 			  }
 		});
 		
+		this.listener = new listener();
+		
 		wordEnter=new RoundJTextField("Type the word... ");
 		wordEnter.addFocusListener(this);
-		wordEnter.addActionListener(new listener());
+		wordEnter.addActionListener(listener);
 		
 		giveUp=new JButton("Give Up");
 		giveUp.setBackground(new Color(255,235,215));
@@ -204,11 +217,6 @@ public class spellingWindow implements FocusListener
 		frame.setSize(screenSize.width, screenSize.height - 40);
 		frame.setVisible(true);
 		Microphone.fileReceive("abound");
-	}
-	public static void main(String[] args)
-	{
-		spellingWindow x=new spellingWindow();
-		
 	}
 	public void focusGained(FocusEvent e) {
 		wordEnter.setText("");
