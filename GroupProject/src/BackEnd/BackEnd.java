@@ -78,7 +78,14 @@ public class BackEnd
 				System.out.println(temp.get(i).getLevel() + " " + temp.get(i).getSpelling());
 			}
 		}
-		
+	}
+	
+	public String getUserName() {
+		return currentU.getName();
+	}
+	
+	public int getUserLevel() {
+		return currentU.getLastLevel();
 	}
 	
 ///////////////////WORDS///////////////////
