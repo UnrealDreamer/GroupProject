@@ -66,7 +66,26 @@ public class Microphone {
         }      
     }
     
-    public void fileReceive(String name){
+    public static double lengthReturn(String word) {
+    	Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+        File file = new File(s+"/res/" + word +".wav");
+    	AudioInputStream audioInputStream;
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(file);
+			AudioFormat format = audioInputStream.getFormat();
+	        long audioFileLength = file.length();
+	        int frameSize = format.getFrameSize();
+	        float frameRate = format.getFrameRate();
+	        return (double) (audioFileLength / (frameSize * frameRate));
+		} catch (UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+    }
+    
+    public static void fileReceive(String name){
     	Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
         String audioFilePath = s+"/res/" + name +".wav";

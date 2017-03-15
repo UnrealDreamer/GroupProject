@@ -5,6 +5,9 @@ import javax.swing.*;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import AudioParser.Microphone;
+import BackEnd.Word;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +17,8 @@ import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 public class spellingWindow implements FocusListener
@@ -29,6 +34,8 @@ public class spellingWindow implements FocusListener
 	JTextField wordEnter;
 	ImageIcon volume;
 	ImageIcon red;
+	Word currentWord;
+	int audioDelay  = 0;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
 	private class listener implements ActionListener //underlining method
@@ -102,6 +109,27 @@ public class spellingWindow implements FocusListener
 		audioButton.setSize(new Dimension(125,125));
 		Image img = volume.getImage().getScaledInstance(audioButton.getWidth(),audioButton.getWidth(), java.awt.Image.SCALE_SMOOTH);;
 		audioButton.setIcon(new ImageIcon(img));
+		audioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if (audioDelay==0) {
+					final double len = Microphone.lengthReturn("abound");
+					Thread t4 = new Thread(new Runnable(){
+											private long startTime = System.currentTimeMillis();
+											public void run(){
+												while(System.currentTimeMillis() - startTime < ((int)(len*1000))){}
+													audioDelay =0;
+												}
+											}
+					);
+					t4.start();
+					audioDelay++;
+					
+					
+					
+					Microphone.fileReceive("abound");
+				}
+			  }
+		});
 		
 		wordEnter=new RoundJTextField("Type the word... ");
 		wordEnter.addFocusListener(this);
@@ -175,6 +203,7 @@ public class spellingWindow implements FocusListener
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width, screenSize.height - 40);
 		frame.setVisible(true);
+		Microphone.fileReceive("abound");
 	}
 	public static void main(String[] args)
 	{
