@@ -25,11 +25,11 @@ public class wordWrongPopUp implements ActionListener {
 	JLabel question;
 	JButton confirm;
 	
-	public wordWrongPopUp()
+	public wordWrongPopUp(String word)
 	{
 		frame=new JFrame("Try Again!");
 		panel=new JPanel();
-		question=new JLabel("  Oops! Seems like you got that one wrong. Would you like to try again? ");
+		question=new JLabel("  Oops! Seems like you got \"" + word+"\" wrong. Would you like to try again? ");
 		confirm=new JButton("Okay");
 		confirm.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -66,12 +66,14 @@ public class wordWrongPopUp implements ActionListener {
 	}
 	public static void main(String[] args)
 	{
-		wordWrongPopUp x=new wordWrongPopUp();
+		wordWrongPopUp x=new wordWrongPopUp("apple");
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
-		if(eventName.equals("Okay"))
+		if(eventName.equals("Okay")){
 			System.out.println("Yes");
+			frame.dispose();
+		}
 	}
 }

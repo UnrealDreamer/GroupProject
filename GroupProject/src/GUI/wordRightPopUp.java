@@ -70,7 +70,9 @@ public class wordRightPopUp implements ActionListener {
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
-		if(eventName.equals("Move to the next word!"))
+		if(eventName.equals("Move to the next word!")){
 			System.out.println("Yes");
+			frame.dispose();
+		}
 	}
 }
