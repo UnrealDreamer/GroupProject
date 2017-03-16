@@ -186,7 +186,6 @@ public class WelcomeScreen implements FocusListener
 		} else {
 			first++;
 		}
-		
 	}
 	
 	//when fields arent selected or typed into displays a prompt
