@@ -51,7 +51,7 @@ public class WelcomeScreen implements FocusListener
 						//System.out.println(userName + " " + userAge);
 						//CREATE NEW USER AND ADVANCE TO GAMEPLAY
 						User newUser = new User(userName, userAge);
-						frame.setVisible(false);
+						frame.dispose();
 						game.moveToSpelling(newUser);
 					}
 					
@@ -65,12 +65,13 @@ public class WelcomeScreen implements FocusListener
 						//if username is not entered
 					}
 					//if age is not entered correctly
-					JOptionPane.showMessageDialog(frame,
-						    "Age is not an positive whole number.",
-						    "Improper Input",
-						    JOptionPane.WARNING_MESSAGE);
 					
-					//e.printStackTrace();
+						JOptionPane.showMessageDialog(frame,
+								"Age is not an positive whole number.",
+								"Improper Input",
+								JOptionPane.WARNING_MESSAGE);
+					
+					e.printStackTrace();
 				}
 				
 			}
@@ -167,6 +168,10 @@ public class WelcomeScreen implements FocusListener
 		frame.setResizable(false);
 		frame.setFocusable(true);
 		frame.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		//WelcomeScreen es = new WelcomeScreen();
 	}
 	
 	//when fields is selected displays input or blank
