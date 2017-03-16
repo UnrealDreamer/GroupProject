@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	private static final JFrame frame = new JFrame("Editor");
 	private static ArrayList<JButton> JButtonList = new ArrayList<JButton>();
-	private int num =1;
+	private static int num =1;
 	JPanel panel, wordPane;
 	JLabel levelLabel;
 	JTextField wordAdd;
@@ -65,25 +64,28 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		JButtonList.add(new JButton("<html>Delete<br />Level</html>")); //Button 7 is delete the current level button
 		JButtonList.get(6).setBackground(Color.red);
 		JButtonList.add(new JButton());		
+		JButtonList.get(6).addActionListener(this);
 		
 		ImageIcon upTri = new ImageIcon("res/upTriangle.png");
 		JButtonList.get(7).setSize(new Dimension(20, 20));
 		Image up = upTri.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
 		JButtonList.get(7).setIcon(new ImageIcon(up));
+		JButtonList.get(7).addActionListener(this);
 		
 		JButtonList.add(new JButton());		
 		ImageIcon downTri = new ImageIcon("res/downTriangle.png");
 		JButtonList.get(8).setSize(new Dimension(20, 20));
 		Image down = downTri.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH);
 		JButtonList.get(8).setIcon(new ImageIcon(down));
+		JButtonList.get(8).addActionListener(this);
 		
 		levelLabel = new JLabel("Level #: " + num);
 		levelLabel.setBackground(Color.WHITE);
+		levelLabel.setLayout(new FlowLayout());
 		levelLabel.add(JButtonList.get(7));
+		levelLabel.add(JButtonList.get(8));	
 		levelLabel.setOpaque(true);
-		levelLabel.setPreferredSize(new Dimension(105, 105));
-		
-		
+		levelLabel.setPreferredSize(new Dimension(115, 115));
 		
 		listModel = new DefaultListModel();
 	
@@ -109,7 +111,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			select.setFont(new Font("Arial", Font.PLAIN,20));
 			wordAdd.setFont(rockSalt.deriveFont(25f));
 			record.setFont(rockSalt.deriveFont(35f));
-			levelLabel.setFont(rockSalt.deriveFont(15f));
+			levelLabel.setFont(rockSalt.deriveFont(14f));
 			JButtonList.get(2).setFont(rockSalt.deriveFont(20f));
 			JButtonList.get(3).setFont(rockSalt.deriveFont(25f));
 			JButtonList.get(4).setFont(rockSalt.deriveFont(25f));
@@ -154,6 +156,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		
 		c2.gridx = 0;
 		c2.gridy = 5;
+		c.gridwidth = GridBagConstraints.CENTER;
 		panel.add(JButtonList.get(5),c2);
 		
 		c2.gridx = 1;
@@ -190,6 +193,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	public static void main(String[] args) {
 		WordLevelEditorFrame window = new WordLevelEditorFrame();
+//		System.out.println(num);
 	}
 
 	@Override
@@ -202,9 +206,23 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			listModel.removeElementAt(list.getSelectedIndex());
 		
 		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
-			levelMenu.addItem("level 1");
+			levelMenu.addItem(Integer.toString(num));
 		
-		if(levelMenu.getActionCommand().equals(""));
+
+		if(e.getActionCommand().equals(JButtonList.get(6).getText()))
+			levelMenu.removeItem(levelMenu.getSelectedItem());
+		
+		if(e.getSource().equals(JButtonList.get(7))){
+				num++;
+				levelLabel.setText("Level #: " + num);
+			
+		}else if(e.getSource().equals(JButtonList.get(8))){
+			if(num>1){
+				num--;
+				levelLabel.setText("Level #: " + num);
+			}
+		}
+		
 	}
 
 	@Override
