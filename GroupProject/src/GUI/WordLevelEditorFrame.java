@@ -15,7 +15,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	private static final JFrame frame = new JFrame("Editor");
 	private static ArrayList<JButton> JButtonList = new ArrayList<JButton>();
-	private static int num =1;
+	private static int num = 1;
+	private static int seconds = 0;
 	JPanel panel, wordPane;
 	JLabel levelLabel;
 	JTextField wordAdd;
@@ -23,7 +24,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	JScrollPane scrollPane;
 	JList list;
 	DefaultListModel listModel;
-	JLabel time,title,record,select;
+	JLabel time,title,record,select, timer;
 	JComboBox<String> levelMenu;
 	
 	public WordLevelEditorFrame() {
@@ -52,19 +53,23 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		JButtonList.add(new JButton("Save Word"));			//Button 4 is save the new word button
 		JButtonList.get(3).setBackground(new Color(106, 185, 216));
 		JButtonList.get(3).addActionListener(this);
+		JButtonList.get(3).setPreferredSize(new Dimension(250, 95));
 		
 		JButtonList.add(new JButton("Delete Word"));		//Button 5 is delete a word button
 		JButtonList.get(4).setBackground(Color.red);
 		JButtonList.get(4).addActionListener(this);
+		JButtonList.get(4).setPreferredSize(new Dimension(250, 95));
 		
 		JButtonList.add(new JButton("<html>Create<br />Level</html>"));	//Button 6 is create a new level button
 		JButtonList.get(5).addActionListener(this);
 		JButtonList.get(5).setBackground(new Color(106, 185, 216));
+		JButtonList.get(5).setPreferredSize(new Dimension(175, 115));
 		
 		JButtonList.add(new JButton("<html>Delete<br />Level</html>")); //Button 7 is delete the current level button
 		JButtonList.get(6).setBackground(Color.red);
 		JButtonList.add(new JButton());		
 		JButtonList.get(6).addActionListener(this);
+		JButtonList.get(6).setPreferredSize(new Dimension(175, 115));
 		
 		ImageIcon upTri = new ImageIcon("res/upTriangle.png");
 		JButtonList.get(7).setSize(new Dimension(20, 20));
@@ -79,13 +84,16 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		JButtonList.get(8).setIcon(new ImageIcon(down));
 		JButtonList.get(8).addActionListener(this);
 		
-		levelLabel = new JLabel("Level #: " + num);
+		levelLabel = new JLabel("Level #: " + num, SwingConstants.CENTER);
 		levelLabel.setBackground(Color.WHITE);
 		levelLabel.setLayout(new FlowLayout());
 		levelLabel.add(JButtonList.get(7));
 		levelLabel.add(JButtonList.get(8));	
 		levelLabel.setOpaque(true);
-		levelLabel.setPreferredSize(new Dimension(115, 115));
+		levelLabel.setPreferredSize(new Dimension(175, 115));
+		
+		timer = new JLabel("Time: " + seconds + " seconds");
+		timer.setLayout(new FlowLayout());
 		
 		listModel = new DefaultListModel();
 	
@@ -117,6 +125,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			JButtonList.get(4).setFont(rockSalt.deriveFont(25f));
 			JButtonList.get(5).setFont(rockSalt.deriveFont(20f));
 			JButtonList.get(6).setFont(rockSalt.deriveFont(20f));		
+			levelLabel.setFont(rockSalt.deriveFont(20f));
+			timer.setFont(new Font("Consolas", Font.PLAIN, 20));
 		} catch (FontFormatException|IOException e) {}
 		
 		panel.setLayout(new GridBagLayout());
@@ -140,6 +150,10 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		c2.gridx = 2;
 		c2.gridy = 2;
 		panel.add(JButtonList.get(1),c2);
+		
+		c2.gridx = 0;
+		c2.gridy = 3;
+		panel.add(timer, c2);
 		
 		c2.gridx =2;
 		c2.gridy =3;
