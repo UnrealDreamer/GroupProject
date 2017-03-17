@@ -17,6 +17,6 @@ public class Game {
 	}
 	public void moveToSpelling(User u){
 		back = new BackEnd(u);
-		spelling = new spellingWindow();
+		spelling = new spellingWindow(back);
 	}
 }
