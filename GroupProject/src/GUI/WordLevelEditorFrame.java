@@ -41,7 +41,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		record = new JLabel("Record");
 		
 		JButtonList.add(new JButton()); //Button 1 is X button at top right
-		
+
 		JButtonList.add(new JButton());
 		microphone = new ImageIcon("res/microphone.png");
 		JButtonList.get(1).setSize(new Dimension(80,80));
@@ -180,10 +180,6 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		c2.gridx = 2;
 		c2.gridy = 5;
 		panel.add(JButtonList.get(6),c2);
- 
-//		c2.gridx = 1;
-//		c2.gridy =4;
-//		panel.add(JButtonList.get(7),c2);
 		
 		wordPane.setLayout(new GridBagLayout());
 		GridBagConstraints wordcon = new GridBagConstraints();
@@ -207,14 +203,16 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	public static void main(String[] args) {
 		WordLevelEditorFrame window = new WordLevelEditorFrame();
-//		System.out.println(num);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getActionCommand().equals(JButtonList.get(3).getText()))
-			listModel.addElement(wordAdd.getText());
+		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
+			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
+				if(wordAdd.getText().indexOf(" ") == -1)
+					listModel.addElement(wordAdd.getText());
+		}
 		
 		if(e.getActionCommand().equals(JButtonList.get(4).getText()))
 			listModel.removeElementAt(list.getSelectedIndex());
@@ -222,7 +220,6 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
 			levelMenu.addItem(Integer.toString(num));
 		
-
 		if(e.getActionCommand().equals(JButtonList.get(6).getText()))
 			levelMenu.removeItem(levelMenu.getSelectedItem());
 		
@@ -236,11 +233,17 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 				levelLabel.setText("Level #: " + num);
 			}
 		}
-		
+		if(e.getSource().equals(JButtonList.get(1))){
+			
+		}
 	}
 
 	@Override
+	//public void timerSet(int time){
+		
+	//}
 	public void focusGained(FocusEvent f) {
+	
 		if(f.getSource() == wordAdd && wordAdd.getText().equals("Enter a new word to add")) 
 			wordAdd.setText("");
 	}
