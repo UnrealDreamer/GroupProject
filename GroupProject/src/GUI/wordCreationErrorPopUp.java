@@ -32,7 +32,7 @@ public class wordCreationErrorPopUp implements ActionListener {
 	{
 		frame=new JFrame("Word Creation Error");
 		panel=new JPanel();
-		errorStatement=new JLabel("   Can not enter more than one word. Try Again.");
+		errorStatement=new JLabel("   Can not enter spaces, special characters, or numbers as input. Try Again.");
 		confirm=new JButton("Ok");
 		confirm.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
