@@ -37,6 +37,9 @@ public class BackEnd
 	
 ///////////////////USERS///////////////////
 	
+	public User getUser(){
+		return currentU;
+	}
 	//writes out new user info into UserInfo.xml
 	private void saveUsers() 
 	{
@@ -80,34 +83,26 @@ public class BackEnd
 		}
 	}
 	
-	public String getUserName() {
-		return currentU.getName();
-	}
-	
-	public int getUserLevel() {
-		return currentU.getLastLevel();
-	}
-	
 ///////////////////WORDS///////////////////
 	
 	//checks the user input against the correct spelling of the word
-	public ArrayList<Boolean> checkSpelling(Word correct, Word input) 
+	public ArrayList<Boolean> checkSpelling(Word correct, String input) 
 	{
-		int min = Math.min(correct.getSpelling().length(), input.getSpelling().length());
+		int min = Math.min(correct.getSpelling().length(), input.length());
 		ArrayList<Boolean> red = new ArrayList<Boolean>();
 		//sets red for incorrect parts of word
 		for(int i = 0; i < min;i++) 
 		{
-			if(correct.getSpelling().charAt(i)==input.getSpelling().charAt(i))
+			if(correct.getSpelling().charAt(i)==input.charAt(i))
 				red.add(false);
 			else
 				red.add(true);
 		}
 		//if there are remaining parts of the word (input is bigger than word)
 		//sets remaining parts to red
-		if(red.size()<input.getSpelling().length()) 
+		if(red.size()<input.length()) 
 		{
-			for(int i = red.size(); i < input.getSpelling().length();i++) 
+			for(int i = red.size(); i < input.length();i++) 
 			{
 				red.add(true);
 			}
@@ -283,6 +278,9 @@ public class BackEnd
 	//returns next word
 	public Word nextWord(Word word, boolean spelledRight) 
 	{
+		if(word == null){
+			return levels.get(currentU.getLastLevel()).get(0);
+		}
 		if(spelledRight)
 		{
 			currentU.addWord(word);
@@ -304,7 +302,7 @@ public class BackEnd
 					//if at highest word returns first word of next level
 					c++;
 					index = 0;
-					currentU.setLastLevel(getUserLevel()+1);
+					currentU.setLastLevel(getUser().getLastLevel()+1);
 					if(!alreadySpelt(levels.get(c).get(index)))
 						return levels.get(c).get(index);
 					else
