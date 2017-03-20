@@ -3,11 +3,11 @@
 	<User>
 		<Username>test</Username>
 		<age>0</age>
-		<words>racial</words>
+		<words>age</words>
 	</User>
 	<User>
 		<Username>Joe</Username>
 		<age>10</age>
-		<words>character porcupine</words>
+		<words>bed</words>
 	</User>
 </UserInfo>

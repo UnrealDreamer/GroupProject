@@ -107,6 +107,7 @@ public class XMLParser {
 					age = Integer.parseInt(eElement.getElementsByTagName("age").item(0).getTextContent());
 					String word = (eElement.getElementsByTagName("words").item(0).getTextContent());
 					String[] wordList = word.split("\\s");
+					int y = 0;
 					for(String s : wordList)
 					{
 						u.addWord(list.get(s));
@@ -139,7 +140,7 @@ public class XMLParser {
 				for(int i = 0; i < user[ind].getCorrectlySpelt().size(); i++)
 				{
 					construct.write(user[ind].getCorrectlySpelt().get(i).getSpelling());
-					if(i < user[ind].getCorrectlySpelt().size() - 1)
+					if(i > user[ind].getCorrectlySpelt().size() - 1)
 						construct.write(" ");
 				}
 				construct.write( "</" + elements[2] + '>');
