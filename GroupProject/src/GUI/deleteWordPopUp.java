@@ -6,7 +6,6 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -28,14 +27,16 @@ public class deleteWordPopUp implements ActionListener {
 	private JButton confirm;
 	private JButton reject;
 	private String word;
+	private WordLevelEditorFrame editor;
 	private DeleteAudioFile kepOut = new DeleteAudioFile();
 	public int choice = 0;
 	
-	public deleteWordPopUp(String save)
+	public deleteWordPopUp(WordLevelEditorFrame editor, String save)
 	{
 		word = save;
 		frame=new JFrame("Delete Word");
 		panel=new JPanel();
+		this.editor = editor;
 		question=new JLabel("   Are you sure you want to delete: "+word+"?");
 		confirm=new JButton("Yes, I am sure.");
 		reject=new JButton("No, I like the word: "+word);
@@ -73,6 +74,7 @@ public class deleteWordPopUp implements ActionListener {
 		c.gridy=2;
 		panel.add(reject,c);
 		frame.pack();
+//		frame.setSize(new Dimension(700, 200));
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		question.requestFocusInWindow();
@@ -80,18 +82,16 @@ public class deleteWordPopUp implements ActionListener {
 	}
 	public static void main(String[] args)
 	{
-		deleteWordPopUp x=new deleteWordPopUp("aaaaaaa");
+		deleteWordPopUp x=new deleteWordPopUp(new WordLevelEditorFrame(), "aaaaaaa");
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
 		if(eventName.equals("Yes, I am sure.")){
-			choice = 1;
+			editor.listModel.remove(editor.listModel.indexOf(word));
 			kepOut.delete(word);
 		}
-		else{
-			choice = 2;
-		}
+		else;
 		frame.dispose();
 	}
 }

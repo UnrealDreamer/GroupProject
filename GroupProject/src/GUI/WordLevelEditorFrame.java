@@ -254,7 +254,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		final boolean DeleteControl = false;
 		
 		if(e.getActionCommand().equals(JButtonList.get(4).getText())){
-			deleteWordPopUp popup = new deleteWordPopUp(listModel.get(list.getSelectedIndex()));
+			deleteWordPopUp popup = new deleteWordPopUp(this, listModel.get(list.getSelectedIndex()));
 			/*Thread t4 = new Thread(new Runnable() {
 		        public void run() {
 		        		System.out.println("loop");
@@ -263,9 +263,6 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		    			}
 		        }
 			});  */
-			if(popup.choice==1)
-				listModel.removeElementAt(list.getSelectedIndex());
-			
 		}
 		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
 			levelMenu.addItem(Integer.toString(num));
