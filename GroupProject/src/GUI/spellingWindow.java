@@ -268,7 +268,13 @@ public class spellingWindow implements FocusListener
 	
 	private void nextWord(boolean spelledRight) {
 		currentWord = back.nextWord(currentWord, spelledRight);
-		Microphone.fileReceive(currentWord.getSpelling());
+		Thread t1 = new Thread(new Runnable() {
+	        public void run() {
+	        	while(){}
+	        	Microphone.fileReceive(currentWord.getSpelling());
+	        }
+		});  
+		t1.start();
 	}
 
 	public class giveUpPopUp implements ActionListener {
