@@ -7,7 +7,7 @@ public class Game {
 	BackEnd back;
 	WelcomeScreen welcome;
 	spellingWindow spelling;
-	Game(){
+	public Game(){
 		welcome = new WelcomeScreen(this);
 		
 	}

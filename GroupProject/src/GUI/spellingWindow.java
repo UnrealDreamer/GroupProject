@@ -30,6 +30,7 @@ import javax.swing.text.Highlighter;
 
 import AudioParser.Microphone;
 import BackEnd.BackEnd;
+import BackEnd.Game;
 import BackEnd.Word;
 public class spellingWindow implements FocusListener
 {
@@ -70,7 +71,7 @@ public class spellingWindow implements FocusListener
 						if(b==false) {
 							underline(correct,wordEnter.getText());
 							canGiveUp = true;
-							break;
+							//break;
 						} else {
 							correctLetters++;
 						}
@@ -79,7 +80,6 @@ public class spellingWindow implements FocusListener
 						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
 						nextWord(true);
 						canGiveUp = false;
-						
 					}
 				} else if (arg0.getActionCommand().equals("giveUp") && canGiveUp) {
 					giveUpPopUp giveUpPop = new giveUpPopUp();
@@ -140,7 +140,7 @@ public class spellingWindow implements FocusListener
 		audioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				if (audioDelay==0) {
-					final double len = Microphone.lengthReturn("abound");
+					final double len = Microphone.lengthReturn(currentWord.getSpelling());
 					Thread t4 = new Thread(new Runnable(){
 						private long startTime = System.currentTimeMillis();
 						public void run(){
@@ -215,8 +215,14 @@ public class spellingWindow implements FocusListener
 		panel.add(exit,c);
 		panel.setBackground(new Color(250,128,114));
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setContentPane(panel);
+		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				new quitPopUp();
+			}
+		});
 
 		try 
 		{
@@ -237,7 +243,7 @@ public class spellingWindow implements FocusListener
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width, screenSize.height - 40);
 		frame.setVisible(true);
-
+		//first word
 		if(back.getUser().getCorrectlySpelt().size()==0) {
 			currentWord = back.nextWord(null, false);
 		} else {
@@ -248,7 +254,7 @@ public class spellingWindow implements FocusListener
 
 	}
 
-	public void setCurrentWord(Word w){
+	private void setCurrentWord(Word w){
 		currentWord = w;
 	}
 	public void focusGained(FocusEvent e) {
@@ -394,6 +400,8 @@ public class spellingWindow implements FocusListener
 				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 					if(quit) {
 						back.exit();
+						frame.dispose();
+						new Game();
 						//move back to welcome screen
 					}
 				}
