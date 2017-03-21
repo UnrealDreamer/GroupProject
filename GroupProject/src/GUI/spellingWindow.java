@@ -17,12 +17,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 import AudioParser.Microphone;
 import BackEnd.BackEnd;
@@ -44,56 +48,69 @@ public class spellingWindow implements FocusListener
 	private int audioDelay  = 0;
 	private BackEnd back;
 	private listener listener;
+	private boolean playing = true;
+	private boolean canGiveUp = false;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
 	private class listener implements ActionListener //underlining method
 	{
+		
+		private void nextWord(boolean spelledRight) {
+			currentWord = back.nextWord(currentWord, spelledRight);
+			Microphone.fileReceive(currentWord.getSpelling());
+		}
+		
 		public void actionPerformed(ActionEvent arg0)
 		{
-			if(arg0.getActionCommand().equals("underline")) {
-				underline(wordEnter.getText());
+			if(playing) {
+				if(arg0.getActionCommand().equals("wordEnter")) {
+					ArrayList<Boolean> correct = back.checkSpelling(currentWord, wordEnter.getText());
+					int correctLetters = 0;
+					for(boolean b:correct) {
+						if(b==false) {
+							underline(correct,wordEnter.getText());
+							canGiveUp = true;
+							break;
+						} else {
+							correctLetters++;
+						}
+					}
+					if(correctLetters == currentWord.getSpelling().length()) {
+						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
+						nextWord(true);
+						canGiveUp = false;
+						
+					}
+				} else if (arg0.getActionCommand().equals("giveUp") && canGiveUp) {
+					giveUpPopUp giveUpPop = new giveUpPopUp();
+				} else if (arg0.getActionCommand().equals("exit")) {
+					quitPopUp quit = new quitPopUp();
+				}
 			}
+
 		}
-		public void underline(String output)
+		private void underline(ArrayList<Boolean> correct, String input)
 		{
-			ArrayList<Boolean> a=new ArrayList();
-			a.add(true);//add method that returns boolean array
-			a.add(false);
-			a.add(true);
-			a.trimToSize();
+
 			try 
 			{
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
 				Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
-				for(int i=0;i<a.size();i++)
-				{
-					if((boolean)a.get(i)==false)
-					{
-						wordEnter.setSelectionColor(Color.YELLOW);
-						wordEnter.setSelectedTextColor(Color.BLACK);
-						wordEnter.setSelectionStart(i);
-						wordEnter.setSelectionEnd(i+1);
-						
-						
-						
-						/*Map attributes1 = rockSalt.getAttributes();
-						Map attributes2 = rockSalt.getAttributes();
-						attributes1.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-						attributes1.put(TextAttribute.SIZE, 35f);
-						attributes2.put(TextAttribute.SIZE, 35f);
-						Font f1 = rockSalt.deriveFont(attributes1);
-						Font f2 = rockSalt.deriveFont(attributes2);
-						wordEnter.set
-						*/
-						
-						
-						/*String output2=wordEnter.getText();
-						String wrongString=output2.substring(i,i+1);
-						wrongString=wrongString.toUpperCase();
-						System.out.println(wrongString); 
-						wordEnter.setText(output2.substring(0,i)+wrongString+output2.substring(i+1));	*/
-					}
+				Highlighter h = wordEnter.getHighlighter();
+
+				Highlighter.HighlightPainter yellowPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+
+				h.removeAllHighlights();
+
+				try {
+					for (int i = 0; i < correct.size(); i++){
+						if (correct.get(i) == false){
+							h.addHighlight(i,i+1,yellowPainter);
+						}
+					}		
+				} catch (BadLocationException e) {
+					e.printStackTrace();
 				}
 			}
 			catch (FontFormatException | IOException e) 
@@ -107,14 +124,14 @@ public class spellingWindow implements FocusListener
 	public spellingWindow(BackEnd back)
 	{
 		this.back = back;
-		
+
 		frame=new JFrame("");
 		panel=new JPanel();
 
 		title=new JLabel(" Spelling  ");
 		name=new JLabel("<Name>"); //Have to enter method that returns name
 		levelNum=new JLabel("<Level # : >");//Have to enter method that returns level number
-		
+
 		audioButton = new JButton();
 		volume = new ImageIcon("res/volume.png");
 		audioButton.setSize(new Dimension(125,125));
@@ -125,32 +142,35 @@ public class spellingWindow implements FocusListener
 				if (audioDelay==0) {
 					final double len = Microphone.lengthReturn("abound");
 					Thread t4 = new Thread(new Runnable(){
-											private long startTime = System.currentTimeMillis();
-											public void run(){
-												while(System.currentTimeMillis() - startTime < ((int)(len*1000))){}
-													audioDelay =0;
-												}
-											}
-					);
+						private long startTime = System.currentTimeMillis();
+						public void run(){
+							while(System.currentTimeMillis() - startTime < ((int)(len*1000))){}
+							audioDelay =0;
+						}
+					}
+							);
 					t4.start();
 					audioDelay++;
-					
-					
-					
-					Microphone.fileReceive("abound");
+
+
+
+					Microphone.fileReceive(currentWord.getSpelling());
 				}
-			  }
+			}
 		});
-		
+
 		this.listener = new listener();
-		
+
 		wordEnter=new RoundJTextField("Type the word... ");
 		wordEnter.addFocusListener(this);
 		wordEnter.addActionListener(listener);
-		
+		wordEnter.setActionCommand("wordEnter");
+
 		giveUp=new JButton("Give Up");
 		giveUp.setBackground(new Color(255,235,215));
-		
+		giveUp.addActionListener(listener);
+		giveUp.setActionCommand("giveUp");
+
 		exit = new JButton();
 		red = new ImageIcon("res/red.png");
 		exit.setSize(new Dimension(70,70));
@@ -159,44 +179,45 @@ public class spellingWindow implements FocusListener
 		exit.setOpaque(false);
 		exit.setContentAreaFilled(false);
 		exit.setBorderPainted(false);
+		exit.addActionListener(listener);
 
 		panel.setLayout(new GridBagLayout());	
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx=0;
 		c.gridy=0;
 		panel.add(giveUp,c);
-		
+
 		c.gridx = 2;
 		c.gridy = 1;
 		panel.add(title,c);
-		
+
 		c.fill = GridBagConstraints.RELATIVE;
 		c.gridx =2;
 		c.gridy = 2;
 		panel.add(wordEnter,c);
-		
+
 		c.gridx =1;
 		c.gridy =2;
 		panel.add(audioButton,c);
-		
+
 		c.gridx = 2;
 		c.gridy = 3;
 		panel.add(name,c);
-		
+
 		c.gridx =2;
 		c.gridy=4;
 		panel.add(levelNum,c);
-		
+
 		c.gridx =4;
 		c.gridy=0;
 		panel.add(exit,c);
 		panel.setBackground(new Color(250,128,114));
-		
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(panel);
-		
+
 		try 
 		{
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -212,11 +233,23 @@ public class spellingWindow implements FocusListener
 		{
 			e.printStackTrace();
 		}
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width, screenSize.height - 40);
 		frame.setVisible(true);
-		Microphone.fileReceive("abound");
+
+		if(back.getUser().getCorrectlySpelt().size()==0) {
+			currentWord = back.nextWord(null, false);
+		} else {
+			currentWord = back.nextWord(back.getUser().getCorrectlySpelt().get(back.getUser().getCorrectlySpelt().size()-1), false);
+		}
+
+		Microphone.fileReceive(currentWord.getSpelling());
+
+	}
+
+	public void setCurrentWord(Word w){
+		currentWord = w;
 	}
 	public void focusGained(FocusEvent e) {
 		wordEnter.setText("");
@@ -225,4 +258,238 @@ public class spellingWindow implements FocusListener
 		if(wordEnter.getText().trim().equals(""))
 			wordEnter.setText("Type a word...");
 	}
+
+	public class giveUpPopUp implements ActionListener {
+
+		private JFrame frame;
+		private JPanel panel;
+		private JLabel question;
+		private JButton confirm;
+		private JButton reject;
+		private boolean giveUp = false;
+		public giveUpPopUp()
+		{
+			playing = false;
+			
+			frame=new JFrame("Give Up");
+			panel=new JPanel();
+			question=new JLabel("   Are you sure you want to give up?");
+			confirm=new JButton("Yes, I am sure.");
+			reject=new JButton("No, I want to continue.");
+			confirm.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+				}
+			});
+			reject.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+				}
+			});
+			panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+			try 
+			{
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
+				Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
+				question.setFont(rockSalt.deriveFont(25f));
+				confirm.setFont(rockSalt.deriveFont(15f));
+				reject.setFont(rockSalt.deriveFont(15f));
+			}
+			catch (FontFormatException | IOException e) 
+			{
+				e.printStackTrace();
+			}
+			question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			reject.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			panel.setBackground(new Color(224,102,102));
+			confirm.setBackground(new Color(255,235,215));
+			reject.setBackground(new Color(255,235,215));
+			
+			frame.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					playing = true;
+					if(giveUp) {
+						//nextWord(currentWord,false);
+					}
+				}
+			});
+			
+			frame.setContentPane(panel);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			panel.setLayout(new GridBagLayout());	
+			GridBagConstraints c = new GridBagConstraints();
+			panel.add(question,c);
+			c.gridy=1;
+			c.gridx=0;
+			panel.add(confirm,c);
+			c.gridy=2;
+			panel.add(reject,c);
+			frame.pack();
+			frame.setResizable(false);
+			frame.setLocationRelativeTo(null);
+			question.requestFocusInWindow();
+			frame.setVisible(true);
+		}
+		public void actionPerformed(ActionEvent event) 
+		{
+			String eventName=event.getActionCommand();
+			if(eventName.equals("Yes, I am sure.")) {
+				giveUp = true;
+				frame.dispose();
+			}else {
+				giveUp = false;
+				frame.dispose();
+			}
+		}
+	}
+	private class quitPopUp implements ActionListener{
+
+		private JFrame frame;
+		private JPanel panel;
+		private JLabel question;
+		private JButton confirm;
+		private JButton reject;
+		private boolean quit = false;
+		
+		private void nextWord(boolean spelledRight) {
+			currentWord = back.nextWord(currentWord, spelledRight);
+			Microphone.fileReceive(currentWord.getSpelling());
+		}
+		
+		public quitPopUp()
+		{
+			playing = false;
+			
+			frame=new JFrame("Quit");
+			panel=new JPanel();
+			question=new JLabel("   Are you sure you want to quit game?");
+			confirm=new JButton("Yes, I am sure.");
+			reject=new JButton("No, I want to continue.");
+			confirm.addActionListener(this);
+			reject.addActionListener(this);
+			panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+			
+			try 
+			{
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
+				Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
+				question.setFont(rockSalt.deriveFont(25f));
+				confirm.setFont(rockSalt.deriveFont(15f));
+				reject.setFont(rockSalt.deriveFont(15f));
+			}
+			catch (FontFormatException | IOException e) 
+			{
+				e.printStackTrace();
+			}
+			question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			reject.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			panel.setBackground(new Color(224,102,102));
+			confirm.setBackground(new Color(255,235,215));
+			reject.setBackground(new Color(255,235,215));
+			
+			frame.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					if(quit) {
+						back.exit();
+						//move back to welcome screen
+					}
+				}
+			});
+			
+			frame.setContentPane(panel);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			panel.setLayout(new GridBagLayout());	
+			GridBagConstraints c = new GridBagConstraints();
+			panel.add(question,c);
+			c.gridy=1;
+			c.gridx=0;
+			panel.add(confirm,c);
+			c.gridy=2;
+			panel.add(reject,c);
+			frame.pack();
+			frame.setResizable(false);
+			frame.setLocationRelativeTo(null);
+			question.requestFocusInWindow();
+			frame.setVisible(true);
+		}
+		public void actionPerformed(ActionEvent event) 
+		{
+			String eventName=event.getActionCommand();
+			if(eventName.equals("Yes, I am sure.")) {
+				quit = true;
+				frame.dispose();
+			} else {
+				quit = false;
+				frame.dispose();
+			}
+			
+		}
+	}
+	private class wordRightPopUp implements ActionListener {
+
+		private JFrame frame;
+		private JPanel panel;
+		private JLabel question;
+		private JButton confirm;
+		public wordRightPopUp(String word)
+		{
+			playing = false;
+
+			frame=new JFrame("Congratulations!");
+			panel=new JPanel();
+			question=new JLabel("   Good job! You got the word \""+word+"\" right");
+			confirm=new JButton("Move to the next word!");
+			confirm.addActionListener(this);
+			panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+			try 
+			{
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf")));
+				Font rockSalt = Font.createFont(Font.TRUETYPE_FONT, new File("res/RockSalt.ttf"));
+				question.setFont(rockSalt.deriveFont(25f));
+				confirm.setFont(rockSalt.deriveFont(15f));
+			}
+			catch (FontFormatException | IOException e) 
+			{
+				e.printStackTrace();
+			}
+			question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			panel.setBackground(new Color(224,102,102));
+			confirm.setBackground(new Color(255,235,215));
+			frame.setContentPane(panel);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			panel.setLayout(new GridBagLayout());	
+			GridBagConstraints c = new GridBagConstraints();
+			panel.add(question,c);
+			c.gridy=1;
+			c.gridx=0;
+			panel.add(confirm,c);
+
+			frame.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					playing = true;
+				}
+			});
+
+			frame.pack();
+			frame.setResizable(false);
+			frame.setLocationRelativeTo(null);
+			question.requestFocusInWindow();
+			frame.setVisible(true);
+		}
+		public void actionPerformed(ActionEvent event) 
+		{
+			String eventName=event.getActionCommand();
+			if(eventName.equals("Move to the next word!")){
+				System.out.println("Yes");
+				frame.dispose();
+			}
+		}
+	}
+
 }
