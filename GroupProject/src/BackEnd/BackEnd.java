@@ -67,6 +67,20 @@ public class BackEnd
 			}
 		}
 		users.add(u);
+		if(u.getAge()<=5)
+			u.setLastLevel(1);
+		else if(u.getAge()<=6)
+			u.setLastLevel(2);
+		else if(u.getAge()<=7)
+			u.setLastLevel(3);
+		else if(u.getAge()<=8)
+			u.setLastLevel(4);
+		else if(u.getAge()<=8)
+			u.setLastLevel(5);
+		else if(u.getAge()<=9)
+			u.setLastLevel(6);
+		else
+			u.setLastLevel(7);
 		return u;
 	}
 	

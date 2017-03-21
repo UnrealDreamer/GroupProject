@@ -129,8 +129,8 @@ public class spellingWindow implements FocusListener
 		panel=new JPanel();
 
 		title=new JLabel(" Spelling  ");
-		name=new JLabel("<Name>"); //Have to enter method that returns name
-		levelNum=new JLabel("<Level # : >");//Have to enter method that returns level number
+		name=new JLabel(back.getUser().getName()); //Have to enter method that returns name
+		levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());//Have to enter method that returns level number
 
 		audioButton = new JButton();
 		volume = new ImageIcon("res/volume.png");
@@ -151,10 +151,12 @@ public class spellingWindow implements FocusListener
 							);
 					t4.start();
 					audioDelay++;
-
-
-
-					Microphone.fileReceive(currentWord.getSpelling());
+					Thread t2 = new Thread(new Runnable() {
+				        public void run() {
+				        	Microphone.fileReceive(currentWord.getSpelling());
+				        }
+					});  
+					t2.start();
 				}
 			}
 		});
@@ -249,13 +251,12 @@ public class spellingWindow implements FocusListener
 		} else {
 			currentWord = back.nextWord(back.getUser().getCorrectlySpelt().get(back.getUser().getCorrectlySpelt().size()-1), false);
 		}
-
-		Microphone.fileReceive(currentWord.getSpelling());
-
-	}
-
-	private void setCurrentWord(Word w){
-		currentWord = w;
+		Thread t1 = new Thread(new Runnable() {
+	        public void run() {
+	        	Microphone.fileReceive(currentWord.getSpelling());
+	        }
+		});  
+		t1.start();
 	}
 	public void focusGained(FocusEvent e) {
 		wordEnter.setText("");
