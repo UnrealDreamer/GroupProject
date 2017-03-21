@@ -255,10 +255,17 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		
 		if(e.getActionCommand().equals(JButtonList.get(4).getText())){
 			deleteWordPopUp popup = new deleteWordPopUp(listModel.get(list.getSelectedIndex()));
-			while(popup.choice==0) {}
-			if (popup.choice==1) {
+			/*Thread t4 = new Thread(new Runnable() {
+		        public void run() {
+		        		System.out.println("loop");
+		    			if (popup.choice==1) {
+		    				listModel.removeElementAt(list.getSelectedIndex());
+		    			}
+		        }
+			});  */
+			if(popup.choice==1)
 				listModel.removeElementAt(list.getSelectedIndex());
-			}
+			
 		}
 		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
 			levelMenu.addItem(Integer.toString(num));
