@@ -29,6 +29,7 @@ public class deleteWordPopUp implements ActionListener {
 	private JButton reject;
 	private String word;
 	private DeleteAudioFile kepOut = new DeleteAudioFile();
+	public int choice = 0;
 	
 	public deleteWordPopUp(String save)
 	{
@@ -79,17 +80,17 @@ public class deleteWordPopUp implements ActionListener {
 	}
 	public static void main(String[] args)
 	{
-		deleteWordPopUp x=new deleteWordPopUp("access");
+		deleteWordPopUp x=new deleteWordPopUp("aaaaaaa");
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
 		if(eventName.equals("Yes, I am sure.")){
-			System.out.println("Yes");
+			choice = 1;
 			kepOut.delete(word);
 		}
 		else{
-			System.out.println("No");
+			choice = 2;
 		}
 		frame.dispose();
 	}

@@ -11,23 +11,40 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import AudioParser.AudioPlaylist;
+import AudioParser.Microphone;
+import BackEnd.BackEnd;
+
 public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	private static final JFrame frame = new JFrame("Editor");
 	private static ArrayList<JButton> JButtonList = new ArrayList<JButton>();
 	private static int num = 1;
 	private static int seconds = 0;
+	private BackEnd backend;
 	JPanel panel, wordPane;
 	JLabel levelLabel;
 	JTextField wordAdd;
 	ImageIcon microphone;
 	JScrollPane scrollPane;
 	JList list;
-	DefaultListModel listModel;
+	DefaultListModel<String> listModel;
 	JLabel time,title,record,select, timer;
 	JComboBox<String> levelMenu;
+	int recordNum = 0;
+	String wordToReplay = "";
+	boolean tyu = false;
+	AudioPlaylist au = new AudioPlaylist();
+	Thread t1 = new Thread(new Runnable() {
+        public void run() {
+        	System.out.println("rwqegarsdsdfgsdfs");
+       	 au.recordStart(wordAdd.getText());
+       	 System.out.println("rwqegarsdsdfgsdfs");
+        }
+	});  
 	
 	public WordLevelEditorFrame() {
+		this.backend = backend;
 		
 		panel = new JPanel();
 		panel.setPreferredSize(new Dimension(800,900));
@@ -47,8 +64,10 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		JButtonList.get(1).setSize(new Dimension(80,80));
 		Image img = microphone.getImage().getScaledInstance(JButtonList.get(1).getWidth(),JButtonList.get(1).getWidth(), java.awt.Image.SCALE_SMOOTH);
 		JButtonList.get(1).setIcon(new ImageIcon(img));
+		JButtonList.get(1).addActionListener(this);
 		
-		JButtonList.add(new JButton("Replay"));				//Button 3 is replay button
+		JButtonList.add(new JButton("Replay"));
+		JButtonList.get(2).addActionListener(this);//Button 3 is replay button
 		
 		JButtonList.add(new JButton("Save Word"));			//Button 4 is save the new word button
 		JButtonList.get(3).setBackground(new Color(106, 185, 216));
@@ -95,7 +114,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		timer = new JLabel("Time: " + seconds + " seconds");
 		timer.setLayout(new FlowLayout());
 		
-		listModel = new DefaultListModel();
+		listModel = new DefaultListModel<String>();
 	
 		list = new JList(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -207,16 +226,40 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		if(e.getSource().equals(JButtonList.get(2))){
+			Microphone.fileReceive(wordToReplay);
+		}
+		if(e.getSource().equals(JButtonList.get(1))){
+			if (recordNum ==0) {
+				if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
+				else {
+					recordNum=1;
+					wordToReplay = wordAdd.getText();
+					t1.start();
+				}
+			}
+			else {
+				if (recordNum==1) {
+					au.recordFinish();
+					recordNum=0;
+				}
+			}
+		}
 		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
 			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
 				if(wordAdd.getText().indexOf(" ") == -1)
 					listModel.addElement(wordAdd.getText());
 		}
 		
-		if(e.getActionCommand().equals(JButtonList.get(4).getText()))
-			listModel.removeElementAt(list.getSelectedIndex());
+		final boolean DeleteControl = false;
 		
+		if(e.getActionCommand().equals(JButtonList.get(4).getText())){
+			deleteWordPopUp popup = new deleteWordPopUp(listModel.get(list.getSelectedIndex()));
+			while(popup.choice==0) {}
+			if (popup.choice==1) {
+				listModel.removeElementAt(list.getSelectedIndex());
+			}
+		}
 		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
 			levelMenu.addItem(Integer.toString(num));
 		
@@ -233,10 +276,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 				levelLabel.setText("Level #: " + num);
 			}
 		}
-		if(e.getSource().equals(JButtonList.get(1))){
-			
-		}
 	}
+	
 
 	@Override
 	//public void timerSet(int time){

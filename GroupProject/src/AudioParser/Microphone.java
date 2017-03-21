@@ -95,7 +95,7 @@ public class Microphone {
      
     public static void main(String[] args) {
 		Microphone tse = new Microphone();
-    	tse.fileReceive("finished");
+    	tse.fileReceive("aaaaaaa");
     }
  
 }

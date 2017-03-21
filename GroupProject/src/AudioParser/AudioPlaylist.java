@@ -11,7 +11,7 @@ import javax.sound.sampled.*;
  * A sample program is to demonstrate how to record sound in Java
  * author: www.codejava.net
  */
-public class AudioPlaylist {
+public class AudioPlaylist{
 	//HashMap<String, Audio> mapimport javax.sound.sampled.*;
 
 
@@ -27,6 +27,7 @@ public class AudioPlaylist {
 	AudioInputStream ais;
 	
 	DataLine.Info info;
+
 
 	/**
 	 * Defines an audio format
@@ -87,11 +88,5 @@ public class AudioPlaylist {
 		line.close();
 		return true;
 	}
-	/**
-	 * Entry to run the program
-	 */
-	public static void main(String[] args) {
-		AudioPlaylist recorder = new AudioPlaylist();
-		recorder.recordStart("");
-	}
+	
 }
