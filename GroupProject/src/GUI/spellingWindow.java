@@ -104,7 +104,7 @@ public class spellingWindow implements FocusListener
 
 				try {
 					for (int i = 0; i < correct.size(); i++){
-						if (correct.get(i) == false){
+						if (correct.get(i) == true){
 							h.addHighlight(i,i+1,yellowPainter);
 						}
 					}		
