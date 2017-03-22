@@ -423,7 +423,6 @@ public class spellingWindow implements FocusListener
 				new Game();
 			} else {
 				quitFrame.dispose();
-				frame.dispose();
 			}
 			
 		}
