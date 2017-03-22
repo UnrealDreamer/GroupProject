@@ -70,12 +70,12 @@ public class spellingWindow implements FocusListener
 						if(b==true) {
 							underline(wrong,wordEnter.getText());
 							canGiveUp = true;
-							//break;
+							
 						} else {
 							correctLetters++;
 						}
 					}
-					if(correctLetters == currentWord.getSpelling().length()) {
+					if(correctLetters == currentWord.getSpelling().length() && wordEnter.getText().length()==currentWord.getSpelling().length()) {
 						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
 						nextWord(true);
 						canGiveUp = false;
