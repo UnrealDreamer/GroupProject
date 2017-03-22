@@ -37,9 +37,9 @@ public class deleteWordPopUp implements ActionListener {
 		frame=new JFrame("Delete Word");
 		panel=new JPanel();
 		this.editor = editor;
-		question=new JLabel("   Are you sure you want to delete: "+word+"?");
+		question=new JLabel("   Are you sure you want to delete \""+word+"\"?");
 		confirm=new JButton("Yes, I am sure.");
-		reject=new JButton("No, I like the word: "+word);
+		reject=new JButton("No, I like the word.");
 		confirm.addActionListener(this);
 		reject.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
