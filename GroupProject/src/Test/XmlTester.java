@@ -18,13 +18,15 @@ public class XmlTester {
 /*		String[] s ={"spelling", "level"};
 		Word[] es ={new Word(1001, "race", 1), new Word(2001, "racial", 3), new Word(3001, "flamingo", 3), new Word(3002, "character", 3), new Word(3003, "porcupine", 3)};
 		XMLParser.save(s, es, "res\\WordList.xml");*/
-		XMLParser.load("res\\WordList.xml");
+	/*	XMLParser.load("res\\WordList.xml");
 		XMLParser.loadUsers("res\\UserInfo.xml");
 		for(User u : XMLParser.users)
 		{	
 			for(Word w : u.getCorrectlySpelt())
 				System.out.println("Word: " + w.getSpelling());
 			System.out.println();
-		}
+		}*/
+		User u = new User();
+		XMLParser.save(new String[]{"Username", "age", "words"}, u.getCorrectlySpelt(), path);
 	}
 }
