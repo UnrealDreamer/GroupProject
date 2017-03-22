@@ -43,7 +43,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
         }
 	});  
 	
-	public WordLevelEditorFrame() {
+	public WordLevelEditorFrame(BackEnd backend) {
 		this.backend = backend;
 		
 		panel = new JPanel();
@@ -221,9 +221,20 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		WordLevelEditorFrame window = new WordLevelEditorFrame();
+		WordLevelEditorFrame window = new WordLevelEditorFrame(new BackEnd());
 	}
 
+	private boolean exclude(String s, String[] excludedCharacters)
+	{
+		boolean stillTrue = true;
+		for(int i = 0; i < excludedCharacters.length && stillTrue; i++)
+		{
+			if(s.contains(excludedCharacters[i]))
+				stillTrue = false;
+		}
+		return stillTrue;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(JButtonList.get(2))){
@@ -247,23 +258,24 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		}
 		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
 			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
-				if(wordAdd.getText().indexOf(" ") == -1)
-					listModel.addElement(wordAdd.getText());
+			{
+				if(wordAdd.getText().indexOf(" ") == -1 && exclude(wordAdd.getText(), new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+																									,"`","~","!","@", "#", "$", "%", "^",
+																									"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
+																									":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"})){
+					addWordPopUp popup = new addWordPopUp(wordAdd.getText());
+					System.out.println(popup.getBoolean());
+					if(popup.getBoolean() == true)
+						listModel.addElement(wordAdd.getText());
+				}
+				else new wordCreationErrorPopUp();
+			}
 		}
-		
-		final boolean DeleteControl = false;
 		
 		if(e.getActionCommand().equals(JButtonList.get(4).getText())){
 			deleteWordPopUp popup = new deleteWordPopUp(this, listModel.get(list.getSelectedIndex()));
-			/*Thread t4 = new Thread(new Runnable() {
-		        public void run() {
-		        		System.out.println("loop");
-		    			if (popup.choice==1) {
-		    				listModel.removeElementAt(list.getSelectedIndex());
-		    			}
-		        }
-			});  */
 		}
+		
 		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
 			levelMenu.addItem(Integer.toString(num));
 		
@@ -281,12 +293,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			}
 		}
 	}
-	
 
-	@Override
-	//public void timerSet(int time){
-		
-	//}
 	public void focusGained(FocusEvent f) {
 	
 		if(f.getSource() == wordAdd && wordAdd.getText().equals("Enter a new word to add")) 

@@ -28,7 +28,7 @@ public class addWordPopUp implements ActionListener {
 	private JButton confirm;
 	private JButton reject;
 	private String word;
-	private DeleteAudioFile kepOut = new DeleteAudioFile();
+	private boolean yes = false;
 	
 	public addWordPopUp(String tes)
 	{
@@ -77,18 +77,19 @@ public class addWordPopUp implements ActionListener {
 		question.requestFocusInWindow();
 		frame.setVisible(true);
 	}
-	public static void main(String[] args)
+	
+	public boolean getBoolean()
 	{
-		addWordPopUp x=new addWordPopUp("access");
+		return yes;
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
 		String eventName=event.getActionCommand();
+		
 		if(eventName.equals("Yes, I am sure.")){
-			System.out.println("Yes");
+			yes = true;
 		}else{
-			System.out.println("No");
-			kepOut.delete(word);
+			yes = false;
 		}
 		frame.dispose();
 	}
