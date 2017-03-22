@@ -417,7 +417,7 @@ public class spellingWindow implements FocusListener
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
-				back.exit();
+				//back.exit();
 				quitFrame.dispose();
 				frame.dispose();
 				new Game();
