@@ -56,10 +56,6 @@ public class spellingWindow implements FocusListener
 	private class listener implements ActionListener //underlining method
 	{
 		
-		private void nextWord(boolean spelledRight) {
-			currentWord = back.nextWord(currentWord, spelledRight);
-		}
-		
 		public void actionPerformed(ActionEvent arg0)
 		{
 			if(playing) {
@@ -85,6 +81,9 @@ public class spellingWindow implements FocusListener
 				} else if (arg0.getActionCommand().equals("exit")) {
 					quitPopUp quit = new quitPopUp();
 				}
+			}
+			if(canGiveUp) {
+				giveUp.setBackground(Color.green);
 			}
 
 		}
@@ -267,6 +266,8 @@ public class spellingWindow implements FocusListener
 	}
 	
 	private void nextWord(boolean spelledRight) {
+		if(back.nextWord(currentWord, spelledRight).getLevel()>currentWord.getLevel())
+			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
 		currentWord = back.nextWord(currentWord, spelledRight);
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
@@ -351,7 +352,7 @@ public class spellingWindow implements FocusListener
 	}
 	private class quitPopUp implements ActionListener{
 
-		private JFrame frame;
+		private JFrame quitFrame;
 		private JPanel panel;
 		private JLabel question;
 		private JButton confirm;
@@ -364,7 +365,7 @@ public class spellingWindow implements FocusListener
 		{
 			playing = false;
 			
-			frame=new JFrame("Quit");
+			quitFrame=new JFrame("Quit");
 			panel=new JPanel();
 			question=new JLabel("   Are you sure you want to quit game?");
 			confirm=new JButton("Yes, I am sure.");
@@ -393,19 +394,8 @@ public class spellingWindow implements FocusListener
 			confirm.setBackground(new Color(255,235,215));
 			reject.setBackground(new Color(255,235,215));
 			
-			frame.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-					if(quit) {
-						back.exit();
-						frame.dispose();
-						new Game();
-						//move back to welcome screen
-					}
-				}
-			});
-			
-			frame.setContentPane(panel);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			quitFrame.setContentPane(panel);
+			quitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			panel.setLayout(new GridBagLayout());	
 			GridBagConstraints c = new GridBagConstraints();
 			panel.add(question,c);
@@ -414,21 +404,23 @@ public class spellingWindow implements FocusListener
 			panel.add(confirm,c);
 			c.gridy=2;
 			panel.add(reject,c);
-			frame.pack();
-			frame.setResizable(false);
-			frame.setLocationRelativeTo(null);
+			quitFrame.pack();
+			quitFrame.setResizable(false);
+			quitFrame.setLocationRelativeTo(null);
 			question.requestFocusInWindow();
-			frame.setVisible(true);
+			quitFrame.setVisible(true);
 			
 		}
 		public void actionPerformed(ActionEvent event) 
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
-				quit = true;
+				back.exit();
+				quitFrame.dispose();
 				frame.dispose();
+				new Game();
 			} else {
-				quit = false;
+				quitFrame.dispose();
 				frame.dispose();
 			}
 			
