@@ -181,6 +181,7 @@ public class spellingWindow implements FocusListener
 		exit.setContentAreaFilled(false);
 		exit.setBorderPainted(false);
 		exit.addActionListener(listener);
+		exit.setActionCommand("exit");
 
 		panel.setLayout(new GridBagLayout());	
 		GridBagConstraints c = new GridBagConstraints();
