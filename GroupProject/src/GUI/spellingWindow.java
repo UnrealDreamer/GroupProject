@@ -84,6 +84,8 @@ public class spellingWindow implements FocusListener
 			}
 			if(canGiveUp) {
 				giveUp.setBackground(Color.green);
+			} else {
+				giveUp.setBackground(new Color(255,235,215));
 			}
 
 		}
