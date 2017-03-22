@@ -58,7 +58,6 @@ public class spellingWindow implements FocusListener
 		
 		private void nextWord(boolean spelledRight) {
 			currentWord = back.nextWord(currentWord, spelledRight);
-			Microphone.fileReceive(currentWord.getSpelling());
 		}
 		
 		public void actionPerformed(ActionEvent arg0)
@@ -270,14 +269,13 @@ public class spellingWindow implements FocusListener
 		currentWord = back.nextWord(currentWord, spelledRight);
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
-	        	while(){}
 	        	Microphone.fileReceive(currentWord.getSpelling());
 	        }
 		});  
 		t1.start();
 	}
 
-	public class giveUpPopUp implements ActionListener {
+	private class giveUpPopUp implements ActionListener {
 
 		private JFrame frame;
 		private JPanel panel;
@@ -294,14 +292,8 @@ public class spellingWindow implements FocusListener
 			question=new JLabel("   Are you sure you want to give up?");
 			confirm=new JButton("Yes, I am sure.");
 			reject=new JButton("No, I want to continue.");
-			confirm.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-				}
-			});
-			reject.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-				}
-			});
+			confirm.addActionListener(this);
+			reject.addActionListener(this);
 			panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
 			try 
@@ -324,15 +316,6 @@ public class spellingWindow implements FocusListener
 			confirm.setBackground(new Color(255,235,215));
 			reject.setBackground(new Color(255,235,215));
 			
-			frame.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-					playing = true;
-					if(giveUp) {
-						nextWord(false);
-					}
-				}
-			});
-			
 			frame.setContentPane(panel);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			panel.setLayout(new GridBagLayout());	
@@ -348,16 +331,20 @@ public class spellingWindow implements FocusListener
 			frame.setLocationRelativeTo(null);
 			question.requestFocusInWindow();
 			frame.setVisible(true);
+			
 		}
 		public void actionPerformed(ActionEvent event) 
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
+				frame.dispose();
 				giveUp = true;
-				frame.dispose();
+				nextWord(false);
+				playing = true;
 			}else {
-				giveUp = false;
 				frame.dispose();
+				giveUp = false;
+				playing = true;
 			}
 		}
 	}
@@ -431,6 +418,7 @@ public class spellingWindow implements FocusListener
 			frame.setLocationRelativeTo(null);
 			question.requestFocusInWindow();
 			frame.setVisible(true);
+			
 		}
 		public void actionPerformed(ActionEvent event) 
 		{
@@ -487,13 +475,6 @@ public class spellingWindow implements FocusListener
 			c.gridx=0;
 			panel.add(confirm,c);
 
-			frame.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-					playing = true;
-					nextWord(true);
-				}
-			});
-
 			frame.pack();
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(null);
@@ -504,8 +485,9 @@ public class spellingWindow implements FocusListener
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Move to the next word!")){
-				System.out.println("Yes");
 				frame.dispose();
+				playing = true;
+				nextWord(true);
 			}
 		}
 	}
