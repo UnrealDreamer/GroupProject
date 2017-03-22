@@ -13,7 +13,7 @@ public class Game {
 	}
 	public static void main(String[] args){
 		Game game = new Game();
-		
+		                                                                                           
 	}
 	public void moveToSpelling(User u){
 		back = new BackEnd(u);
