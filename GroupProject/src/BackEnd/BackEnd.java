@@ -107,7 +107,7 @@ public class BackEnd
 		//sets red for incorrect parts of word
 		for(int i = 0; i < min;i++) 
 		{
-			if(correct.getSpelling().charAt(i)==input.charAt(i))
+			if(correct.getSpelling().substring(i,i+1).equalsIgnoreCase(input.substring(i,i+1)))
 				red.add(false);
 			else
 				red.add(true);
