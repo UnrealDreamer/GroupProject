@@ -58,46 +58,49 @@ public class spellingWindow implements FocusListener
 		
 		public void actionPerformed(ActionEvent arg0)
 		{
-			if(!playing) {
-				if(arg0.getActionCommand().equals("wordEnter")) {
-					ArrayList<Boolean> wrong = back.checkSpelling(currentWord, wordEnter.getText());
-					int correctLetters = 0;
-					boolean spelledWrong = false;
-					for(boolean b:wrong) {
-						if(b==true) {
-							underline(wrong,wordEnter.getText());
-							canGiveUp = true;
-							spelledWrong = true;
-							break;
-						} else {
-							correctLetters++;
-						}
-					}
-					
-					if(correctLetters<currentWord.getSpelling().length() && !spelledWrong)
-						spelledWrong = true;
-					
-					if(correctLetters == currentWord.getSpelling().length() && wordEnter.getText().length()==currentWord.getSpelling().length()) {
-						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
-						canGiveUp = false;
-					}
-					if (wordEnter.getText().length() < currentWord.getSpelling().length() && spelledWrong) {
-						String newString = wordEnter.getText();
-						for(int i = 0; i < currentWord.getSpelling().length()-wordEnter.getText().length();i++) {
-							newString += " ";
-						}
-						wordEnter.setText(newString);
+			
+			if(arg0.getActionCommand().equals("wordEnter")) {
+				ArrayList<Boolean> wrong = back.checkSpelling(currentWord, wordEnter.getText());
+				int correctLetters = 0;
+				boolean spelledWrong = false;
+				for(boolean b:wrong) {
+					if(b==true) {
 						underline(wrong,wordEnter.getText());
-						actionPerformed(arg0);
+						canGiveUp = true;
+						spelledWrong = true;
+						break;
+					} else {
+						correctLetters++;
 					}
-				} else if (arg0.getActionCommand().equals("giveUp") && canGiveUp) {
-					giveUpPopUp giveUpPop = new giveUpPopUp();
-				} else if (arg0.getActionCommand().equals("exit")) {
-					quitPopUp quit = new quitPopUp();
 				}
+				
+				if(correctLetters<currentWord.getSpelling().length() && !spelledWrong)
+					spelledWrong = true;
+				
+				if(correctLetters == currentWord.getSpelling().length() && wordEnter.getText().length()==currentWord.getSpelling().length()) {
+					wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
+					canGiveUp = false;
+				}
+				if (wordEnter.getText().length() < currentWord.getSpelling().length() && spelledWrong) {
+					String newString = wordEnter.getText();
+					for(int i = 0; i < currentWord.getSpelling().length()-wordEnter.getText().length();i++) {
+						newString += " ";
+					}
+					wordEnter.setText(newString);
+					underline(wrong,wordEnter.getText());
+					actionPerformed(arg0);
+				}
+			} else if (arg0.getActionCommand().equals("giveUp") && canGiveUp) {
+				giveUpPopUp giveUpPop = new giveUpPopUp();
+			} else if (arg0.getActionCommand().equals("exit")) {
+				quitPopUp quit = new quitPopUp();
 			}
-			if(canGiveUp) {
-				giveUp.setBackground(Color.green);
+			
+			if(!playing) {
+
+				if(canGiveUp) {
+					giveUp.setBackground(Color.green);
+				}
 			}
 
 		}
