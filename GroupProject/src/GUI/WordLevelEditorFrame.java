@@ -7,6 +7,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -263,8 +265,13 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 																									,"`","~","!","@", "#", "$", "%", "^",
 																									"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
 																									":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"})){
-					addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
-				
+					Path currentRelativePath = Paths.get("");
+					String s = currentRelativePath.toAbsolutePath().toString();
+					File f = new File(s+"/res/" + wordAdd.getText() +".wav");
+					if (f.exists() && !f.isDirectory()) {
+						addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
+					}
+					else new noAudioErrorPopUp();
 				}
 				else new wordCreationErrorPopUp();
 			}
