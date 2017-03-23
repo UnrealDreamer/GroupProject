@@ -28,9 +28,9 @@ public class addWordPopUp implements ActionListener {
 	private JButton confirm;
 	private JButton reject;
 	private String word;
-	private DeleteAudioFile kepOut = new DeleteAudioFile();
+	private WordLevelEditorFrame editor;
 	
-	public addWordPopUp(String tes)
+	public addWordPopUp(WordLevelEditorFrame editor, String tes)
 	{
 		word = tes;
 		frame=new JFrame("Add Word");
@@ -38,6 +38,7 @@ public class addWordPopUp implements ActionListener {
 		question=new JLabel("   Are you sure you want to add: "+word+"?");
 		confirm=new JButton("Yes, I am sure.");
 		reject=new JButton("No, I don't like the word: "+word);
+		this.editor = editor;
 		confirm.addActionListener(this);
 		reject.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -77,19 +78,14 @@ public class addWordPopUp implements ActionListener {
 		question.requestFocusInWindow();
 		frame.setVisible(true);
 	}
-	public static void main(String[] args)
+	
+	public void actionPerformed(ActionEvent e) 
 	{
-		addWordPopUp x=new addWordPopUp("access");
-	}
-	public void actionPerformed(ActionEvent event) 
-	{
-		String eventName=event.getActionCommand();
-		if(eventName.equals("Yes, I am sure.")){
-			System.out.println("Yes");
-		}else{
-			System.out.println("No");
-			kepOut.delete(word);
+		
+		if(e.getActionCommand().equals(confirm.getText())){
+			editor.listModel.addElement(word);;
 		}
+		
 		frame.dispose();
 	}
 }
