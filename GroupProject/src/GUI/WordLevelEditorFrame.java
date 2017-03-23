@@ -263,10 +263,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 																									,"`","~","!","@", "#", "$", "%", "^",
 																									"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
 																									":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"})){
-					addWordPopUp popup = new addWordPopUp(wordAdd.getText());
-					System.out.println(popup.getBoolean());
-					if(popup.getBoolean() == true)
-						listModel.addElement(wordAdd.getText());
+					addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
+				
 				}
 				else new wordCreationErrorPopUp();
 			}
