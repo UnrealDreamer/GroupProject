@@ -293,7 +293,7 @@ public class BackEnd
 	public Word nextWord(Word word, boolean spelledRight) 
 	{
 		if(word == null){
-			return levels.get(currentU.getLastLevel()).get(0);
+			return levels.get(currentU.getLastLevel()-1).get(0);
 		}
 		if(spelledRight)
 		{
