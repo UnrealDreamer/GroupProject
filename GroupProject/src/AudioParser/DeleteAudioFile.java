@@ -10,12 +10,15 @@ public class DeleteAudioFile
 			Path currentRelativePath = Paths.get("");
 			String s = currentRelativePath.toAbsolutePath().toString();
 			File file = new File(s + "/res/" + name + ".wav");
-			
+			try{
 			if(file.delete()){
 				System.out.print("good");
 			}
 			else {
-		System.out.print("nope");
+				System.out.print("nope");
+			}
+			} catch() {
+				
 			}
 		return false;
 	}
