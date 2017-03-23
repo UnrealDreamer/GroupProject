@@ -49,7 +49,7 @@ public class spellingWindow implements FocusListener
 	private int audioDelay  = 0;
 	private BackEnd back;
 	private listener listener;
-	private boolean playing = true;
+	private boolean playing = false;
 	private boolean canGiveUp = false;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
@@ -58,7 +58,7 @@ public class spellingWindow implements FocusListener
 		
 		public void actionPerformed(ActionEvent arg0)
 		{
-			if(playing) {
+			if(!playing) {
 				if(arg0.getActionCommand().equals("wordEnter")) {
 					ArrayList<Boolean> wrong = back.checkSpelling(currentWord, wordEnter.getText());
 					int correctLetters = 0;
@@ -165,7 +165,9 @@ public class spellingWindow implements FocusListener
 					audioDelay++;
 					Thread t2 = new Thread(new Runnable() {
 				        public void run() {
+				        	playing = true;
 				        	Microphone.fileReceive(currentWord.getSpelling());
+				        	playing = false;
 				        }
 					});  
 					t2.start();
@@ -257,6 +259,7 @@ public class spellingWindow implements FocusListener
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width, screenSize.height - 40);
+		frame.setResizable(false);
 		frame.setVisible(true);
 		//first word
 		if(back.getUser().getCorrectlySpelt().size()==0) {
@@ -266,7 +269,9 @@ public class spellingWindow implements FocusListener
 		}
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
+	        	playing = true;
 	        	Microphone.fileReceive(currentWord.getSpelling());
+	        	playing = false;
 	        }
 		});  
 		t1.start();
@@ -285,7 +290,9 @@ public class spellingWindow implements FocusListener
 		currentWord = back.nextWord(currentWord, spelledRight);
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
+	        	playing = true;
 	        	Microphone.fileReceive(currentWord.getSpelling());
+	        	playing = false;
 	        }
 		});  
 		t1.start();
@@ -300,7 +307,7 @@ public class spellingWindow implements FocusListener
 		private JButton reject;
 		public giveUpPopUp()
 		{
-			playing = false;
+			playing = true;
 			
 			frame=new JFrame("Give Up");
 			panel=new JPanel();
@@ -357,10 +364,10 @@ public class spellingWindow implements FocusListener
 				System.out.println("yeet");
 				giveUp.setBackground(new Color(255,235,215));
 				nextWord(false);
-				playing = true;
+				playing = false;
 			}else {
 				frame.dispose();
-				playing = true;
+				playing = false;
 			}
 		}
 	}
@@ -377,7 +384,7 @@ public class spellingWindow implements FocusListener
 		
 		public quitPopUp()
 		{
-			playing = false;
+			playing = true;
 			
 			quitFrame=new JFrame("Quit");
 			panel=new JPanel();
@@ -447,7 +454,7 @@ public class spellingWindow implements FocusListener
 		private JButton confirm;
 		public wordRightPopUp(String word)
 		{
-			playing = false;
+			playing = true;
 
 			frame=new JFrame("Congratulations!");
 			panel=new JPanel();
@@ -492,7 +499,7 @@ public class spellingWindow implements FocusListener
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Move to the next word!")){
 				frame.dispose();
-				playing = true;
+				playing = false;
 				nextWord(true);
 			}
 		}
