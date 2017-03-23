@@ -1,18 +1,8 @@
 <?xml version="1.0"?>
 <UserInfo>
 	<User>
-		<Username>test</Username>
+		<Username>null</Username>
 		<age>0</age>
-		<words>age</words>
-	</User>
-	<User>
-		<Username>Joe</Username>
-		<age>10</age>
-		<words>bed</words>
-	</User>
-	<User>
-		<Username>logan</Username>
-		<age>6</age>
-		<words>addaddappleapple</words>
+		<words>bed boy age</words>
 	</User>
 </UserInfo>

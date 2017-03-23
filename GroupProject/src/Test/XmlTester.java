@@ -27,6 +27,10 @@ public class XmlTester {
 			System.out.println();
 		}*/
 		User u = new User();
-		XMLParser.save(new String[]{"Username", "age", "words"}, u.getCorrectlySpelt(), path);
+		u.addWord(new Word("bed", 1));
+		u.addWord(new Word("boy", 1));
+		u.addWord(new Word("age", 1));
+		
+		XMLParser.saveUsers(new String[]{"Username", "age", "words"}, new User[]{u}, "res/UserInfo.xml");
 	}
 }
