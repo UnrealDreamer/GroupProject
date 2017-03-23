@@ -29,7 +29,7 @@ public class wordWrongPopUp implements ActionListener {
 	{
 		frame=new JFrame("Try Again!");
 		panel=new JPanel();
-		question=new JLabel("  Oops! Seems like you got the word wrong. Would you like to try again? ");
+		question=new JLabel("  Oops! Seems like you got the word wrong, try again. ");
 		confirm=new JButton("Okay");
 		confirm.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
