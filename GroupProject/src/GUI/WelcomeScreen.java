@@ -118,7 +118,7 @@ public class WelcomeScreen implements FocusListener
 			age.setBackground(new Color(234,152,154));
 			age.addFocusListener(this);
 		
-			start = new JButton("START");
+			start = new RoundButton("START");
 			start.setFont(rockSalt.deriveFont(50f));
 			
 			start.setActionCommand("start");
