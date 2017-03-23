@@ -62,18 +62,33 @@ public class spellingWindow implements FocusListener
 				if(arg0.getActionCommand().equals("wordEnter")) {
 					ArrayList<Boolean> wrong = back.checkSpelling(currentWord, wordEnter.getText());
 					int correctLetters = 0;
+					boolean spelledWrong = false;
 					for(boolean b:wrong) {
 						if(b==true) {
 							underline(wrong,wordEnter.getText());
 							canGiveUp = true;
-							
+							spelledWrong = true;
+							break;
 						} else {
 							correctLetters++;
 						}
 					}
+					
+					if(correctLetters<currentWord.getSpelling().length() && !spelledWrong)
+						spelledWrong = true;
+					
 					if(correctLetters == currentWord.getSpelling().length() && wordEnter.getText().length()==currentWord.getSpelling().length()) {
 						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
 						canGiveUp = false;
+					}
+					if (wordEnter.getText().length() < currentWord.getSpelling().length() && spelledWrong) {
+						String newString = wordEnter.getText();
+						for(int i = 0; i < currentWord.getSpelling().length()-wordEnter.getText().length();i++) {
+							newString += " ";
+						}
+						wordEnter.setText(newString);
+						underline(wrong,wordEnter.getText());
+						actionPerformed(arg0);
 					}
 				} else if (arg0.getActionCommand().equals("giveUp") && canGiveUp) {
 					giveUpPopUp giveUpPop = new giveUpPopUp();
@@ -83,8 +98,6 @@ public class spellingWindow implements FocusListener
 			}
 			if(canGiveUp) {
 				giveUp.setBackground(Color.green);
-			} else {
-				giveUp.setBackground(new Color(255,235,215));
 			}
 
 		}
@@ -285,7 +298,6 @@ public class spellingWindow implements FocusListener
 		private JLabel question;
 		private JButton confirm;
 		private JButton reject;
-		private boolean giveUp = false;
 		public giveUpPopUp()
 		{
 			playing = false;
@@ -341,12 +353,13 @@ public class spellingWindow implements FocusListener
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
 				frame.dispose();
-				giveUp = true;
+				canGiveUp = false;
+				System.out.println("yeet");
+				giveUp.setBackground(new Color(255,235,215));
 				nextWord(false);
 				playing = true;
 			}else {
 				frame.dispose();
-				giveUp = false;
 				playing = true;
 			}
 		}
