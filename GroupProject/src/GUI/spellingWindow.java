@@ -73,7 +73,6 @@ public class spellingWindow implements FocusListener
 					}
 					if(correctLetters == currentWord.getSpelling().length() && wordEnter.getText().length()==currentWord.getSpelling().length()) {
 						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
-						nextWord(true);
 						canGiveUp = false;
 					}
 				} else if (arg0.getActionCommand().equals("giveUp") && canGiveUp) {
