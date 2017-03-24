@@ -25,7 +25,7 @@ public class Microphone {
     private static final int BUFFER_SIZE = 4096;
     static SourceDataLine audioLine;
     static AudioInputStream audioStream;
-     
+     static int bytesRead = -1; 
     /**
      * Play a given audio file.
      * @param audioFilePath Path of the audio file.
@@ -46,13 +46,14 @@ public class Microphone {
             audioLine.start();
              
             byte[] bytesBuffer = new byte[BUFFER_SIZE];
-            int bytesRead = -1;
- 
+            bytesRead = -1; 
             while ((bytesRead = audioStream.read(bytesBuffer)) != -1) {
                 audioLine.write(bytesBuffer, 0, bytesRead);
             }
             try{ 
-            	endAudio();
+            	audioLine.drain();
+                audioLine.close();
+                audioStream.close();
             }
             catch(IOException e) {}
              
@@ -66,6 +67,7 @@ public class Microphone {
             System.out.println("Error playing the audio file.");
             ex.printStackTrace();
         }      
+        bytesRead =-1;
     }
     
     public static double lengthReturn(String word) {
@@ -85,12 +87,6 @@ public class Microphone {
 			e.printStackTrace();
 		}
 		return 0;
-    }
-    
-    public static void endAudio() throws IOException {
-    	audioLine.drain();
-        audioLine.close();
-        audioStream.close();
     }
     
     public static void fileReceive(String name){
