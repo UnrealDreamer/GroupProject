@@ -244,6 +244,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		}
 		if(e.getSource().equals(JButtonList.get(1))){
 			if (recordNum ==0) {
+				JButtonList.get(1).setBackground(Color.green);
 				if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
 				else {
 					recordNum=1;
