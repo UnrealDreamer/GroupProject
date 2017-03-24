@@ -240,6 +240,7 @@ public class spellingWindow implements FocusListener
 		
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				Microphone.endAudio();
 				//back.exit();
 			}
 		});

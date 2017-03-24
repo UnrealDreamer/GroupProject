@@ -51,8 +51,9 @@ public class Microphone {
             while (bytesRead != -1) {
             	if (control ==0) {
             	bytesRead = audioStream.read(bytesBuffer);
-            	}
             	audioLine.write(bytesBuffer, 0, bytesRead);
+            	}
+            	
             }
             try{ 
             	audioLine.drain();
