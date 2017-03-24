@@ -17,15 +17,14 @@ public class DeleteAudioFile
 			try{
 				FileInputStream fis = new FileInputStream(file);
 				fis.close();
-				file.delete();
-			if(file.delete()){
-				System.out.print("good");
-			}
-			else {
-				System.out.print("nope");
-			}
+				if(file.delete()){
+					System.out.print("good");
+				}
+				else {
+					System.out.print("nope");
+				}
 			} catch(Exception t) {
-				
+				t.printStackTrace();
 			}
 		return false;
 	}

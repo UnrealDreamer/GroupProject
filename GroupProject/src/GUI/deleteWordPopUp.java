@@ -82,7 +82,7 @@ public class deleteWordPopUp implements ActionListener {
 	}
 	public static void main(String[] args)
 	{
-		deleteWordPopUp x=new deleteWordPopUp(new WordLevelEditorFrame(), "aaaaaaa");
+		deleteWordPopUp x=new deleteWordPopUp(new WordLevelEditorFrame(null), "aaaaaaa");
 	}
 	public void actionPerformed(ActionEvent event) 
 	{
