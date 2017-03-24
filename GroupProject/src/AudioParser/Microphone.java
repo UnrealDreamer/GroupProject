@@ -26,6 +26,7 @@ public class Microphone {
     static SourceDataLine audioLine;
     static AudioInputStream audioStream;
      static int bytesRead = -1; 
+     static int control = 0;
     /**
      * Play a given audio file.
      * @param audioFilePath Path of the audio file.
@@ -46,9 +47,12 @@ public class Microphone {
             audioLine.start();
              
             byte[] bytesBuffer = new byte[BUFFER_SIZE];
-            bytesRead = -1; 
-            while ((bytesRead = audioStream.read(bytesBuffer)) != -1) {
-                audioLine.write(bytesBuffer, 0, bytesRead);
+            bytesRead = 0; 
+            while (bytesRead != -1) {
+            	if (control ==0) {
+            	bytesRead = audioStream.read(bytesBuffer);
+            	}
+            	audioLine.write(bytesBuffer, 0, bytesRead);
             }
             try{ 
             	audioLine.drain();
@@ -68,6 +72,12 @@ public class Microphone {
             ex.printStackTrace();
         }      
         bytesRead =-1;
+        control = 0;
+    }
+    
+    public static void endAudio() {
+    	control = 1;
+    	bytesRead = -1;
     }
     
     public static double lengthReturn(String word) {
