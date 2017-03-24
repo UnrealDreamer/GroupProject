@@ -152,6 +152,7 @@ public class spellingWindow implements FocusListener
 		audioButton.setSize(new Dimension(125,125));
 		Image img = volume.getImage().getScaledInstance(audioButton.getWidth(),audioButton.getWidth(), java.awt.Image.SCALE_SMOOTH);;
 		audioButton.setIcon(new ImageIcon(img));
+		audioButton.setBackground(Color.gray);
 		audioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				if (audioDelay==0 && !playing) {
@@ -169,8 +170,10 @@ public class spellingWindow implements FocusListener
 					Thread t2 = new Thread(new Runnable() {
 				        public void run() {
 				        	playing = true;
+				        	audioButton.setBackground(Color.pink);
 				        	Microphone.fileReceive(currentWord.getSpelling());
 				        	playing = false;
+				        	audioButton.setBackground(Color.gray);
 				        }
 					});  
 					t2.start();
@@ -289,22 +292,27 @@ public class spellingWindow implements FocusListener
 	}
 	
 	private void nextWord(boolean spelledRight) {
-		if(back.nextWord(currentWord, spelledRight).getLevel()>currentWord.getLevel())
-			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+		if(back.nextWord(currentWord, spelledRight).getLevel()>currentWord.getLevel()) {
+			
+			levelNum=new JLabel("Level # : " + (back.getUser().getLastLevel()+1));
+		}
 		currentWord = back.nextWord(currentWord, spelledRight);
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
 	        	playing = true;
+	        	audioButton.setBackground(Color.pink);
 	        	Microphone.fileReceive(currentWord.getSpelling());
 	        	playing = false;
+	        	audioButton.setBackground(Color.gray);
 	        }
 		});  
 		t1.start();
+		
 	}
 
 	private class giveUpPopUp implements ActionListener {
 
-		private JFrame frame;
+		private JFrame giveUpFrame;
 		private JPanel panel;
 		private JLabel question;
 		private JButton confirm;
@@ -313,7 +321,7 @@ public class spellingWindow implements FocusListener
 		{
 			playing = true;
 			
-			frame=new JFrame("Give Up");
+			giveUpFrame=new JFrame("Give Up");
 			panel=new JPanel();
 			question=new JLabel("   Are you sure you want to give up?");
 			confirm=new JButton("Yes, I am sure.");
@@ -342,8 +350,8 @@ public class spellingWindow implements FocusListener
 			confirm.setBackground(new Color(255,235,215));
 			reject.setBackground(new Color(255,235,215));
 			
-			frame.setContentPane(panel);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			giveUpFrame.setContentPane(panel);
+			giveUpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			panel.setLayout(new GridBagLayout());	
 			GridBagConstraints c = new GridBagConstraints();
 			panel.add(question,c);
@@ -352,25 +360,25 @@ public class spellingWindow implements FocusListener
 			panel.add(confirm,c);
 			c.gridy=2;
 			panel.add(reject,c);
-			frame.pack();
-			frame.setResizable(false);
-			frame.setLocationRelativeTo(null);
+			giveUpFrame.pack();
+			giveUpFrame.setResizable(false);
+			giveUpFrame.setLocationRelativeTo(null);
 			question.requestFocusInWindow();
-			frame.setVisible(true);
+			giveUpFrame.setVisible(true);
 			
 		}
 		public void actionPerformed(ActionEvent event) 
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
-				frame.dispose();
+				giveUpFrame.dispose();
 				canGiveUp = false;
 				System.out.println("yeet");
 				giveUp.setBackground(new Color(255,235,215));
 				nextWord(false);
 				playing = false;
 			}else {
-				frame.dispose();
+				giveUpFrame.dispose();
 				playing = false;
 			}
 		}
@@ -419,6 +427,12 @@ public class spellingWindow implements FocusListener
 			confirm.setBackground(new Color(255,235,215));
 			reject.setBackground(new Color(255,235,215));
 			
+			quitFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					
+				}
+			});
+			
 			quitFrame.setContentPane(panel);
 			quitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			panel.setLayout(new GridBagLayout());	
@@ -443,6 +457,7 @@ public class spellingWindow implements FocusListener
 				//back.exit();
 				quitFrame.dispose();
 				frame.dispose();
+				Microphone.endAudio();
 				new Game();
 			} else {
 				quitFrame.dispose();
@@ -452,7 +467,7 @@ public class spellingWindow implements FocusListener
 	}
 	private class wordRightPopUp implements ActionListener {
 
-		private JFrame frame;
+		private JFrame wordFrame;
 		private JPanel panel;
 		private JLabel question;
 		private JButton confirm;
@@ -460,7 +475,7 @@ public class spellingWindow implements FocusListener
 		{
 			playing = true;
 
-			frame=new JFrame("Congratulations!");
+			wordFrame=new JFrame("Congratulations!");
 			panel=new JPanel();
 			question=new JLabel("   Good job! You got the word \""+word+"\" right");
 			confirm=new JButton("Move to the next word!");
@@ -483,28 +498,35 @@ public class spellingWindow implements FocusListener
 			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
 			panel.setBackground(new Color(224,102,102));
 			confirm.setBackground(new Color(255,235,215));
-			frame.setContentPane(panel);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			wordFrame.setContentPane(panel);
+			wordFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			panel.setLayout(new GridBagLayout());	
 			GridBagConstraints c = new GridBagConstraints();
 			panel.add(question,c);
 			c.gridy=1;
 			c.gridx=0;
 			panel.add(confirm,c);
+			
+			wordFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					nextWord(true);
+				}
+			});
 
-			frame.pack();
-			frame.setResizable(false);
-			frame.setLocationRelativeTo(null);
+			wordFrame.pack();
+			wordFrame.setResizable(false);
+			wordFrame.setLocationRelativeTo(null);
 			question.requestFocusInWindow();
-			frame.setVisible(true);
+			wordFrame.setVisible(true);
 		}
 		public void actionPerformed(ActionEvent event) 
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Move to the next word!")){
-				frame.dispose();
+				wordFrame.dispose();
 				playing = false;
 				nextWord(true);
+				canGiveUp = true;
 			}
 		}
 	}
