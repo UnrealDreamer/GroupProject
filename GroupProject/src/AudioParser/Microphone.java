@@ -45,13 +45,15 @@ public class Microphone {
             audioLine.open(format);
  
             audioLine.start();
-             
+            
             byte[] bytesBuffer = new byte[BUFFER_SIZE];
+            bytesRead = audioStream.read(bytesBuffer);
             bytesRead = 0; 
             while (bytesRead != -1) {
             	if (control ==0) {
-            	bytesRead = audioStream.read(bytesBuffer);
+            	
             	audioLine.write(bytesBuffer, 0, bytesRead);
+            	bytesRead = audioStream.read(bytesBuffer);
             	}
             	
             }
@@ -60,7 +62,7 @@ public class Microphone {
                 audioLine.close();
                 audioStream.close();
             }
-            catch(IOException e) {}
+            catch(IOException e) {e.printStackTrace();;}
              
         } catch (UnsupportedAudioFileException ex) {
             System.out.println("The specified audio file is not supported.");
