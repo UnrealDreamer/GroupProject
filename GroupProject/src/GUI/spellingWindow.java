@@ -154,7 +154,7 @@ public class spellingWindow implements FocusListener
 		audioButton.setIcon(new ImageIcon(img));
 		audioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				if (audioDelay==0) {
+				if (audioDelay==0 && !playing) {
 					final double len = Microphone.lengthReturn(currentWord.getSpelling());
 					Thread t4 = new Thread(new Runnable(){
 						private long startTime = System.currentTimeMillis();
