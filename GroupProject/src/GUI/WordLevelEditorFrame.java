@@ -278,6 +278,10 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		}
 		
 		if(e.getActionCommand().equals(JButtonList.get(4).getText())){
+			Path currentRelativePath = Paths.get("");
+			String s = currentRelativePath.toAbsolutePath().toString();
+			File f = new File(s+"/res/"+listModel.get(list.getSelectedIndex())+".wav");
+			
 			deleteWordPopUp popup = new deleteWordPopUp(this, listModel.get(list.getSelectedIndex()));
 		}
 		
