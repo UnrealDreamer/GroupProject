@@ -289,6 +289,10 @@ public class BackEnd
 		return false;
 	}
 	
+	public ArrayList<ArrayList<Word>> getWordList() {
+		return levels;
+	}
+	
 	//returns next word
 	public Word nextWord(Word word, boolean spelledRight) 
 	{
