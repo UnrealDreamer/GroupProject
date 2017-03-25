@@ -82,7 +82,6 @@ public class addWordPopUp implements ActionListener {
 	{
 		
 		if(e.getActionCommand().equals(confirm.getText())){
-			backend.addWord(new Word(word,word.length()));
 		}
 		
 		frame.dispose();

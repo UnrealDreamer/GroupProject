@@ -320,15 +320,15 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 				levelLabel.setText("Level #: " + num);
 		}
 		
-		if(e.getSource()==(levelMenu)){
+		if(e.getSource()==levelMenu){
 			
 			listModel.clear();
-			for(int i=1; i<levelMenu.getItemCount();i++){
+			for(int i=1; i<=levelMenu.getItemCount();i++){
 				if(levelMenu.getSelectedIndex() == i){
 			
-					for(int c = 0; c < backend.getWordList().get(i).size();c++) 
+					for(int c = 0; c < backend.getWordList().get(i-1).size();c++) 
 					{
-						listModel.addElement(backend.getWordList().get(levelMenu.getSelectedIndex()).get(c).toString());
+						listModel.addElement(backend.getWordList().get(levelMenu.getSelectedIndex()-1).get(c).toString());
 					}
 				}
 
