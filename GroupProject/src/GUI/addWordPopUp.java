@@ -6,19 +6,17 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import AudioParser.DeleteAudioFile;
+import BackEnd.BackEnd;
+import BackEnd.Word;
 
 public class addWordPopUp implements ActionListener {
 
@@ -28,6 +26,7 @@ public class addWordPopUp implements ActionListener {
 	private JButton confirm;
 	private JButton reject;
 	private String word;
+	private BackEnd backend;
 	private WordLevelEditorFrame editor;
 	
 	public addWordPopUp(WordLevelEditorFrame editor, String tes)
@@ -83,7 +82,7 @@ public class addWordPopUp implements ActionListener {
 	{
 		
 		if(e.getActionCommand().equals(confirm.getText())){
-			editor.listModel.addElement(word);;
+			backend.addWord(new Word(word,word.length()));
 		}
 		
 		frame.dispose();

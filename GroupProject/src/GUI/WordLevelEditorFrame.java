@@ -129,7 +129,11 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 		ArrayList<Integer> levelNum = new ArrayList<Integer>();
 		levelMenu = new JComboBox<String>(new String[]{"Select a Level "});
+		for(int i=1; i<backend.getWordList().size()+1;i++){
+			levelMenu.addItem(Integer.toString(i));
+		}
 		levelMenu.setPreferredSize(new Dimension(600,25));//TODO change later.
+		levelMenu.addActionListener(this);
 		
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -243,21 +247,22 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			Microphone.fileReceive(wordToReplay);
 		}
 		if(e.getSource().equals(JButtonList.get(1))){
-			if (recordNum ==0) {
-				JButtonList.get(1).setBackground(Color.green);
-				if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
-				else {
-					recordNum=1;
-					wordToReplay = wordAdd.getText();
-					t1.start();
-				}
-			}
-			else {
-				if (recordNum==1) {
-					au.recordFinish();
-					recordNum=0;
-				}
-			}
+//			if (recordNum ==0) {
+//				JButtonList.get(1).setBackground(Color.green);
+//				if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
+//				else {
+//					recordNum=1;
+//					wordToReplay = wordAdd.getText();
+//					t1.start();
+//				}
+//			}
+//			else {
+//				if (recordNum==1) {
+//					
+//					au.recordFinish();
+//					recordNum=0;
+//				}
+//			}
 		}
 		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
 			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
@@ -266,13 +271,13 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 																									,"`","~","!","@", "#", "$", "%", "^",
 																									"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
 																									":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"})){
-					Path currentRelativePath = Paths.get("");
-					String s = currentRelativePath.toAbsolutePath().toString();
-					File f = new File(s+"/res/" + wordAdd.getText() +".wav");
-					if (f.exists() && !f.isDirectory()) {
+//					Path currentRelativePath = Paths.get("");
+//					String s = currentRelativePath.toAbsolutePath().toString();
+//					File f = new File(s+"/res/" + wordAdd.getText() +".wav");
+//					if (f.exists() && !f.isDirectory()) {
 						addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
-					}
-					else new noAudioErrorPopUp();
+//					}
+//					else new noAudioErrorPopUp();
 				}
 				else new wordCreationErrorPopUp();
 			}
@@ -286,20 +291,47 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			deleteWordPopUp popup = new deleteWordPopUp(this, listModel.get(list.getSelectedIndex()));
 		}
 		
-		if(e.getActionCommand().equals(JButtonList.get(5).getText()))
-			levelMenu.addItem(Integer.toString(num));
+		if(e.getActionCommand().equals(JButtonList.get(5).getText())){
+			levelMenu.removeAllItems();
+			levelMenu.addItem("Select a Level");
+			backend.addLevel(num);
+			
+			for(int i=1; i<backend.getWordList().size()+1;i++)		
+				levelMenu.addItem(Integer.toString(i));
+		}
 		
-		if(e.getActionCommand().equals(JButtonList.get(6).getText()))
-			levelMenu.removeItem(levelMenu.getSelectedItem());
+		if(e.getActionCommand().equals(JButtonList.get(6).getText())){
+			
+			backend.removeLevel(levelMenu.getSelectedIndex()+1);
+			levelMenu.removeAllItems();
+			levelMenu.addItem("Select a Level");
 		
+			for(int i=1; i<backend.getWordList().size()+1;i++)		
+				levelMenu.addItem(Integer.toString(i));
+		}
 		if(e.getSource().equals(JButtonList.get(7))){
+			if(num<backend.getWordList().size()+1)
 				num++;
 				levelLabel.setText("Level #: " + num);
-			
+		
 		}else if(e.getSource().equals(JButtonList.get(8))){
-			if(num>1){
+			if(num>1)
 				num--;
 				levelLabel.setText("Level #: " + num);
+		}
+		
+		if(e.getSource()==(levelMenu)){
+			
+			listModel.clear();
+			for(int i=1; i<levelMenu.getItemCount();i++){
+				if(levelMenu.getSelectedIndex() == i){
+			
+					for(int c = 0; c < backend.getWordList().get(i).size();c++) 
+					{
+						listModel.addElement(backend.getWordList().get(levelMenu.getSelectedIndex()).get(c).toString());
+					}
+				}
+
 			}
 		}
 	}
