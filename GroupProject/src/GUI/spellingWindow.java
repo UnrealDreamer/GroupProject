@@ -74,8 +74,8 @@ public class spellingWindow implements FocusListener
 							underline(wrong,wordEnter.getText());
 							canGiveUp = true;
 							spelledWrong = true;
-							title=new JLabel(" Spelling  ");
-							title=new JLabel("   Retry   ");
+							//retry.setVisible(true);
+							title = new JLabel("   Retry   ");
 							break;
 						} else {
 							correctLetters++;
@@ -225,9 +225,9 @@ public class spellingWindow implements FocusListener
 		c.gridy = 1;
 		panel.add(title,c);
 		
-//		c.fill = GridBagConstraints.RELATIVE;
-//		c.gridx = 4;
-//		c.gridy = 2;
+//		//c.fill = GridBagConstraints.RELATIVE;
+//		c.gridx = 2;
+//		c.gridy = 5;
 //		panel.add(retry, c);
 
 		c.fill = GridBagConstraints.RELATIVE;
@@ -307,11 +307,14 @@ public class spellingWindow implements FocusListener
 	
 	private void nextWord(boolean spelledRight) {
 		canGiveUp = false;
-		title=new JLabel(" Spelling  ");
+//		retry.setVisible(false);
+		title = new JLabel(" Spelling  ");
 		if(back.nextWord(currentWord, spelledRight).getLevel()>currentWord.getLevel()) {
 			
-			levelNum=new JLabel("Level # : " + (back.getUser().getLastLevel()+1));
+			levelNum=new JLabel("Level # : " + (back.getUser().getLastLevel()));
+			back.getUser().setLastLevel(back.getUser().getLastLevel()-1);
 		}
+		
 		currentWord = back.nextWord(currentWord, spelledRight);
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
