@@ -5,4 +5,9 @@
 		<age>1</age>
 		<words>bed boy age</words>
 	</User>
+	<User>
+		<Username>logan</Username>
+		<age>6</age>
+		<words>bike boat</words>
+	</User>
 </UserInfo>

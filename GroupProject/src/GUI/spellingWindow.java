@@ -319,8 +319,10 @@ public class spellingWindow implements FocusListener
 		
 		if(currentWord.getLevel() > lastLevel) {
 			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+			lastLevel = back.getUser().getLastLevel();
 		} else if(currentWord.getLevel() < lastLevel) {
 			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+			lastLevel = back.getUser().getLastLevel();
 		}
 			
 		Thread t1 = new Thread(new Runnable() {
@@ -550,7 +552,6 @@ public class spellingWindow implements FocusListener
 				wordFrame.dispose();
 				playing = false;
 				nextWord(true);
-				canGiveUp = true;
 			}
 		}
 	}
