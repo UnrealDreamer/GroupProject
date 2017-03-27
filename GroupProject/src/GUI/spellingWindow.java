@@ -39,6 +39,7 @@ public class spellingWindow implements FocusListener
 	private JLabel title;
 	private JLabel levelNum;
 	private JLabel name;
+	private JLabel retry;
 	private JButton audioButton; 
 	private JButton giveUp; 
 	private JButton exit; 
@@ -73,6 +74,8 @@ public class spellingWindow implements FocusListener
 							underline(wrong,wordEnter.getText());
 							canGiveUp = true;
 							spelledWrong = true;
+							title=new JLabel(" Spelling  ");
+							title=new JLabel("   Retry   ");
 							break;
 						} else {
 							correctLetters++;
@@ -84,7 +87,6 @@ public class spellingWindow implements FocusListener
 					
 					if(correctLetters == currentWord.getSpelling().length() && wordEnter.getText().length()==currentWord.getSpelling().length()) {
 						wordRightPopUp right = new wordRightPopUp(currentWord.getSpelling());
-						canGiveUp = false;
 					}
 					if (wordEnter.getText().length() < currentWord.getSpelling().length() && spelledWrong) {
 						String newString = wordEnter.getText();
@@ -100,8 +102,11 @@ public class spellingWindow implements FocusListener
 				}
 				if(canGiveUp) {
 					giveUp.setBackground(Color.green);
+				} else {
+					giveUp.setBackground(new Color(255,235,215));
 				}
 			}
+			panel.repaint();
 
 		}
 		private void underline(ArrayList<Boolean> correct, String input)
@@ -144,6 +149,10 @@ public class spellingWindow implements FocusListener
 		panel=new JPanel();
 
 		title=new JLabel(" Spelling  ");
+		
+		retry = new JLabel("Retry");
+		retry.setVisible(false);
+		
 		name=new JLabel(back.getUser().getName()); //Have to enter method that returns name
 		levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());//Have to enter method that returns level number
 
@@ -215,12 +224,17 @@ public class spellingWindow implements FocusListener
 		c.gridx = 2;
 		c.gridy = 1;
 		panel.add(title,c);
+		
+//		c.fill = GridBagConstraints.RELATIVE;
+//		c.gridx = 4;
+//		c.gridy = 2;
+//		panel.add(retry, c);
 
 		c.fill = GridBagConstraints.RELATIVE;
 		c.gridx =2;
 		c.gridy = 2;
 		panel.add(wordEnter,c);
-
+		
 		c.gridx =1;
 		c.gridy =2;
 		panel.add(audioButton,c);
@@ -288,10 +302,12 @@ public class spellingWindow implements FocusListener
 	}
 	public void focusLost(FocusEvent e) {
 		if(wordEnter.getText().trim().equals(""))
-			wordEnter.setText("Type a word...");
+			wordEnter.setText("Type the word...");
 	}
 	
 	private void nextWord(boolean spelledRight) {
+		canGiveUp = false;
+		title=new JLabel(" Spelling  ");
 		if(back.nextWord(currentWord, spelledRight).getLevel()>currentWord.getLevel()) {
 			
 			levelNum=new JLabel("Level # : " + (back.getUser().getLastLevel()+1));
@@ -307,7 +323,6 @@ public class spellingWindow implements FocusListener
 	        }
 		});  
 		t1.start();
-		
 	}
 
 	private class giveUpPopUp implements ActionListener {
@@ -373,7 +388,6 @@ public class spellingWindow implements FocusListener
 			if(eventName.equals("Yes, I am sure.")) {
 				giveUpFrame.dispose();
 				canGiveUp = false;
-				System.out.println("yeet");
 				giveUp.setBackground(new Color(255,235,215));
 				nextWord(false);
 				playing = false;
