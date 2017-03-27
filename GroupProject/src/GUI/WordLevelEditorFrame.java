@@ -243,26 +243,35 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(JButtonList.get(2))){
-			Microphone.fileReceive(wordToReplay);
-		}
+		try{
+			if(e.getSource().equals(JButtonList.get(2))){
+				if(!wordToReplay.equals("") && wordToReplay.equals(list.getSelectedValue().toString()))
+					Microphone.fileReceive(wordToReplay);
+				else 
+				{
+					System.out.println(list.getSelectedValue().toString());
+					wordToReplay = list.getSelectedValue().toString();
+					Microphone.fileReceive(wordToReplay);
+				}
+			}//TODO error check this to fix
+		}catch(Exception ex){ ex.printStackTrace(); }
 		if(e.getSource().equals(JButtonList.get(1))){
-//			if (recordNum ==0) {
-//				JButtonList.get(1).setBackground(Color.green);
-//				if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
-//				else {
-//					recordNum=1;
-//					wordToReplay = wordAdd.getText();
-//					t1.start();
-//				}
-//			}
-//			else {
-//				if (recordNum==1) {
-//					
-//					au.recordFinish();
-//					recordNum=0;
-//				}
-//			}
+			if (recordNum ==0) {
+				JButtonList.get(1).setBackground(Color.green);
+				if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
+				else {
+					recordNum=1;
+					wordToReplay = wordAdd.getText();
+					t1.start();
+				}
+			}
+			else {
+				if (recordNum==1) {
+					
+					au.recordFinish();
+					recordNum=0;
+				}
+			}
 		}
 		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
 			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
@@ -275,7 +284,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 //					String s = currentRelativePath.toAbsolutePath().toString();
 //					File f = new File(s+"/res/" + wordAdd.getText() +".wav");
 //					if (f.exists() && !f.isDirectory()) {
-						addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
+						
+					addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
 //					}
 //					else new noAudioErrorPopUp();
 				}

@@ -1,0 +1,10 @@
+Editor Issues:
+	When saving a word then changing the level the word goes missing.
+		You can play the audio file of a word still but the word is missing from the list.
+	When deleting the audio file the file is still there. (Possible solution.
+				 Keep the files you want to delete in a list then run a for loop when editor is closed to delete each audio file)
+ 	Error with deleting a level your still on.
+Issues to fix during are last week.
+ 	Timer doesn't work.
+ 	Button Color doesn't change back to indicate recording has stopped.
+ 	

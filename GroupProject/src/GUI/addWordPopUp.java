@@ -26,7 +26,6 @@ public class addWordPopUp implements ActionListener {
 	private JButton confirm;
 	private JButton reject;
 	private String word;
-	private BackEnd backend;
 	private WordLevelEditorFrame editor;
 	
 	public addWordPopUp(WordLevelEditorFrame editor, String tes)
@@ -82,6 +81,7 @@ public class addWordPopUp implements ActionListener {
 	{
 		
 		if(e.getActionCommand().equals(confirm.getText())){
+			editor.listModel.addElement(editor.wordAdd.getText());
 		}
 		
 		frame.dispose();
