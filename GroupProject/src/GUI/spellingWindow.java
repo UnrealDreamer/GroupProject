@@ -52,6 +52,7 @@ public class spellingWindow implements FocusListener
 	private listener listener;
 	private boolean playing = false;
 	private boolean canGiveUp = false;
+	private int lastLevel;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
 	private class listener implements ActionListener //underlining method
@@ -130,21 +131,23 @@ public class spellingWindow implements FocusListener
 						}
 					}		
 				} catch (BadLocationException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 			catch (FontFormatException | IOException e) 
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}			
 	}
 
 
-	public spellingWindow(BackEnd back)
+	public spellingWindow(final BackEnd back)
 	{
 		this.back = back;
-
+		
+		lastLevel = back.getUser().getLastLevel();
+		
 		frame=new JFrame("");
 		panel=new JPanel();
 
@@ -258,7 +261,7 @@ public class spellingWindow implements FocusListener
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				Microphone.endAudio();
-				//back.exit();
+				back.exit();
 			}
 		});
 
@@ -275,7 +278,7 @@ public class spellingWindow implements FocusListener
 		}
 		catch (FontFormatException | IOException e) 
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -309,13 +312,17 @@ public class spellingWindow implements FocusListener
 		canGiveUp = false;
 //		retry.setVisible(false);
 		title = new JLabel(" Spelling  ");
-		if(back.nextWord(currentWord, spelledRight).getLevel()>currentWord.getLevel()) {
-			
-			levelNum=new JLabel("Level # : " + (back.getUser().getLastLevel()));
-			back.getUser().setLastLevel(back.getUser().getLastLevel()-1);
-		}
+		
+		
 		
 		currentWord = back.nextWord(currentWord, spelledRight);
+		
+		if(currentWord.getLevel() > lastLevel) {
+			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+		} else if(currentWord.getLevel() < lastLevel) {
+			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+		}
+			
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {
 	        	playing = true;
@@ -359,7 +366,7 @@ public class spellingWindow implements FocusListener
 			}
 			catch (FontFormatException | IOException e) 
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
@@ -435,7 +442,7 @@ public class spellingWindow implements FocusListener
 			}
 			catch (FontFormatException | IOException e) 
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);
@@ -471,7 +478,7 @@ public class spellingWindow implements FocusListener
 		{
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
-				//back.exit();
+				back.exit();
 				quitFrame.dispose();
 				frame.dispose();
 				Microphone.endAudio();
@@ -509,7 +516,7 @@ public class spellingWindow implements FocusListener
 			}
 			catch (FontFormatException | IOException e) 
 			{
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			question.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			confirm.setAlignmentX(JButton.CENTER_ALIGNMENT);

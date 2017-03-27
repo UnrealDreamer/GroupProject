@@ -71,7 +71,7 @@ public class WelcomeScreen implements FocusListener
 								"Improper Input",
 								JOptionPane.WARNING_MESSAGE);
 					
-					e.printStackTrace();
+					
 				}
 				
 			}
@@ -129,7 +129,7 @@ public class WelcomeScreen implements FocusListener
 			
 		} catch (FontFormatException|IOException e) {
 				// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		
 		
