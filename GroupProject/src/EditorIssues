@@ -1,7 +1,7 @@
 Editor Issues:
 	When deleting the audio file the file is still there. (Possible solution.
 				 Keep the files you want to delete in a list then run a for loop when editor is closed to delete each audio file)
- 	Error with deleting a level you're still on.
+ 	Error with replaying a audio file for a non-existing word
 Issues to fix during are last week.
  	Timer doesn't work.
  	Button Color doesn't change back to indicate recording has stopped.
