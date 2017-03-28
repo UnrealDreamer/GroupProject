@@ -53,6 +53,9 @@ public class BackEnd
 		XMLParser.saveUsers(es, user, "res\\UserInfo.xml");
 	}
 	
+	
+	
+	
 	//sets current User and adds new users XMLParser
 	private User setUser(User u) 
 	{
@@ -62,7 +65,9 @@ public class BackEnd
 		{
 			if(u.getAge()==users.get(i).getAge() && u.getName().equalsIgnoreCase(users.get(i).getName())) 
 			{
-				return users.get(i);
+				User us = users.get(i);
+				us.setLastLevel(us.getCorrectlySpelt().get(us.getCorrectlySpelt().size()).getLevel());
+				return us;
 			}
 		}
 		users.add(u);

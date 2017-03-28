@@ -67,6 +67,9 @@ public class spellingWindow implements FocusListener
 			
 			if(!playing) {
 				if(arg0.getActionCommand().equals("wordEnter")) {
+					
+					wordEnter.setText(wordEnter.getText().trim());
+					
 					ArrayList<Boolean> wrong = back.checkSpelling(currentWord, wordEnter.getText());
 					int correctLetters = 0;
 					boolean spelledWrong = false;
@@ -310,6 +313,7 @@ public class spellingWindow implements FocusListener
 	
 	private void nextWord(boolean spelledRight) {
 		canGiveUp = false;
+		giveUp.setBackground(new Color(255,235,215));
 //		retry.setVisible(false);
 		title = new JLabel(" Spelling  ");
 		
@@ -319,10 +323,10 @@ public class spellingWindow implements FocusListener
 		
 		if(currentWord.getLevel() > lastLevel) {
 			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
-			lastLevel = back.getUser().getLastLevel();
+			lastLevel = currentWord.getLevel();
 		} else if(currentWord.getLevel() < lastLevel) {
 			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
-			lastLevel = back.getUser().getLastLevel();
+			lastLevel = currentWord.getLevel();
 		}
 			
 		Thread t1 = new Thread(new Runnable() {
@@ -399,7 +403,6 @@ public class spellingWindow implements FocusListener
 			String eventName=event.getActionCommand();
 			if(eventName.equals("Yes, I am sure.")) {
 				giveUpFrame.dispose();
-				canGiveUp = false;
 				giveUp.setBackground(new Color(255,235,215));
 				nextWord(false);
 				playing = false;
