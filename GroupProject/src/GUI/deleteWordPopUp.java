@@ -90,6 +90,7 @@ public class deleteWordPopUp implements ActionListener {
 		if(eventName.equals("Yes, I am sure.")){
 			editor.listModel.remove(editor.listModel.indexOf(word));
 			kepOut.delete(word);
+			editor.getBackEnd().removeWord(editor.getBackEnd().getWordList().get(editor.levelMenu.getSelectedIndex()).get(editor.listModel.indexOf(word)));
 		}
 		else;
 		frame.dispose();

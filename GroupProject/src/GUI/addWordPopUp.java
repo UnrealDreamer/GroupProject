@@ -82,6 +82,8 @@ public class addWordPopUp implements ActionListener {
 		
 		if(e.getActionCommand().equals(confirm.getText())){
 			editor.listModel.addElement(editor.wordAdd.getText());
+			
+			editor.getBackEnd().addWord(new Word(word, editor.levelMenu.getSelectedIndex()));
 		}
 		
 		frame.dispose();

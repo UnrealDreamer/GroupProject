@@ -276,7 +276,9 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
 			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
 			{
-				if(wordAdd.getText().indexOf(" ") == -1 && exclude(wordAdd.getText(), new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+
+				if(levelMenu.getSelectedIndex() != 0 && wordAdd.getText().indexOf(" ") == -1 && exclude(wordAdd.getText(), new String[]{
+																									"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
 																									,"`","~","!","@", "#", "$", "%", "^",
 																									"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
 																									":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"})){
@@ -289,6 +291,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 //					}
 //					else new noAudioErrorPopUp();
 				}
+				else if(levelMenu.getSelectedIndex() == 0)
+					new SelectLevelErrorPopUp();
 				else new wordCreationErrorPopUp();
 			}
 		}
@@ -345,7 +349,10 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 			}
 		}
 	}
-
+	public BackEnd getBackEnd()
+	{
+		return backend;
+	}
 	public void focusGained(FocusEvent f) {
 	
 		if(f.getSource() == wordAdd && wordAdd.getText().equals("Enter a new word to add")) 
