@@ -276,20 +276,14 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		if(e.getActionCommand().equals(JButtonList.get(3).getText())){
 			if(!(wordAdd.getText().equalsIgnoreCase("Enter a new word to add")))
 			{
-
-				if(levelMenu.getSelectedIndex() != 0 && wordAdd.getText().indexOf(" ") == -1 && exclude(wordAdd.getText(), new String[]{
-																									"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-																									,"`","~","!","@", "#", "$", "%", "^",
-																									"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
-																									":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"})){
-//					Path currentRelativePath = Paths.get("");
-//					String s = currentRelativePath.toAbsolutePath().toString();
-//					File f = new File(s+"/res/" + wordAdd.getText() +".wav");
-//					if (f.exists() && !f.isDirectory()) {
-						
+				File file = new File("res/"+wordAdd.getText() +".wav");
+				if(levelMenu.getSelectedIndex() != 0 && wordAdd.getText().indexOf(" ") == -1 && file.exists() 
+						&& exclude(wordAdd.getText(), new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+																	,"`","~","!","@", "#", "$", "%", "^",
+																	"&", "*", "(", ")", "-","_","+","=","{", "[", "}", "]", 
+																	":", ";", "'", "\"", "|", "\\", "<" , "," ,">",".", "?", "/"}))
+				{
 					addWordPopUp popup = new addWordPopUp(this, wordAdd.getText());
-//					}
-//					else new noAudioErrorPopUp();
 				}
 				else if(levelMenu.getSelectedIndex() == 0)
 					new SelectLevelErrorPopUp();

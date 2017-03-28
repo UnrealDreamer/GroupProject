@@ -32,8 +32,10 @@ public class Microphone {
      * @param audioFilePath Path of the audio file.
      */
     void play(String audioFilePath) {
-        File audioFile = new File(audioFilePath);
+        File audioFile;
         try {
+        	
+        	audioFile = new File(audioFilePath);
             audioStream = AudioSystem.getAudioInputStream(audioFile);
  
             AudioFormat format = audioStream.getFormat();
@@ -107,6 +109,7 @@ public class Microphone {
 		String s = currentRelativePath.toAbsolutePath().toString();
         String audioFilePath = s+"/res/" + name +".wav";
         Microphone player = new Microphone();
+        
         player.play(audioFilePath);
     }
      
