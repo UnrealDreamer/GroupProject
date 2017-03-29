@@ -5,57 +5,57 @@ import XMLFileEditor.XMLParser;
 
 public class BackEnd 
 {
-	
-/////////////////VARIABLES/////////////////
-	
+
+	/////////////////VARIABLES/////////////////
+
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
 	private ArrayList<User> users = new ArrayList<User>();
 	private User currentU = null;
-	
-//////////CONSTRUCTORS/IMPORTANT//////////
-	
+
+	//////////CONSTRUCTORS/IMPORTANT//////////
+
 	//for the game
 	public BackEnd(User u)
 	{
 		setWords();
 		currentU = setUser(u);
 	}
-	
+
 	//for the editor
 	public BackEnd()
 	{
 		setWords();
 		currentU = null;
 	}
-	
+
 	//when the game is ended
 	public void exit() {
 		saveWords();
 		saveUsers();
 	}
-	
-///////////////////USERS///////////////////
-	
+
+	///////////////////USERS///////////////////
+
 	public User getUser(){
 		return currentU;
 	}
 	//writes out new user info into UserInfo.xml
 	private void saveUsers() 
 	{
-		
+
 		User[] user = new User[users.size()];
 		for(int i = 0; i < user.length;i++) 
 		{
 			user[i] = users.get(i);
 		}
-		
+
 		String[] es = new String[] {"Username","age","words"};
 		XMLParser.saveUsers(es, user, "res\\UserInfo.xml");
 	}
-	
-	
-	
-	
+
+
+
+
 	//sets current User and adds new users XMLParser
 	private User setUser(User u) 
 	{
@@ -66,11 +66,26 @@ public class BackEnd
 			if(u.getAge()==users.get(i).getAge() && u.getName().equalsIgnoreCase(users.get(i).getName())) 
 			{
 				User us = users.get(i);
-				
-				System.out.println(us.getCorrectlySpelt().size());
-				//
-				us.setLastLevel(us.getCorrectlySpelt().get(us.getCorrectlySpelt().size()-1).getLevel());
-				
+
+				//System.out.println(us.getCorrectlySpelt().size() + " " + us.getCorrectlySpelt().get(0));
+				if(us.getCorrectlySpelt().get(0)==null) {
+					if(us.getAge()<=5)
+						us.setLastLevel(1);
+					else if(us.getAge()<=6)
+						us.setLastLevel(2);
+					else if(us.getAge()<=7)
+						us.setLastLevel(3);
+					else if(us.getAge()<=8)
+						us.setLastLevel(4);
+					else if(us.getAge()<=9)
+						us.setLastLevel(5);
+					else if(us.getAge()<=10)
+						us.setLastLevel(6);
+					else
+						us.setLastLevel(7);
+				} else
+					us.setLastLevel(us.getCorrectlySpelt().get(us.getCorrectlySpelt().size()-1).getLevel());
+
 				return us;
 			}
 		}
@@ -91,7 +106,7 @@ public class BackEnd
 			u.setLastLevel(7);
 		return u;
 	}
-	
+
 	//prints user's correctly spelt words
 	public void printUserWords() 
 	{
@@ -104,9 +119,9 @@ public class BackEnd
 			}
 		}
 	}
-	
-///////////////////WORDS///////////////////
-	
+
+	///////////////////WORDS///////////////////
+
 	//checks the user input against the correct spelling of the word
 	public ArrayList<Boolean> checkSpelling(Word correct, String input) 
 	{
@@ -129,10 +144,10 @@ public class BackEnd
 				red.add(true);
 			}
 		}
-		
+
 		return red;
 	}
-	
+
 	//prints out all words
 	public void printAllWords() 
 	{
@@ -146,7 +161,7 @@ public class BackEnd
 			System.out.println();
 		}
 	}
-	
+
 	//writes new words back into xml file
 	private void saveWords() 
 	{
@@ -169,7 +184,7 @@ public class BackEnd
 		String[] es = {"spelling", "level"};
 		XMLParser.save(es, wordsArray, "res\\WordList.xml");
 	}
-	
+
 	//sets the levels and words
 	private void setWords() 
 	{
@@ -195,7 +210,7 @@ public class BackEnd
 			addWord(wordList.get(i));
 		}
 	}
-	
+
 	//changes a word's spelling
 	public void changeWordSpelling(Word w, String newSpelling)
 	{
@@ -213,7 +228,7 @@ public class BackEnd
 			users.get(i).changeSpelling(w, newSpelling);
 		}
 	}
-	
+
 	//changes a word's level
 	public void changeWordLevel(Word w,int newLevel) 
 	{
@@ -228,13 +243,13 @@ public class BackEnd
 			}
 		}
 	}
-	
+
 	//adds desired word
 	public void addWord(Word w) 
 	{
 		levels.get(w.getLevel()-1).add(w);
 	}
-	
+
 	//removes desired word
 	public void removeWord(Word w)
 	{
@@ -242,7 +257,7 @@ public class BackEnd
 		{
 			if(w.getSpelling().equalsIgnoreCase(levels.get(w.getLevel()-1).get(i).getSpelling())){
 				levels.get(w.getLevel()-1).remove(i);
-				
+
 			}
 		}
 		//removes the word for all users
@@ -251,13 +266,13 @@ public class BackEnd
 			users.get(i).removeWord(w);
 		}
 	}
-	
+
 	//adds highest level
 	public void addLevel() 
 	{
 		levels.add(new ArrayList<Word>());
 	}
-	
+
 	//adds desired level
 	public void addLevel(int level) 
 	{
@@ -271,7 +286,7 @@ public class BackEnd
 			}
 		}	
 	}
-	
+
 	//removes desired level
 	public void removeLevel(int level) 
 	{
@@ -285,7 +300,7 @@ public class BackEnd
 			}
 		}
 	}
-	
+
 	//checks if current user has already spelled the desired word
 	private boolean alreadySpelt(Word word) 
 	{
@@ -296,25 +311,26 @@ public class BackEnd
 		}
 		return false;
 	}
-	
+
 	public ArrayList<ArrayList<Word>> getWordList() {
 		return levels;
 	}
-	
+
 	//returns next word
 	public Word nextWord(Word word, boolean spelledRight) 
 	{
 		if(word == null){
+			//System.out.println(currentU.getLastLevel());
 			return levels.get(currentU.getLastLevel()-1).get(0);
 		}
 		if(spelledRight)
 		{
 			currentU.addWord(word);
 		}
-		
+
 		int c = word.getLevel()-1;
 		int index = 0;
-		
+
 		for(int i = 0; i < levels.get(c).size();i++) 
 		{
 			if(levels.get(c).get(i).getSpelling().equalsIgnoreCase(word.getSpelling())) 
@@ -324,7 +340,7 @@ public class BackEnd
 					//if at highest word of highest level ends game
 					if(c == levels.size()-1) 
 						return null;
-					
+
 					//if at highest word returns first word of next level
 					c++;
 					index = 0;
@@ -347,12 +363,12 @@ public class BackEnd
 		//if desired word is not in the lists
 		return null;
 	}
-	
+
 }
 /*
 frame.addWindowListener(new java.awt.event.WindowAdapter() {
 	public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		
+
 	}
 });
-*/
+ */

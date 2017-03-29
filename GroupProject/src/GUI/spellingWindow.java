@@ -30,7 +30,6 @@ import javax.swing.text.Highlighter;
 
 import AudioParser.Microphone;
 import BackEnd.BackEnd;
-import BackEnd.Game;
 import BackEnd.Word;
 public class spellingWindow implements FocusListener
 {
@@ -53,6 +52,7 @@ public class spellingWindow implements FocusListener
 	private boolean playing = false;
 	private boolean canGiveUp = false;
 	private int lastLevel;
+	private GridBagConstraints c;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
 	private class listener implements ActionListener //underlining method
@@ -67,8 +67,6 @@ public class spellingWindow implements FocusListener
 			
 			if(!playing) {
 				if(arg0.getActionCommand().equals("wordEnter")) {
-					
-					wordEnter.setText(wordEnter.getText().trim());
 					
 					ArrayList<Boolean> wrong = back.checkSpelling(currentWord, wordEnter.getText());
 					int correctLetters = 0;
@@ -220,7 +218,7 @@ public class spellingWindow implements FocusListener
 		exit.setActionCommand("exit");
 
 		panel.setLayout(new GridBagLayout());	
-		GridBagConstraints c = new GridBagConstraints();
+		c = new GridBagConstraints();
 
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx=0;
@@ -236,7 +234,7 @@ public class spellingWindow implements FocusListener
 //		c.gridy = 5;
 //		panel.add(retry, c);
 
-		c.fill = GridBagConstraints.RELATIVE;
+		//c.fill = GridBagConstraints.RELATIVE;
 		c.gridx =2;
 		c.gridy = 2;
 		panel.add(wordEnter,c);
@@ -258,7 +256,7 @@ public class spellingWindow implements FocusListener
 		panel.add(exit,c);
 		panel.setBackground(new Color(250,128,114));
 
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(panel);
 		
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -322,11 +320,13 @@ public class spellingWindow implements FocusListener
 		currentWord = back.nextWord(currentWord, spelledRight);
 		
 		if(currentWord.getLevel() > lastLevel) {
-			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+			levelNum.setText("Level # : " + back.getUser().getLastLevel());
 			lastLevel = currentWord.getLevel();
+			//c.fill = GridBagConstraints.RELATIVE;
 		} else if(currentWord.getLevel() < lastLevel) {
-			levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());
+			levelNum.setText("Level # : " + back.getUser().getLastLevel());
 			lastLevel = currentWord.getLevel();
+			//c.fill = GridBagConstraints.RELATIVE;
 		}
 			
 		Thread t1 = new Thread(new Runnable() {
@@ -485,9 +485,8 @@ public class spellingWindow implements FocusListener
 			if(eventName.equals("Yes, I am sure.")) {
 				back.exit();
 				quitFrame.dispose();
-				frame.dispose();
 				Microphone.endAudio();
-				new Game();
+				frame.dispose();
 			} else {
 				quitFrame.dispose();
 			}
