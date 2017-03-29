@@ -71,7 +71,7 @@ public class WelcomeScreen implements FocusListener
 								"Improper Input",
 								JOptionPane.WARNING_MESSAGE);
 					
-					
+						e.printStackTrace();
 				}
 				
 			}

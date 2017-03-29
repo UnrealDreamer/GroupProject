@@ -139,7 +139,8 @@ public class XMLParser {
 				construct.write("\n\t\t<" + elements[2] + '>');
 				for(int i = 0; i < user[ind].getCorrectlySpelt().size(); i++)
 				{
-					construct.write(user[ind].getCorrectlySpelt().get(i).getSpelling());
+					if(user[ind].getCorrectlySpelt().get(i)!=null)
+						construct.write(user[ind].getCorrectlySpelt().get(i).getSpelling());
 					if(i < user[ind].getCorrectlySpelt().size() - 1)
 						construct.write(" ");
 				}

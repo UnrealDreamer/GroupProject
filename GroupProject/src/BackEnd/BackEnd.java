@@ -66,7 +66,11 @@ public class BackEnd
 			if(u.getAge()==users.get(i).getAge() && u.getName().equalsIgnoreCase(users.get(i).getName())) 
 			{
 				User us = users.get(i);
-				us.setLastLevel(us.getCorrectlySpelt().get(us.getCorrectlySpelt().size()).getLevel());
+				
+				System.out.println(us.getCorrectlySpelt().size());
+				//
+				us.setLastLevel(us.getCorrectlySpelt().get(us.getCorrectlySpelt().size()-1).getLevel());
+				
 				return us;
 			}
 		}
