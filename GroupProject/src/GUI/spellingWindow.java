@@ -319,11 +319,7 @@ public class spellingWindow implements FocusListener
 		
 		currentWord = back.nextWord(currentWord, spelledRight);
 		
-		if(currentWord.getLevel() > lastLevel) {
-			levelNum.setText("Level # : " + back.getUser().getLastLevel());
-			lastLevel = currentWord.getLevel();
-			//c.fill = GridBagConstraints.RELATIVE;
-		} else if(currentWord.getLevel() < lastLevel) {
+		if(currentWord.getLevel() != lastLevel) {
 			levelNum.setText("Level # : " + back.getUser().getLastLevel());
 			lastLevel = currentWord.getLevel();
 			//c.fill = GridBagConstraints.RELATIVE;

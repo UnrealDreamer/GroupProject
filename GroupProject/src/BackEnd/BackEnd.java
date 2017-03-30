@@ -306,8 +306,9 @@ public class BackEnd
 	{
 		for(int i = 0; i < currentU.getCorrectlySpelt().size();i++) 
 		{
-			if(word.getSpelling().equalsIgnoreCase(currentU.getCorrectlySpelt().get(i).getSpelling()))
-				return true;
+			if(currentU.getCorrectlySpelt().get(i)!=null)
+				if(word.getSpelling().equalsIgnoreCase(currentU.getCorrectlySpelt().get(i).getSpelling()))
+					return true;
 		}
 		return false;
 	}
