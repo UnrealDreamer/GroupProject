@@ -53,6 +53,7 @@ public class spellingWindow implements FocusListener
 	private boolean canGiveUp = false;
 	private int lastLevel;
 	private GridBagConstraints c;
+	private int streak = 0;
 	////////////////////////START BUTTON LISTENER////////////////////////
 
 	private class listener implements ActionListener //underlining method
@@ -310,6 +311,7 @@ public class spellingWindow implements FocusListener
 	}
 	
 	private void nextWord(boolean spelledRight) {
+
 		canGiveUp = false;
 		giveUp.setBackground(new Color(255,235,215));
 //		retry.setVisible(false);

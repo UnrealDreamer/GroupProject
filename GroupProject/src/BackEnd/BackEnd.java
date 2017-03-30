@@ -11,7 +11,7 @@ public class BackEnd
 	private ArrayList<ArrayList<Word>> levels = new ArrayList<ArrayList<Word>>();
 	private ArrayList<User> users = new ArrayList<User>();
 	private User currentU = null;
-
+	private int streak =0;
 	//////////CONSTRUCTORS/IMPORTANT//////////
 
 	//for the game
@@ -320,13 +320,36 @@ public class BackEnd
 	//returns next word
 	public Word nextWord(Word word, boolean spelledRight) 
 	{
+
+		
+	
 		if(word == null){
 			//System.out.println(currentU.getLastLevel());
 			return levels.get(currentU.getLastLevel()-1).get(0);
 		}
 		if(spelledRight)
-		{
-			currentU.addWord(word);
+		{	currentU.addWord(word);
+			System.out.println(streak);
+			if(streak>=0){
+				streak++;
+			}
+			else{
+				streak = 0;
+			}
+			if(streak==5){
+				currentU.addWord(levels.get(currentU.getLastLevel()-1).get(levels.get(currentU.getLastLevel()-1).size()-1));
+				word = levels.get(currentU.getLastLevel()-1).get(levels.get(currentU.getLastLevel()-1).size()-1);
+				streak = 0;
+			}
+			
+		}
+		else{
+			if(streak<=0){
+				streak--;
+			}
+			else{
+				streak = 0;
+			}
 		}
 
 		int c = word.getLevel()-1;
