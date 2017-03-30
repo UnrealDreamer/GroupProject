@@ -40,13 +40,23 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	AudioPlaylist au = new AudioPlaylist();
 	Thread t = new Thread(new Runnable()
 	{
+		private volatile boolean running = true;
+		public void terminate()
+		{
+			running = false;
+		}
 		public void run() {
-			while(recordNum == 1){
-				try{
-					seconds++;
-					timer.setText("Time: " + seconds + " seconds");
-					Thread.sleep(1000);
-				}catch(InterruptedException e){ e.printStackTrace();}
+			try{
+				while(running || recordNum == 1){
+						seconds++;
+						timer.setText("Time: " + seconds + " seconds");
+						Thread.sleep(1000);
+					}
+				}
+			catch(InterruptedException e)
+			{ 
+				e.printStackTrace();
+				terminate();
 			}
 		}
 	});
@@ -269,15 +279,17 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		}catch(Exception ex){ ex.printStackTrace(); }
 		if(e.getSource().equals(JButtonList.get(1))){
 			System.out.println(recordNum);
-			if (recordNum == 0) {
+			if (recordNum == 0 ) {
 				JButtonList.get(1).setBackground(Color.green);
 				/*if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
 				else {*/
 				recordNum = 1;
 				seconds = 0;
 				wordToReplay = wordAdd.getText();
-				t1.start();
-				t.start();
+				try{
+					t1.start();
+					t.start();
+					}catch(java.lang.IllegalThreadStateException ex){ ex.printStackTrace();}
 //				}
 			}
 			else if (recordNum==1) {
@@ -300,6 +312,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 				}
 				else if(levelMenu.getSelectedIndex() == 0)
 					new SelectLevelErrorPopUp();
+				else if(!file.exists())
+					new noAudioErrorPopUp();
 				else new wordCreationErrorPopUp();
 			}
 		}
