@@ -73,7 +73,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 				while(running)
         		{
         			if(recordNum == 1)
-        				au.recordStart(wordAdd.getText());  	
+        				au.recordStart(wordAdd.getText());  
+        			au.recordFinish();
         		}
 			}catch(Exception ex){terminate();}
 		}
@@ -310,6 +311,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 //				}
 			}
 			else if (recordNum==1) {
+				System.out.println(recordNum);
 				JButtonList.get(1).setBackground(backColor);
 				au.recordFinish();
 				recordNum=0;
@@ -370,12 +372,18 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		}
 		if(e.getSource().equals(JButtonList.get(7))){
 			if(num<backend.getWordList().size()+1)
+			{
 				num++;
-				levelLabel.setText("Level #: " + num);
+				backend.exit();
+			}
+			levelLabel.setText("Level #: " + num);
 		
 		}else if(e.getSource().equals(JButtonList.get(8))){
 			if(num>1)
+			{
 				num--;
+				backend.exit();
+			}
 				levelLabel.setText("Level #: " + num);
 		}
 		
