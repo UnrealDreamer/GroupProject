@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import AudioParser.DeleteAudioFile;
+import BackEnd.Word;
 
 public class deleteWordPopUp implements ActionListener {
 
@@ -89,8 +90,10 @@ public class deleteWordPopUp implements ActionListener {
 		String eventName=event.getActionCommand();
 		if(eventName.equals("Yes, I am sure.")){
 			editor.listModel.remove(editor.listModel.indexOf(word));
-			kepOut.delete(word);
-			editor.getBackEnd().removeWord(editor.getBackEnd().getWordList().get(editor.levelMenu.getSelectedIndex()).get(editor.listModel.indexOf(word)));
+        	kepOut.delete(word);
+			//editor.getBackEnd().removeWord(editor.getBackEnd().getWordList().get(editor.levelMenu.getSelectedIndex()).get(editor.listModel.indexOf(word)));
+		    editor.getBackEnd().removeWord(new Word(word, editor.levelMenu.getSelectedIndex()));
+        	editor.getBackEnd().exit();
 		}
 		else;
 		frame.dispose();
