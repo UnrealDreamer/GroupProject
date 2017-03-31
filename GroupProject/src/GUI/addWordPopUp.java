@@ -27,7 +27,7 @@ public class addWordPopUp implements ActionListener {
 	private JButton reject;
 	private String word;
 	private WordLevelEditorFrame editor;
-	
+
 	public addWordPopUp(WordLevelEditorFrame editor, String tes)
 	{
 		word = tes;
@@ -40,7 +40,7 @@ public class addWordPopUp implements ActionListener {
 		confirm.addActionListener(this);
 		reject.addActionListener(this);
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		
+
 		try 
 		{
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -76,16 +76,16 @@ public class addWordPopUp implements ActionListener {
 		question.requestFocusInWindow();
 		frame.setVisible(true);
 	}
-	
+
 	public void actionPerformed(ActionEvent e) 
 	{
-		
+
 		if(e.getActionCommand().equals(confirm.getText())){
-			editor.listModel.addElement(editor.wordAdd.getText());
-			
+			editor.listModel.addElement(word);
 			editor.getBackEnd().addWord(new Word(word, editor.levelMenu.getSelectedIndex()));
+			editor.getBackEnd().exit();
 		}
-		
+
 		frame.dispose();
 	}
 }

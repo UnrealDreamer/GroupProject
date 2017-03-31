@@ -36,7 +36,6 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	JComboBox<String> levelMenu;
 	int recordNum = 0;
 	String wordToReplay = "";
-	boolean tyu = false;
 	AudioPlaylist au = new AudioPlaylist();
 	Thread t = new Thread(new Runnable()
 	{
@@ -47,23 +46,37 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 		}
 		public void run() {
 			try{
-				while(running || recordNum == 1){
+				while(running){
+					if(recordNum==1)
+					{
 						seconds++;
 						timer.setText("Time: " + seconds + " seconds");
-						Thread.sleep(1000);
-					}
+					}else;	
+					Thread.sleep(1000);
+				}
 				}
 			catch(InterruptedException e)
 			{ 
-				e.printStackTrace();
+				//e.printStackTrace();
 				terminate();
 			}
 		}
 	});
 	Thread t1 = new Thread(new Runnable() {
-        public void run() {
-        	au.recordStart(wordAdd.getText());
-        }
+        private volatile boolean running = true;
+    	public void terminate()
+		{
+			running = false;
+		}
+		public void run() {
+			try{
+				while(running)
+        		{
+        			if(recordNum == 1)
+        				au.recordStart(wordAdd.getText());  	
+        		}
+			}catch(Exception ex){terminate();}
+		}
 	});  
 	
 	public WordLevelEditorFrame(BackEnd backend) {
@@ -250,10 +263,10 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 	
 	public static void main(String[] args) {
 		WordLevelEditorFrame window = new WordLevelEditorFrame(new BackEnd());
-		for(int c = 0; c < backend.getWordList().size();c++) 
+		/*for(int c = 0; c < backend.getWordList().size();c++) 
 		{
 			System.out.println(backend.getWordList().get(c));
-		}
+		}*/
 	}
 
 	private boolean exclude(String s, String[] excludedCharacters)
@@ -281,9 +294,8 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 					Microphone.fileReceive(wordToReplay);
 				}
 			}//TODO error check this to fix
-		}catch(Exception ex){ ex.printStackTrace(); }
+		}catch(Exception ex){ /*ex.printStackTrace(); */}
 		if(e.getSource().equals(JButtonList.get(1))){
-			System.out.println(recordNum);
 			if (recordNum == 0 ) {
 				JButtonList.get(1).setBackground(Color.green);
 				/*if (wordAdd.getText().equals("") || wordAdd.getText().equals("Enter a new word to add")) {}
@@ -294,7 +306,7 @@ public class WordLevelEditorFrame implements FocusListener, ActionListener {
 				try{
 					t1.start();
 					t.start();
-					}catch(java.lang.IllegalThreadStateException ex){ ex.printStackTrace();}
+					}catch(java.lang.IllegalThreadStateException ex){ /*ex.printStackTrace();*/}
 //				}
 			}
 			else if (recordNum==1) {
