@@ -36,7 +36,6 @@ public class spellingWindow implements FocusListener
 	private JFrame frame; 
 	private JPanel panel; 
 	private JLabel title;
-	private JLabel levelNum;
 	private JLabel name;
 	private JLabel retry;
 	private JButton audioButton; 
@@ -51,7 +50,6 @@ public class spellingWindow implements FocusListener
 	private listener listener;
 	private boolean playing = false;
 	private boolean canGiveUp = false;
-	private int lastLevel;
 	private GridBagConstraints c;
 	private int streak = 0;
 	////////////////////////START BUTTON LISTENER////////////////////////
@@ -148,8 +146,6 @@ public class spellingWindow implements FocusListener
 	{
 		this.back = back;
 		
-		lastLevel = back.getUser().getLastLevel();
-		
 		frame=new JFrame("");
 		panel=new JPanel();
 
@@ -159,7 +155,6 @@ public class spellingWindow implements FocusListener
 		retry.setVisible(false);
 		
 		name=new JLabel(back.getUser().getName()); //Have to enter method that returns name
-		levelNum=new JLabel("Level # : " + back.getUser().getLastLevel());//Have to enter method that returns level number
 
 		audioButton = new JButton();
 		volume = new ImageIcon("res/volume.png");
@@ -248,10 +243,6 @@ public class spellingWindow implements FocusListener
 		c.gridy = 3;
 		panel.add(name,c);
 
-		c.gridx =2;
-		c.gridy=4;
-		panel.add(levelNum,c);
-
 		c.gridx =4;
 		c.gridy=0;
 		panel.add(exit,c);
@@ -275,7 +266,6 @@ public class spellingWindow implements FocusListener
 			title.setFont(rockSalt.deriveFont(95f));
 			wordEnter.setFont(rockSalt.deriveFont(35f));
 			name.setFont(rockSalt.deriveFont(20f));
-			levelNum.setFont(rockSalt.deriveFont(20f));
 			giveUp.setFont(rockSalt.deriveFont(30f));
 		}
 		catch (FontFormatException | IOException e) 
@@ -321,11 +311,7 @@ public class spellingWindow implements FocusListener
 		
 		currentWord = back.nextWord(currentWord, spelledRight);
 		
-		if(currentWord.getLevel() != lastLevel) {
-			levelNum.setText("Level # : " + back.getUser().getLastLevel());
-			lastLevel = currentWord.getLevel();
-			//c.fill = GridBagConstraints.RELATIVE;
-		}
+		
 			
 		Thread t1 = new Thread(new Runnable() {
 	        public void run() {

@@ -343,14 +343,20 @@ public class BackEnd
 			}
 			
 		}
-		else{
-			if(streak<=0){
+		/*else{
+			if(streak<=0&&currentU.getLastLevel()>1){
 				streak--;
 			}
 			else{
 				streak = 0;
 			}
-		}
+			if(streak==-3&&currentU.getLastLevel()>1){
+				currentU.addWord(levels.get(currentU.getLastLevel()-2).get(0));
+				word= levels.get(currentU.getLastLevel()-2).get(0);
+				streak = 0;
+			}
+			System.out.println(streak);
+		}*/
 
 		int c = word.getLevel()-1;
 		int index = 0;
