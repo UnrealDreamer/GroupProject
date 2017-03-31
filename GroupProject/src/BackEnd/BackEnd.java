@@ -329,7 +329,7 @@ public class BackEnd
 		}
 		if(spelledRight)
 		{	currentU.addWord(word);
-			System.out.println(streak);
+			//System.out.println(streak);
 			if(streak>=0){
 				streak++;
 			}
